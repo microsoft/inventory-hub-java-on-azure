@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "cosmosDBName": {
+      "type": "string",
+      "metadata": {
+        "description": "The Azure Cosmos DB database account name."
+      }
+    },
+    "primaryLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of the main region of the database account."
+      }
+    },
+    "secondaryLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "The location of the secondary region of the database account."
+      }
+    }
+  },
+  "variables": {
+    "offerType": "Standard"
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-04-08",
+      "type": "Microsoft.DocumentDB/databaseAccounts",
+      "name": "[parameters('cosmosDBName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "name": "[parameters('cosmosDBName')]",
+        "databaseAccountOfferType": "[variables('offerType')]",
+        "locations": [
+          {
+            "locationName": "[parameters('primaryLocation')]",
+            "failoverPriority": 0
+          },
+          {
+            "locationName": "[parameters('secondaryLocation')]",
+            "failoverPriority": 1
+          }
+        ]
+      }
+    }
+  ]
+}
+
