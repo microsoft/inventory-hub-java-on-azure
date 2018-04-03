@@ -1,0 +1,3 @@
+sed -i -e 's/documentDb/cosmosDb/g' target/azure-functions/*/*/function.json
+sed -i -e 's/path/eventHubName/g' target/azure-functions/*/*/function.json
+sed -i -e ’s/connection/connectionStringSetting/g' target/azure-functions/*/*/function.json
