@@ -18,7 +18,8 @@ public class UpdateInventory {
                 connection = "InventoryEventHubConnectionString") String data,
             @DocumentDBOutput(name = "document", databaseName = "main", 
                 collectionName = "events", 
-                connection = "InventoryCosmosDBConnectionString") 
+                connection = "InventoryCosmosDBConnectionString",
+                createIfNotExists = true) 
                     OutputBinding<String> document,
             final ExecutionContext context) {
         context.getLogger().info("Java Event Hub trigger processed a request: " + data);

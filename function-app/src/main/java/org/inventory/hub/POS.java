@@ -6,6 +6,7 @@ import com.microsoft.azure.serverless.functions.ExecutionContext;
 import com.microsoft.azure.serverless.functions.annotation.EventHubOutput;
 import com.microsoft.azure.serverless.functions.annotation.FunctionName;
 import com.microsoft.azure.serverless.functions.annotation.TimerTrigger;
+import com.microsoft.azure.serverless.functions.OutputBinding;
 
 import java.nio.charset.Charset;
 import java.util.Date;
@@ -13,20 +14,18 @@ import java.util.Random;
 
 public class POS {
     @FunctionName("Point-of-Sale")
-    public String functionHandler(@TimerTrigger(name = "timerInfo", schedule = "*/5 * * * * *") 
+    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/5 * * * * *") 
                                       String timerInfo,
                                   @EventHubOutput(name = "data", eventHubName = "inventoryeh",
                                       connection = "InventoryEventHubConnectionString")
-                                  String Output,
+                                      OutputBinding<String> Output,
                                   final ExecutionContext executionContext) {
         executionContext.getLogger().info("Timer trigger input: " + timerInfo);
         final Gson gson = new GsonBuilder().create();
         final PayloadEvent payload = new PayloadEvent(10);
         byte[] payloadBytes = gson.toJson(payload).getBytes(Charset.defaultCharset());
 
-        Output = gson.toJson(payload);
-
-        return Output;
+        Output.setValue(gson.toJson(payload));
     }
 
     /**
