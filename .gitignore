@@ -37,3 +37,6 @@ function-app/local.settings.json.example
 
 # Spring logs
 logs/
+
+# Local scripts
+.scripts/
