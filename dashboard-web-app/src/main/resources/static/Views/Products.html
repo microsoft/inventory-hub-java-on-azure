@@ -1,0 +1,28 @@
+<div ng-init="populateProducts()" ng-controller="productsCtrl" style="margin-bottom: 40px !important;">
+    <div style="height: 70px !important;">
+        <div class="alert alert-danger" data-ng-show="error && error !== ''"><strong>Failure!</strong>&nbsp;{{error}}</div>
+        <div class="alert alert-success" data-ng-show="loadingMessage && loadingMessage !== ''"><strong>Success!</strong>&nbsp;{{loadingMessage}}</div>
+    </div>
+    <div data-ng-model="products" class="panel">
+        <div class="input-group" style="margin-bottom: 20px !important;">
+            <span class="input-group-btn">
+                <button ng-click="populateProducts()" class="btn btn-primary">Refresh</button>
+            </span>
+        </div>
+        <ul class="list-group" id="products">
+            <div class="list-group-item list-group-item-action flex-column align-items-start" 
+                data-ng-repeat="item in products">
+                <table>
+                    <tr>
+                      <td>{{ item.name }}</td>
+                      <td>
+                            <ul ng-repeat="(key, value) in item.countByLocation">
+                                {{key}} = {{value}}
+                            </ul>
+                        </td>
+                    </tr>
+                  </table>
+            </div>
+        </ul>
+    </div>
+</div>
