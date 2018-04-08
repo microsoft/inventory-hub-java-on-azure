@@ -17,31 +17,76 @@ public class POS {
     public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/5 * * * * *") 
                                       String timerInfo,
                                   @EventHubOutput(name = "data", eventHubName = "inventoryeh",
-                                      connection = "InventoryEventHubConnectionString")
+                                      connection = "InventoryEventHubTransactionsConnectionString")
                                       OutputBinding<String> Output,
                                   final ExecutionContext executionContext) {
         executionContext.getLogger().info("Timer trigger input: " + timerInfo);
         final Gson gson = new GsonBuilder().create();
-        final PayloadEvent payload = new PayloadEvent(10);
-        byte[] payloadBytes = gson.toJson(payload).getBytes(Charset.defaultCharset());
+        String locationName = System.getenv("LOCATION_NAME");
+        if (locationName == null || locationName.equals("")) {
+            locationName = "Redmond";
+        }
+        String locationLatitude = System.getenv("LOCATION_LATITUDE");
+        if (locationLatitude == null || locationLatitude.equals("")) {
+            locationLatitude = "Redmond";
+        }
+        String locationLongitude = System.getenv("LOCATION_LONGITUDE");
+        if (locationLongitude == null || locationLongitude.equals("")) {
+            locationLongitude = "Redmond";
+        }
+        final TransactionEvent transactionEvent = new TransactionEvent(10, locationName, locationLatitude, locationLongitude);
+        byte[] payloadBytes = gson.toJson(transactionEvent).getBytes(Charset.defaultCharset());
 
-        Output.setValue(gson.toJson(payload));
+        Output.setValue(gson.toJson(transactionEvent));
     }
 
     /**
      * actual application-payload, ex: a telemetry event
      */
-    static final class PayloadEvent {
-        PayloadEvent(final int seed) {
-            this.id = "EventHubTimeTrigger" + new Random().nextInt(seed);
+    /**
+     * actual application-payload, ex: an inventory update
+     */
+    static final class TransactionEvent {
+        TransactionEvent(final int seed, String locationName, String locationLatitude, String locationLongitude) {
+            this.id = java.util.UUID.randomUUID().toString();
+            this.description = "EventHubTimeTrigger" + new Random().nextInt(seed);
+            this.type = "sell";
             this.currentTime = new Date().toString();
-            this.longProperty = seed * new Random().nextInt(seed);
-            this.intProperty = seed * new Random().nextInt(seed);
+            this.productInformation = new ProductInformation();
+            this.productInformation.id = "1";
+            this.productInformation.name = "coffeePike";
+            this.productInformation.description = "Pike Coffee";
+            this.productInformation.count = Long.toString(new Random().nextInt(seed));
+            this.pointOfUpdate = new PointOfUpdateLocation();
+            this.pointOfUpdate.id = "2001";
+            this.pointOfUpdate.description = "Coffee Shop 2001";
+            this.pointOfUpdate.location = locationName;
+            this.pointOfUpdate.latitude = locationLatitude;
+            this.pointOfUpdate.longitude = locationLatitude;
         }
 
         public String id;
+        public String description;
+        public String type;
         public String currentTime;
-        public long longProperty;
-        public int intProperty;
+        public ProductInformation productInformation;
+        public PointOfUpdateLocation pointOfUpdate;
+
+        // TODO: retrieve this record from the CosmosDB
+        static final class ProductInformation {
+            public String id;
+            public String name;
+            public String description;
+            public String count;
+        }
+
+        // TODO: retrieve this record from the CosmosDB/ENV settings
+        static final class PointOfUpdateLocation {
+            public String id;
+            public String description;
+            public String location;
+            public String longitude;
+            public String latitude;
+        }
     }
 }

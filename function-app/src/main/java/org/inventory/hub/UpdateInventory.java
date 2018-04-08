@@ -15,14 +15,14 @@ public class UpdateInventory {
     @FunctionName("Update-Inventory")
     public void update(
             @EventHubTrigger(name = "data", eventHubName = "inventoryeh", 
-                connection = "InventoryEventHubConnectionString") String data,
-            @DocumentDBOutput(name = "document", databaseName = "main", 
-                collectionName = "events", 
+                connection = "InventoryEventHubTransactionsConnectionString") String data,
+            @DocumentDBOutput(name = "document", databaseName = "inventory",
+                collectionName = "transactions",
                 connection = "InventoryCosmosDBConnectionString",
                 createIfNotExists = true) 
                     OutputBinding<String> document,
             final ExecutionContext context) {
-        context.getLogger().info("Java Event Hub trigger processed a request: " + data);
+        context.getLogger().info("Java Event Hub transaction trigger processed a request: " + data);
         JSONObject eventGridMessage = new JSONObject(data);
         eventGridMessage.put("id", java.util.UUID.randomUUID().toString());
         context.getLogger().info("message: " + eventGridMessage.toString());

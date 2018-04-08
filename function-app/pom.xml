@@ -138,7 +138,11 @@
                         </property>
                         <property>
                             <name>InventoryEventHubConnectionString</name>
-                            <value>${InventoryEventHubConnectionString}</value>
+                            <value>${InventoryEventHubTransactionsConnectionString}</value>
+                        </property>
+                        <property>
+                            <name>InventoryEventHubConnectionString</name>
+                            <value>${InventoryEventHubNotificationsConnectionString}</value>
                         </property>
                         <property>
                             <name>InventoryCosmosDBConnectionString</name>
@@ -146,7 +150,15 @@
                         </property>
                         <property>
                             <name>LOCATION</name>
-                            <value>${LOCATION}</value>
+                            <value>${LOCATION_NAME}</value>
+                        </property>
+                        <property>
+                            <name>LOCATION</name>
+                            <value>${LOCATION_LATITUDE}</value>
+                        </property>
+                        <property>
+                            <name>LOCATION</name>
+                            <value>${LOCATION_LONGITUDE}</value>
                         </property>
                         <property>
                             <name>MSDEPLOY_RENAME_LOCKED_FILES</name>
