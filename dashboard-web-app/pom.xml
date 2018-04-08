@@ -35,7 +35,7 @@
         <azure.app.name>${WEBAPP_NAME}</azure.app.name>
 
         <!-- where to start running the app -->
-        <start-class>com.microsoft.azure.sample.TodoApplication</start-class>
+        <start-class>com.microsoft.azure.sample.InventoryHub</start-class>
     </properties>
 
     <dependencyManagement>
