@@ -7,6 +7,8 @@ import com.microsoft.azure.serverless.functions.annotation.EventHubOutput;
 import com.microsoft.azure.serverless.functions.annotation.EventHubTrigger;
 import com.microsoft.azure.serverless.functions.annotation.FunctionName;
 import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Function for notifying inventory update.
@@ -25,10 +27,11 @@ public class NotifyInventoryUpdate {
 //            connection = "InventoryCosmosDBConnectionString") String data,
         final ExecutionContext context) {
         context.getLogger().info("Java Event Hub Notification trigger processed a request: " + dataInput);
+        final Gson gson = new GsonBuilder().create();
         JSONObject eventGridMessage = new JSONObject(dataInput);
         eventGridMessage.put("id", java.util.UUID.randomUUID().toString());
         context.getLogger().info("message: " + eventGridMessage.toString());
         // TODO: query CosmosDB and retrieve any other data we need for the Web App notification processor
-        Output.setValue(eventGridMessage.toString());
+        Output.setValue(gson.toJson(eventGridMessage));
     }
 }
