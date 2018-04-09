@@ -14,9 +14,9 @@ import java.util.Random;
 
 public class POS {
     @FunctionName("Point-of-Sale")
-    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/5 * * * * *") 
+    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/60 * * * * *")
                                       String timerInfo,
-                                  @EventHubOutput(name = "data", eventHubName = "inventoryeh",
+                                  @EventHubOutput(name = "data", eventHubName = "eventhub-for-transactions",
                                       connection = "InventoryEventHubTransactionsConnectionString")
                                       OutputBinding<String> Output,
                                   final ExecutionContext executionContext) {
@@ -35,7 +35,8 @@ public class POS {
             locationLongitude = "Redmond";
         }
         final TransactionEvent transactionEvent = new TransactionEvent(10, locationName, locationLatitude, locationLongitude);
-        byte[] payloadBytes = gson.toJson(transactionEvent).getBytes(Charset.defaultCharset());
+
+        executionContext.getLogger().info("Sending: " + gson.toJson(transactionEvent));
 
         Output.setValue(gson.toJson(transactionEvent));
     }

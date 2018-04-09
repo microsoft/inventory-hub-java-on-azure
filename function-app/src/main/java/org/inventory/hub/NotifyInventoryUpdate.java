@@ -18,11 +18,11 @@ public class NotifyInventoryUpdate {
     public void notify(
         @EventHubTrigger(name = "dataInput", eventHubName = "eventhub-for-transactions",
             connection = "InventoryEventHubTransactionsConnectionString") String dataInput,
-        @DocumentDBInput(name = "document", databaseName = "inventory",
-            collectionName = "products",
-            connection = "InventoryCosmosDBConnectionString") String data,
         @EventHubOutput(name = "dataOutput", eventHubName = "eventhub-for-notifications",
             connection = "InventoryEventHubNotificationsConnectionString") OutputBinding<String> Output,
+//        @DocumentDBInput(name = "document", databaseName = "inventory",
+//            collectionName = "products",
+//            connection = "InventoryCosmosDBConnectionString") String data,
         final ExecutionContext context) {
         context.getLogger().info("Java Event Hub Notification trigger processed a request: " + dataInput);
         JSONObject eventGridMessage = new JSONObject(dataInput);
