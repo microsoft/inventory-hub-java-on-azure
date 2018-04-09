@@ -70,6 +70,8 @@ public class POI {
             }
         }
 
+        executionContext.getLogger().info("Sending: " + Output);
+
         return Output;
     }
 

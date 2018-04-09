@@ -14,7 +14,7 @@ public class UpdateInventory {
 
     @FunctionName("Update-Inventory")
     public void update(
-            @EventHubTrigger(name = "data", eventHubName = "inventoryeh", 
+            @EventHubTrigger(name = "data", eventHubName = "eventhub-for-transactions",
                 connection = "InventoryEventHubTransactionsConnectionString") String data,
             @DocumentDBOutput(name = "document", databaseName = "inventory",
                 collectionName = "transactions",

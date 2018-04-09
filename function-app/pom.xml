@@ -15,9 +15,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <functionAppName>Inventory-Processor-04022018</functionAppName>
-        <functionAppRegion>westus</functionAppRegion>
-        <resourceGroup>inventory-hub</resourceGroup>
+        <functionAppName>${FUNCTION_APP_NAME}</functionAppName>
+        <functionAppRegion>${REGION_NAME}</functionAppRegion>
+        <resourceGroup>${RESOURCE_GROUP_NAME}</resourceGroup>
     </properties>
 
     <profiles>
@@ -137,11 +137,11 @@
                             <value>beta</value>
                         </property>
                         <property>
-                            <name>InventoryEventHubConnectionString</name>
+                            <name>InventoryEventHubTransactionsConnectionString</name>
                             <value>${InventoryEventHubTransactionsConnectionString}</value>
                         </property>
                         <property>
-                            <name>InventoryEventHubConnectionString</name>
+                            <name>InventoryEventHubNotificationsConnectionString</name>
                             <value>${InventoryEventHubNotificationsConnectionString}</value>
                         </property>
                         <property>
@@ -149,15 +149,15 @@
                             <value>${InventoryCosmosDBConnectionString}</value>
                         </property>
                         <property>
-                            <name>LOCATION</name>
+                            <name>LOCATION_NAME</name>
                             <value>${LOCATION_NAME}</value>
                         </property>
                         <property>
-                            <name>LOCATION</name>
+                            <name>LOCATION_LATITUDE</name>
                             <value>${LOCATION_LATITUDE}</value>
                         </property>
                         <property>
-                            <name>LOCATION</name>
+                            <name>LOCATION_LONGITUDE</name>
                             <value>${LOCATION_LONGITUDE}</value>
                         </property>
                         <property>
