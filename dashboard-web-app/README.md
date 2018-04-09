@@ -73,6 +73,12 @@ DOCUMENTDB_URI=put-your-documentdb-uri-here
 DOCUMENTDB_KEY=put-your-documentdb-key-here
 DOCUMENTDB_DBNAME=put-your-documentdb-databasename-here
 
+NOTIFICATIONS_EVENT_HUB_NAME=put-your-eventhub-for-notifications
+NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME="\$Default"
+NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING=put-your-event-hub-connection-string
+NOTIFICATIONS_STORAGE_CONTAINER_NAME=put-your-storage-container-name
+NOTIFICATIONS_STORAGE_CONNECTION_STRING=put-your-storage-connection-string
+
 WEBAPP_RESOURCEGROUP_NAME=put-your-resourcegroup-name-here
 WEBAPP_NAME=put-your-webapp-name-here
 ```
