@@ -65,6 +65,28 @@
             <scope>test</scope>
         </dependency>
 
+
+        <dependency>
+	  		<groupId>com.microsoft.azure</groupId>
+	  		<artifactId>azure-eventhubs</artifactId>
+	  		<version>1.0.0</version>
+	 	</dependency>
+	 	<dependency>
+	  		<groupId>com.microsoft.azure</groupId>
+	  		<artifactId>azure-eventhubs-eph</artifactId>
+	  		<version>1.0.0</version>
+	 	</dependency>
+	 	<dependency>
+	  		<groupId>log4j</groupId>
+	  		<artifactId>log4j</artifactId>
+	  		<version>1.2.17</version>  		
+	  	</dependency>
+        <dependency>
+        	<groupId>org.slf4j</groupId>
+        	<artifactId>slf4j-log4j12</artifactId>
+        	<version>1.7.25</version>
+        </dependency>
+
         <!-- use embedded servlet container -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -191,6 +213,9 @@
                     </resources>
 
                     <appSettings>
+
+                        <!-- Inventory Cosmos DB -->
+
                         <property>
                             <name>DOCUMENTDB_URI</name>
                             <value>${DOCUMENTDB_URI}</value>
@@ -203,10 +228,30 @@
                             <name>DOCUMENTDB_DBNAME</name>
                             <value>${DOCUMENTDB_DBNAME}</value>
                         </property>
+
+                        <!-- Notifications Event Hub -->
+
                         <property>
-                            <name>InventoryEventHubConnectionString</name>
-                            <value>${InventoryEventHubConnectionString}</value>
+                            <name>NOTIFICATIONS_EVENT_HUB_NAME</name>
+                            <value>${NOTIFICATIONS_EVENT_HUB_NAME}</value>
                         </property>
+                        <property>
+                            <name>NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME</name>
+                            <value>${NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME}</value>
+                        </property>
+                        <property>
+                            <name>NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING</name>
+                            <value>${NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING}</value>
+                        </property>
+                        <property>
+                            <name>NOTIFICATIONS_STORAGE_CONTAINER_NAME</name>
+                            <value>${NOTIFICATIONS_STORAGE_CONTAINER_NAME}</value>
+                        </property>
+                        <property>
+                            <name>NOTIFICATIONS_STORAGE_CONNECTION_STRING</name>
+                            <value>${NOTIFICATIONS_STORAGE_CONNECTION_STRING}</value>
+                        </property>
+
                     </appSettings>
 
                 </configuration>
