@@ -91,8 +91,10 @@ public class ProductsInventoryController {
             final List<ProductsInventory> productInventories2 = productInventories.getBody();
             final Iterator <ProductsInventory> it = productInventories2.iterator();
             
-            Product product = new Product();
-            final HashMap<String, Product> products = new HashMap<String, Product>();
+            Product product;
+            final Map<String, Product> products = new HashMap<String, Product>();
+
+            final Map<String, Integer> locations = new HashMap<>();
             
             ProductsInventory productInventory = null;
 
@@ -103,7 +105,17 @@ public class ProductsInventoryController {
                 if (product == null) {
                     product = new Product();
                     product.setName(productInventory.getProductName());
+                    product.setDescription(productInventory.getDescription());
                     products.put(productInventory.getProductName(), product);
+                }
+
+                final String currentLocation = productInventory.getLocation();
+                Integer totalItems = locations.get(currentLocation);
+                if (totalItems == null) {
+                    totalItems = Integer.valueOf(productInventory.getTotalCount());
+                    locations.put(currentLocation, totalItems);
+                } else {
+                    locations.put(currentLocation, totalItems + Integer.valueOf(productInventory.getTotalCount()));
                 }
 
                 System.out.println("== inventory === " + productInventory);
@@ -112,10 +124,21 @@ public class ProductsInventoryController {
                     .put(productInventory.getLocation(), 
                         Integer.valueOf(productInventory.getTotalCount()));
             }
+            for (final Map.Entry<String, Integer> locationEntry : locations.entrySet()) {
+                System.out.format("== inventory total per location === %s: %d\n",
+                    locationEntry.getKey(), locationEntry.getValue());
+                for (final Map.Entry<String, Product> productEntry : products.entrySet()) {
+                    final Map<String, Integer> productByLocationMap = productEntry.getValue().getCountByLocation();
+                    final Integer currentCount = productByLocationMap.get(locationEntry.getKey());
+                    if (currentCount == null) {
+                        productByLocationMap.put(locationEntry.getKey(), 0);
+                    }
+                }
+            }
 
             System.out.println("====== success");
 
-            return new ResponseEntity<HashMap<String, Product>> (products, HttpStatus.OK);
+            return new ResponseEntity<Map<String, Product>> (products, HttpStatus.OK);
         
         } catch (Exception e) {
             System.out.println("======== EXCEPTION =======");
@@ -124,4 +147,51 @@ public class ProductsInventoryController {
         }
     }
 
+    /**
+     * HTTP GET ALL
+     */
+    @RequestMapping(value = "/api/locations", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getLocations() {
+        try {
+            final ResponseEntity<List<ProductsInventory>> productInventories =
+                new ResponseEntity<List<ProductsInventory>>(ProductsInventoryRepository
+                    .findAll(), HttpStatus.OK);
+
+            System.out.println("======= /api/locations ===== ");
+            System.out.println(productInventories.toString());
+
+            final List<ProductsInventory> productInventories2 = productInventories.getBody();
+            final Iterator <ProductsInventory> it = productInventories2.iterator();
+
+            final Map<String, Integer> locations = new HashMap<>();
+
+            ProductsInventory productInventory = null;
+
+            while (it.hasNext()) {
+                productInventory = it.next();
+
+                final String currentLocation = productInventory.getLocation();
+                Integer totalItems = locations.get(currentLocation);
+                if (totalItems == null) {
+                    totalItems = Integer.valueOf(productInventory.getTotalCount());
+                    locations.put(currentLocation, totalItems);
+                } else {
+                    locations.put(currentLocation, totalItems + Integer.valueOf(productInventory.getTotalCount()));
+                }
+            }
+            for (final Map.Entry<String, Integer> locationEntry : locations.entrySet()) {
+                System.out.format("== locations === %s: %d\n",
+                    locationEntry.getKey(), locationEntry.getValue());
+            }
+
+            System.out.println("====== success");
+
+            return new ResponseEntity<Map<String, Integer>> (locations, HttpStatus.OK);
+
+        } catch (Exception e) {
+            System.out.println("======== EXCEPTION =======");
+            e.printStackTrace();
+            return new ResponseEntity<String>("Nothing found", HttpStatus.NOT_FOUND);
+        }
+    }
 }

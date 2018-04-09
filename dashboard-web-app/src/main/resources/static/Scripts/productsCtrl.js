@@ -19,7 +19,15 @@ angular.module('inventoryHubApp')
                 $scope.error = err;
                 $scope.loadingMessage = '';
             })
+
+            productsSvc.getLocations().success(function (results) {
+                $scope.locations = results;
+            }).error(function (err) {
+                $scope.error = err;
+                $scope.loadingMessage = '';
+            })
         };
+
 
         $scope.pushEvents = function () {
             productsSvc.getProducts().success(function (results) {

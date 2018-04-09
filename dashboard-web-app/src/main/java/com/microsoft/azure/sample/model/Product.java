@@ -11,6 +11,7 @@ import java.util.Objects;
 
 public class Product {
     private String name;
+    private String description;
     private Map<String, Integer> countByLocation = new HashMap<String, Integer>();
 
     public Product() {
@@ -27,6 +28,14 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Map<String, Integer> getCountByLocation() {

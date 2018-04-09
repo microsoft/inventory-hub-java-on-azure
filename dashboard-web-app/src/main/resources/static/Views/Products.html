@@ -9,20 +9,20 @@
                 <button ng-click="populateProducts()" class="btn btn-primary">Refresh</button>
             </span>
         </div>
-        <ul class="list-group" id="products">
-            <div class="list-group-item list-group-item-action flex-column align-items-start" 
-                data-ng-repeat="item in products">
-                <table>
-                    <tr>
-                      <td>{{ item.name }}</td>
-                      <td>
-                            <ul ng-repeat="(key, value) in item.countByLocation">
-                                {{key}} = {{value}}
-                            </ul>
-                        </td>
-                    </tr>
-                  </table>
-            </div>
-        </ul>
+
+        <table border="1">
+            <tr>
+                <th></th>
+                <th ng-repeat="(key, value) in locations">{{key}}</th>
+            </tr>
+            <tr ng-repeat="item in products">
+                <td>{{ item.description }}</td>
+                <td ng-repeat="(key, value) in item.countByLocation">
+                    <ul>
+                        {{value}}
+                    </ul>
+                </td>
+            </tr>
+        </table>
     </div>
 </div>
