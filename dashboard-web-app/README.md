@@ -88,7 +88,7 @@ TOMCAT_HOME=put-your-tomcat-home-here
 ## Build Inventory Hub Web App - WAR
 
 ```bash
-mvn package
+mvn package -DskipTests
 ```
 
 ## Run it locally - OPTIONAL STEP
