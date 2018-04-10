@@ -4,7 +4,7 @@
         <div class="alert alert-success" data-ng-show="loadingMessage && loadingMessage !== ''"><strong>Success!</strong>&nbsp;{{loadingMessage}}</div>
     </div>
     <div data-ng-model="products" class="panel">
-        <table border="1">
+        <table border="1" style="text-align:right">
             <tr>
                 <th></th>
                 <th ng-repeat="(key, value) in locations">{{key}}</th>
@@ -24,7 +24,7 @@
 
     <div data-ng-model="transactions" class="panel">
         <p ng-repeat="x in transactions">
-            {{x.type}} : {{x.productInformation.count}} of {{x.productInformation.name}}
+            <b>{{x.type}}</b> : {{x.productInformation.count}} of {{x.productInformation.name}}
              @ {{x.pointOfUpdate.description}} in {{x.pointOfUpdate.location}} [
              {{x.pointOfUpdate.longitude}}, {{x.pointOfUpdate.latitude}}]
         </p>
