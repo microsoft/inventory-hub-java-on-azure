@@ -12,17 +12,16 @@ import com.microsoft.azure.eventprocessorhost.ExceptionReceivedEventArgs;
 import com.microsoft.azure.eventprocessorhost.IEventProcessor;
 import com.microsoft.azure.eventprocessorhost.PartitionContext;
 
-import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
-import java.util.Calendar;
+import org.codehaus.jackson.map.ObjectMapper;
+
+import com.microsoft.azure.sample.controller.TransactionsController;
+import com.microsoft.azure.sample.event.Transaction;
+
 import java.util.function.Consumer;
-
-import javax.xml.datatype.DatatypeConstants.Field;
-
-import java.math.BigDecimal;
 import java.time.Duration;
 
 @Component
@@ -179,7 +178,8 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
 
     public static class EventProcessor implements IEventProcessor
     {
-    	private int checkpointBatchingCount = 0;
+		private int checkpointBatchingCount = 0;
+		ObjectMapper objectMapper = new ObjectMapper();
 
     	// OnOpen is called when a new event processor instance is created by the host. In a real implementation, this
     	// is the place to do initialization so that events can be processed when they arrive, such as opening a database
@@ -216,7 +216,9 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
         public void onEvents(PartitionContext context, Iterable<EventData> events) throws Exception
         {
             System.out.println("SAMPLE: Partition " + context.getPartitionId() + " got event batch");
-            int eventCount = 0;
+			int eventCount = 0;
+			Transaction transaction;
+			
             for (EventData data : events)
             {
             	// It is important to have a try-catch around the processing of each event. Throwing out of onEvents deprives
@@ -242,8 +244,11 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
 	                	// before exiting onEvents or before creating the next checkpoint, to detect errors and to ensure proper ordering.
 	                	context.checkpoint(data).get();
 					}
-					
-					System.out.println("=== event data ===" + data.toString());
+
+					transaction = objectMapper.readValue(new String(data.getBytes(), "UTF8"), Transaction.class);
+					TransactionsController.transactions.push(transaction);
+					System.out.println("=== event data ===\n" + transaction.toString());
+		
             	}
             	catch (Exception e)
             	{

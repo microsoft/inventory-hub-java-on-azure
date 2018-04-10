@@ -24,7 +24,7 @@ public class UpdateInventory {
             final ExecutionContext context) {
         context.getLogger().info("Java Event Hub transaction trigger processed a request: " + data);
         JSONObject eventGridMessage = new JSONObject(data);
-        eventGridMessage.put("id", java.util.UUID.randomUUID().toString());
+        eventGridMessage.put("id", UUID.randomUUID().toString());
         context.getLogger().info("message: " + eventGridMessage.toString());
         document.setValue(eventGridMessage.toString());
     }

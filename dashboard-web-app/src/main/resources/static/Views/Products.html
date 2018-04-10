@@ -4,12 +4,6 @@
         <div class="alert alert-success" data-ng-show="loadingMessage && loadingMessage !== ''"><strong>Success!</strong>&nbsp;{{loadingMessage}}</div>
     </div>
     <div data-ng-model="products" class="panel">
-        <div class="input-group" style="margin-bottom: 20px !important;">
-            <span class="input-group-btn">
-                <button ng-click="populateProducts()" class="btn btn-primary">Refresh</button>
-            </span>
-        </div>
-
         <table border="1">
             <tr>
                 <th></th>
@@ -24,5 +18,15 @@
                 </td>
             </tr>
         </table>
+    </div>
+
+    <br>
+
+    <div data-ng-model="transactions" class="panel">
+        <p ng-repeat="x in transactions">
+            {{x.type}} : {{x.productInformation.count}} of {{x.productInformation.name}}
+             @ {{x.pointOfUpdate.description}} in {{x.pointOfUpdate.location}} [
+             {{x.pointOfUpdate.longitude}}, {{x.pointOfUpdate.latitude}}]
+        </p>
     </div>
 </div>
