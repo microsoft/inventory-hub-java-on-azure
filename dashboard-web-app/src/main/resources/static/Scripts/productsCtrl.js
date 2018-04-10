@@ -11,6 +11,8 @@ angular.module('inventoryHubApp')
         $scope.error = '';
         $scope.loadingMessage = '';
         $scope.products = null;
+        $scope.locations = null;
+        $scope.transactions = null;
 
         $scope.populateProducts = function () {
             productsSvc.getProducts().success(function (results) {
@@ -26,6 +28,14 @@ angular.module('inventoryHubApp')
                 $scope.error = err;
                 $scope.loadingMessage = '';
             })
+
+            productsSvc.getTransactions().success(function (results) {
+                $scope.transactions = results;
+            }).error(function (err) {
+                $scope.error = err;
+                $scope.loadingMessage = '';
+            })
+
         };
 
 

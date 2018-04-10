@@ -14,6 +14,9 @@ angular.module('inventoryHubApp')
             getLocations: function () {
                 return $http.get('api/locations');
             },
+            getTransactions: function () {
+                return $http.get('api/transactions');
+            },
             getProduct: function (id) {
                 return $http.get('api/product/' + id);
             }
