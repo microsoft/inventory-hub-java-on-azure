@@ -83,7 +83,7 @@ public class POI {
             this.id = java.util.UUID.randomUUID().toString();
             this.description = "EventHubTimeTrigger" + new Random().nextInt(seed);
             this.type = "intake";
-            this.currentTime = new Date().toString();
+            this.transactionTime = new Date().toString();
             this.productInformation = new ProductInformation();
             this.productInformation.id = "1";
             this.productInformation.name = "coffeePike";
@@ -100,7 +100,7 @@ public class POI {
         public String id;
         public String description;
         public String type;
-        public String currentTime;
+        public String transactionTime;
         public ProductInformation productInformation;
         public PointOfUpdateLocation pointOfUpdate;
 
