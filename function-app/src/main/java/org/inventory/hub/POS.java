@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class POS {
     @FunctionName("Point-of-Sale")
-    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/60 * * * * *")
+    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/5 * * * * *")
                                       String timerInfo,
                                   @EventHubOutput(name = "data", eventHubName = "eventhub-for-transactions",
                                       connection = "InventoryEventHubTransactionsConnectionString")
@@ -52,7 +52,7 @@ public class POS {
             this.id = java.util.UUID.randomUUID().toString();
             this.description = "EventHubTimeTrigger" + new Random().nextInt(seed);
             this.type = "sell";
-            this.currentTime = new Date().toString();
+            this.transactionTime = new Date().toString();
             this.productInformation = new ProductInformation();
             this.productInformation.id = "1";
             this.productInformation.name = "coffeePike";
@@ -69,7 +69,7 @@ public class POS {
         public String id;
         public String description;
         public String type;
-        public String currentTime;
+        public String transactionTime;
         public ProductInformation productInformation;
         public PointOfUpdateLocation pointOfUpdate;
 

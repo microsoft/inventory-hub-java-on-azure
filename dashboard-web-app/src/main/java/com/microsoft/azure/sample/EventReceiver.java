@@ -246,7 +246,7 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
 					}
 
 					transaction = objectMapper.readValue(new String(data.getBytes(), "UTF8"), Transaction.class);
-					TransactionsController.transactions.push(transaction);
+					TransactionsController.transactions.addFirst(transaction);
 					System.out.println("=== event data ===\n" + transaction.toString());
 		
             	}
