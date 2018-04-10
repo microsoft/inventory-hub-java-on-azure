@@ -10,11 +10,11 @@ public class TransactionsFIFO extends ArrayDeque<Transaction> {
     }
 
     @Override
-    public void push (Transaction transaction) {
+    public void addFirst (Transaction transaction) {
         if (size() > size)
-            pop();
+            removeLast();
 
-        super.push(transaction);
+        super.addFirst(transaction);
     }
 
 }
