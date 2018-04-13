@@ -34,6 +34,8 @@ function-app/.settings/
 function-app/.sts4-cache/
 function-app/bin/
 function-app/local.settings.json.example
+function-apps/Point-Of-Transaction/bin/
+
 
 # Spring logs
 logs/
