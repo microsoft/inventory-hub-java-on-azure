@@ -12,7 +12,7 @@ import static org.mockito.Mockito.mock;
 /**
  * Unit test for Function class.
  */
-public class UpdateInventoryTest {
+public class POTTest {
     /**
      * Unit test for hello method.
      */
