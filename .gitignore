@@ -35,7 +35,9 @@ function-app/.sts4-cache/
 function-app/bin/
 function-app/local.settings.json.example
 function-apps/Point-Of-Transaction/bin/
-function-apps/Update-Inventory/bin/
+function-apps/Append-Transaction/bin/
+function-apps/Update-Product-Inventory/bin/
+function-apps/Notify-Inventory/bin/
 
 # Spring logs
 logs/

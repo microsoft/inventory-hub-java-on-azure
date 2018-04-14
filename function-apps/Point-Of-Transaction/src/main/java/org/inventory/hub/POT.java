@@ -58,9 +58,9 @@ public class POT {
             this.pointOfTransaction = new POT.TransactionEvent.PointOfTransactionLocation();
             this.pointOfTransaction.id = System.getProperty("POT_FUNCTION_APP_ID");
             this.pointOfTransaction.description = System.getenv("POT_FUNCTION_APP_DESCRIPTION");
-            this.pointOfTransaction.location = System.getProperty("POT_FUNCTION_APP_LOCATION_NAME");
-            this.pointOfTransaction.latitude = System.getProperty("POT_FUNCTION_APP_LOCATION_LATITUDE");
-            this.pointOfTransaction.longitude = System.getProperty("POT_FUNCTION_APP_LOCATION_LONGITUDE");
+            this.pointOfTransaction.location = System.getenv("POT_FUNCTION_APP_LOCATION_NAME");
+            this.pointOfTransaction.latitude = System.getenv("POT_FUNCTION_APP_LOCATION_LATITUDE");
+            this.pointOfTransaction.longitude = System.getenv("POT_FUNCTION_APP_LOCATION_LONGITUDE");
         }
 
         public String id;

@@ -1,0 +1,318 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "namespaces_my_eventhub_123_name": {
+            "defaultValue": "my-eventhub-123",
+            "type": "String"
+        },
+        "AuthorizationRules_RootManageSharedAccessKey_name": {
+            "defaultValue": "RootManageSharedAccessKey",
+            "type": "String"
+        },
+        "eventhubs_inventory_dev_eventhub_for_transactions_name": {
+            "defaultValue": "inventory-dev-eventhub-for-transactions",
+            "type": "String"
+        },
+        "eventhubs_inventory_dev_eventhub_for_notifications_name": {
+            "defaultValue": "inventory-dev-eventhub-for-notifications",
+            "type": "String"
+        },
+        "consumergroups_$Default_name": {
+            "defaultValue": "$Default",
+            "type": "String"
+        },
+        "consumergroups_$Default_name_1": {
+            "defaultValue": "$Default",
+            "type": "String"
+        },
+        "consumergroups_inventory_dev_name": {
+            "defaultValue": "inventory-dev",
+            "type": "String"
+        },
+        "consumergroups_inventory_dev_name_1": {
+            "defaultValue": "inventory-dev",
+            "type": "String"
+        },
+        "authorizationRules_intakeEvents_name": {
+            "defaultValue": "intakeEvents",
+            "type": "String"
+        },
+        "authorizationRules_intakeEvents_name_1": {
+            "defaultValue": "intakeEvents",
+            "type": "String"
+        },
+        "consumergroups_product_inventory_name": {
+            "defaultValue": "product-inventory",
+            "type": "String"
+        },
+        "authorizationRules_dispatchEvents_name": {
+            "defaultValue": "dispatchEvents",
+            "type": "String"
+        },
+        "consumergroups_transaction_events_name": {
+            "defaultValue": "transaction-events",
+            "type": "String"
+        },
+        "authorizationRules_dispatchEvents_name_1": {
+            "defaultValue": "dispatchEvents",
+            "type": "String"
+        },
+        "consumergroups_transaction_events_name_1": {
+            "defaultValue": "transaction-events",
+            "type": "String"
+        },
+        "consumergroups_notification_events_name": {
+            "defaultValue": "notification-events",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourceGroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123'.",
+            "type": "Microsoft.EventHub/namespaces",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 2
+            },
+            "name": "[parameters('namespaces_my_eventhub_123_name')]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "isAutoInflateEnabled": true,
+                "maximumThroughputUnits": 20
+            },
+            "dependsOn": []
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/AuthorizationRules/RootManageSharedAccessKey'.",
+            "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('AuthorizationRules_RootManageSharedAccessKey_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Listen",
+                    "Manage",
+                    "Send"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-notifications'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {
+                "messageRetentionInDays": 1,
+                "partitionCount": 16,
+                "status": "Active"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-transactions'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {
+                "messageRetentionInDays": 1,
+                "partitionCount": 16,
+                "status": "Active"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-notifications/authorizationRules/intakeEvents'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'), '/', parameters('authorizationRules_intakeEvents_name_1'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Manage",
+                    "Listen",
+                    "Send"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-notifications/authorizationRules/dispatchEvents'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'), '/', parameters('authorizationRules_dispatchEvents_name_1'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Listen"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-notifications/consumergroups/$Default'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'), '/', parameters('consumergroups_$Default_name_1'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-notifications/consumergroups/inventory-dev'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'), '/', parameters('consumergroups_inventory_dev_name_1'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-notifications/consumergroups/transaction-events'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'), '/', parameters('consumergroups_transaction_events_name_1'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_notifications_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-transactions/authorizationRules/intakeEvents'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'), '/', parameters('authorizationRules_intakeEvents_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Manage",
+                    "Listen",
+                    "Send"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-transactions/authorizationRules/dispatchEvents'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'), '/', parameters('authorizationRules_dispatchEvents_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Listen"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-transactions/consumergroups/$Default'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'), '/', parameters('consumergroups_$Default_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-transactions/consumergroups/inventory-dev'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'), '/', parameters('consumergroups_inventory_dev_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-transactions/consumergroups/notification-events'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'), '/', parameters('consumergroups_notification_events_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-transactions/consumergroups/product-inventory'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'), '/', parameters('consumergroups_product_inventory_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'))]"
+            ]
+        },
+        {
+            "comments": "Generalized from resource: '/subscriptions/1c638cf4-608f-4ee6-b680-c329e824c3a8/resourcegroups/a2temp/providers/Microsoft.EventHub/namespaces/my-eventhub-123/eventhubs/inventory-dev-eventhub-for-transactions/consumergroups/transaction-events'.",
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespaces_my_eventhub_123_name'), '/', parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'), '/', parameters('consumergroups_transaction_events_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "West US",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespaces_my_eventhub_123_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespaces_my_eventhub_123_name'), parameters('eventhubs_inventory_dev_eventhub_for_transactions_name'))]"
+            ]
+        }
+    ]
+}

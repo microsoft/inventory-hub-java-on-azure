@@ -15,9 +15,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <functionAppName>${UPDATE_INVENTORY_FUNCTION_APP_NAME}</functionAppName>
-        <functionAppRegion>${UPDATE_INVENTORY_REGION_NAME}</functionAppRegion>
-        <resourceGroup>${UPDATE_INVENTORY_RESOURCE_GROUP_NAME}</resourceGroup>
+        <functionAppName>${UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME}</functionAppName>
+        <functionAppRegion>${UPDATE_PRODUCT_INVENTORY_REGION_NAME}</functionAppRegion>
+        <resourceGroup>${UPDATE_PRODUCT_INVENTORY_RESOURCE_GROUP_NAME}</resourceGroup>
     </properties>
 
     <profiles>
@@ -137,16 +137,16 @@
                             <value>beta</value>
                         </property>
                         <property>
-                            <name>DOCUMENTDB_CONNECTION_STRING</name>
-                            <value>${DOCUMENTDB_CONNECTION_STRING}</value>
+                            <name>PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME</name>
+                            <value>${PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME}</value>
                         </property>
                         <property>
-                            <name>DOCUMENTDB_DBNAME</name>
-                            <value>${DOCUMENTDB_DBNAME}</value>
+                            <name>PRODUCT_INVENTORY_DOCUMENTDB_DBNAME</name>
+                            <value>${PRODUCT_INVENTORY_DOCUMENTDB_DBNAME}</value>
                         </property>
                         <property>
-                            <name>DOCUMENTDB_COLLECTION_NAME</name>
-                            <value>${DOCUMENTDB_COLLECTION_NAME}</value>
+                            <name>PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING</name>
+                            <value>${PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING}</value>
                         </property>
                         <property>
                             <name>TRANSACTIONS_EVENT_HUB_NAME</name>
@@ -161,12 +161,12 @@
                             <value>${TRANSACTIONS_EVENT_HUB_CONNECTION_STRING}</value>
                         </property>
                         <property>
-                            <name>UPDATE_INVENTORY_FUNCTION_APP_NAME</name>
-                            <value>${UPDATE_INVENTORY_FUNCTION_APP_NAME}</value>
+                            <name>UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME</name>
+                            <value>${UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME}</value>
                         </property>
                         <property>
-                            <name>UPDATE_INVENTORY_FUNCTION_APP_ID</name>
-                            <value>${UPDATE_INVENTORY_FUNCTION_APP_ID}</value>
+                            <name>UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_ID</name>
+                            <value>${UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_ID}</value>
                         </property>
                         <property>
                             <name>MSDEPLOY_RENAME_LOCKED_FILES</name>
