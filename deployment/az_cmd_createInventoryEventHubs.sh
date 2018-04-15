@@ -1,0 +1,3 @@
+az group deployment create --name "inventory-hub-eventhub-eastus-td1" --resource-group "inventory-hub-eastus-dev" --template-file createInventoryEventHub.json --parameters namespace_name="inventory-eventhub-eastus-dev1" region_name="eastus"
+az group deployment create --name "inventory-hub-eventhub-uksouth-td1" --resource-group "inventory-hub-uksouth-dev" --template-file createInventoryEventHub.json --parameters namespace_name="inventory-eventhub-uksouth-dev1" region_name="uksouth"
+az group deployment create --name "inventory-hub-eventhub-southeastasia-td1" --resource-group "inventory-hub-southeastasia-dev" --template-file createInventoryEventHub.json --parameters namespace_name="inventory-eventhub-southeastasia-dev1" region_name="southeastasia"
