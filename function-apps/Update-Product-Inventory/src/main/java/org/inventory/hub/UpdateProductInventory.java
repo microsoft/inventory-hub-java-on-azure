@@ -5,6 +5,8 @@
  */
 package org.inventory.hub;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.microsoft.azure.serverless.functions.ExecutionContext;
 import com.microsoft.azure.serverless.functions.OutputBinding;
 import com.microsoft.azure.serverless.functions.annotation.DocumentDBOutput;
@@ -34,36 +36,34 @@ public class UpdateProductInventory {
             + System.getenv("UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME")
             + "(" + System.getenv("UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME")
             + ") processed a request: " + data);
-        JSONObject eventGridMessage = new JSONObject(data);
-        eventGridMessage.put("id", UUID.randomUUID().toString());
+        JSONObject eventHubMessage = new JSONObject(data);
+        eventHubMessage.put("id", UUID.randomUUID().toString());
+        context.getLogger().info("\tFound eventGridMessage: " + eventHubMessage.toString());
 
-        JSONObject pointOfTransaction = new JSONObject(eventGridMessage.get("pointOfTransaction"));
-        eventGridMessage.put("location", pointOfTransaction.get("location"));
-        context.getLogger().info("\tFound location: " + eventGridMessage.get("location"));
-        JSONObject productInformation = new JSONObject(eventGridMessage.get("productInformation"));
-        eventGridMessage.put("productId", productInformation.get("productId"));
-        context.getLogger().info("\tFound productId: " + eventGridMessage.get("productId"));
+        String pointOfTransactionData = (String) eventHubMessage.get("pointOfTransaction").toString();
+        context.getLogger().info("\tFound pointOfTransactionData: " + pointOfTransactionData);
+        JSONObject pointOfTransaction = new JSONObject(pointOfTransactionData);
+        context.getLogger().info("\tFound pointOfTransaction: " + pointOfTransaction);
+        context.getLogger().info("\tFound pointOfTransaction location: " + pointOfTransaction.get("location"));
+        eventHubMessage.put("location", pointOfTransaction.get("location"));
+        eventHubMessage.remove("pointOfTransaction");
 
-//        eventGridMessage.put("productId", productInformation.get("productId"));
-//        eventGridMessage.put("productName", productInformation.get("productName"));
-//        eventGridMessage.put("description", productInformation.get("description"));
-//        eventGridMessage.put("count", productInformation.get("count"));
+        String productInformationData = (String) eventHubMessage.get("productInformation").toString();
+        context.getLogger().info("\tFound productInformationData: " + productInformationData);
+        JSONObject productInformation = new JSONObject(productInformationData);
+        context.getLogger().info("\tFound pointOfTransaction: " + productInformation);
+        context.getLogger().info("\tFound pointOfTransaction productId: " + productInformation.get("productId"));
+        context.getLogger().info("\tFound pointOfTransaction productName: " + productInformation.get("productName"));
+        context.getLogger().info("\tFound pointOfTransaction description: " + productInformation.get("description"));
+        context.getLogger().info("\tFound pointOfTransaction count: " + productInformation.get("count"));
+        eventHubMessage.put("productId", productInformation.get("productId"));
+        eventHubMessage.put("productName", productInformation.get("productName"));
+        eventHubMessage.put("productDescription", productInformation.get("description"));
+        eventHubMessage.put("productCount", productInformation.get("count"));
+        eventHubMessage.remove("productInformation");
 
-//        JSONObject documentOutput = new JSONObject();
-//        documentOutput.put("id", UUID.randomUUID().toString());
-//        JSONObject pointOfTransaction = eventGridMessage.getJSONObject("pointOfTransaction");
-//        JSONObject productInformation = eventGridMessage.getJSONObject("productInformation");
-//        documentOutput.put("location", pointOfTransaction.get("location"));
-//        documentOutput.put("productId", productInformation.get("productId"));
-//        documentOutput.put("productName", productInformation.get("productName"));
-//        documentOutput.put("description", productInformation.get("description"));
-//        documentOutput.put("count", productInformation.get("count"));
-//        documentOutput.put("type", eventGridMessage.get("type"));
-//        context.getLogger().info("Saving: " + documentOutput.toString());
-//        document.setValue(documentOutput.toString());
-
-        context.getLogger().info("\tSaving: " + eventGridMessage.toString());
-        document.setValue(eventGridMessage.toString());
+        context.getLogger().info("\tSaving: " + eventHubMessage.toString());
+        document.setValue(eventHubMessage.toString());
     }
 }
 

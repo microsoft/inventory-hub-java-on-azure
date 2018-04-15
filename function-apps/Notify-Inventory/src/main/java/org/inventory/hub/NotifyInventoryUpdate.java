@@ -28,10 +28,10 @@ public class NotifyInventoryUpdate {
         final ExecutionContext context) {
         context.getLogger().info("Java Event Hub Notification trigger processed a request: " + dataInput);
 
-        JSONObject eventGridMessage = new JSONObject(dataInput);
-        eventGridMessage.put("id", java.util.UUID.randomUUID().toString());
-        context.getLogger().info("message: " + eventGridMessage.toString());
+        JSONObject eventHubMessage = new JSONObject(dataInput);
+        eventHubMessage.put("id", java.util.UUID.randomUUID().toString());
+        context.getLogger().info("message: " + eventHubMessage.toString());
         // TODO: query CosmosDB and retrieve any other data we need for the Web App notification processor
-        dataOutput.setValue(eventGridMessage.toString());
+        dataOutput.setValue(eventHubMessage.toString());
     }
 }

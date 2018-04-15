@@ -33,9 +33,9 @@ public class AppendTransaction {
             + System.getenv("APPEND_TRANSACTION_FUNCTION_APP_NAME")
             + "(" + System.getenv("APPEND_TRANSACTION_FUNCTION_APP_ID")
             + ") processed a request: " + data);
-        JSONObject eventGridMessage = new JSONObject(data);
-        eventGridMessage.put("id", UUID.randomUUID().toString());
-        context.getLogger().info("message: " + eventGridMessage.toString());
-        document.setValue(eventGridMessage.toString());
+        JSONObject eventHubMessage = new JSONObject(data);
+        eventHubMessage.put("id", UUID.randomUUID().toString());
+        context.getLogger().info("message: " + eventHubMessage.toString());
+        document.setValue(eventHubMessage.toString());
     }
 }

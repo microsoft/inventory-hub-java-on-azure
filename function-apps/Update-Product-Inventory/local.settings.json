@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UPI_FUNCTION_APP_STORAGE_ACCOUNT_CONNECTION_STRING",
+    "AzureWebJobsDashboard": "",
+    "EventHubConnection": "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING",
+    "AzureWebJobsCosmosDBConnectionString": "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING"
+  }
+}
+
