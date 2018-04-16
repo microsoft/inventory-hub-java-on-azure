@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class POS {
     @FunctionName("Point-of-Sale")
-    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/60 * * * * *")
+    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/5 * * * * *")
                                       String timerInfo,
                                   @EventHubOutput(name = "data", eventHubName = "eventhub-for-transactions",
                                       connection = "InventoryEventHubTransactionsConnectionString")

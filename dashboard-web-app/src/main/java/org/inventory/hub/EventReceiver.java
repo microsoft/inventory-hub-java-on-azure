@@ -2,7 +2,7 @@
  * Copyright (c) Microsoft. All rights reserved.
  * Licensed under the MIT license. See LICENSE file in the project root for full license information.
  */
-package com.microsoft.azure.sample;
+package org.inventory.hub;
 
 import com.microsoft.azure.eventhubs.EventData;
 import com.microsoft.azure.eventprocessorhost.CloseReason;
@@ -10,6 +10,12 @@ import com.microsoft.azure.eventprocessorhost.EventProcessorHost;
 import com.microsoft.azure.eventprocessorhost.EventProcessorOptions;
 import com.microsoft.azure.eventprocessorhost.ExceptionReceivedEventArgs;
 import com.microsoft.azure.eventprocessorhost.IEventProcessor;
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See LICENSE in the project root for
+ * license information.
+ */
+
 import com.microsoft.azure.eventprocessorhost.PartitionContext;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -18,15 +24,15 @@ import org.springframework.stereotype.Component;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.microsoft.azure.sample.controller.TransactionsController;
-import com.microsoft.azure.sample.event.Transaction;
+import org.inventory.hub.controller.TransactionsController;
+import org.inventory.hub.event.Transaction;
 
 import java.util.function.Consumer;
 import java.time.Duration;
 
 @Component
 public class EventReceiver implements Runnable, ApplicationListener<ApplicationReadyEvent>
-{
+{	
 
 	/**
 	 * This event is executed as late as conceivably possible to indicate that 
@@ -37,6 +43,7 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
 	
 		System.out.println("hello world, I have just started up");
 		System.out.println("=== app ready event ===\n" + event);
+
         Runnable notificationsReceiver = new EventReceiver();
         Thread receiverThread = new Thread(notificationsReceiver);
         receiverThread.start();
@@ -176,6 +183,7 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
 		}
     }
 
+	@Component
     public static class EventProcessor implements IEventProcessor
     {
 		private int checkpointBatchingCount = 0;
@@ -225,8 +233,8 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
             	// you of the chance to process any remaining events in the batch. 
             	try
             	{
-	                System.out.println("SAMPLE (" + context.getPartitionId() + "," + data.getSystemProperties().getOffset() + "," +
-	                		data.getSystemProperties().getSequenceNumber() + "): " + new String(data.getBytes(), "UTF8"));
+	                // System.out.println("SAMPLE (" + context.getPartitionId() + "," + data.getSystemProperties().getOffset() + "," +
+	                // 		data.getSystemProperties().getSequenceNumber() + "): " + new String(data.getBytes(), "UTF8"));
 	                eventCount++;
 	                
 	                // Checkpointing persists the current position in the event stream for this partition and means that the next
@@ -246,13 +254,16 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
 					}
 
 					transaction = objectMapper.readValue(new String(data.getBytes(), "UTF8"), Transaction.class);
-					TransactionsController.transactions.push(transaction);
+
+					TransactionsController.transactions.addFirst(transaction);
+					//System.out.println("=== event data ===\n");
 					System.out.println("=== event data ===\n" + transaction.toString());
 		
             	}
             	catch (Exception e)
             	{
-            		System.out.println("Processing failed for an event: " + e.toString());
+					System.out.println("Processing failed for an event: " + e.toString());
+					e.printStackTrace();
             	}
             }
             System.out.println("SAMPLE: Partition " + context.getPartitionId() + " batch size was " + eventCount + " for host " + context.getOwner());
