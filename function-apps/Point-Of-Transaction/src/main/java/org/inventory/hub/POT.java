@@ -53,7 +53,7 @@ public class POT {
             this.productInformation.productId = "1";
             this.productInformation.productName = "coffee";
             this.productInformation.description = "Coffee";
-            this.productInformation.count = Long.toString(new Random().nextInt(seed));
+            this.productInformation.count = Long.toString(new Random().nextInt(seed) + 1);
 
             this.pointOfTransaction = new POT.TransactionEvent.PointOfTransactionLocation();
             this.pointOfTransaction.id = System.getProperty("POT_FUNCTION_APP_ID");

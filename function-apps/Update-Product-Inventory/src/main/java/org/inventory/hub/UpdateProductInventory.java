@@ -9,12 +9,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.microsoft.azure.serverless.functions.ExecutionContext;
 import com.microsoft.azure.serverless.functions.OutputBinding;
+import com.microsoft.azure.serverless.functions.annotation.DocumentDBInput;
 import com.microsoft.azure.serverless.functions.annotation.DocumentDBOutput;
 import com.microsoft.azure.serverless.functions.annotation.EventHubTrigger;
 import com.microsoft.azure.serverless.functions.annotation.FunctionName;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -31,22 +36,75 @@ public class UpdateProductInventory {
             connection = "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING",
             createIfNotExists = true)
             OutputBinding<String> document,
+        @DocumentDBInput(name = "documents", databaseName = "PRODUCT_INVENTORY_DOCUMENTDB_DBNAME",
+            collectionName = "PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME",
+            connection = "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING",
+            sqlQuery = "SELECT * FROM root r")
+            String inputDoc,
         final ExecutionContext context) {
         context.getLogger().info("Java Event Hub transaction trigger from "
             + System.getenv("UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME")
             + "(" + System.getenv("UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME")
             + ") processed a request: " + data);
+        final Gson gson = new GsonBuilder().create();
         JSONObject eventHubMessage = new JSONObject(data);
         eventHubMessage.put("id", UUID.randomUUID().toString());
         context.getLogger().info("\tFound eventGridMessage: " + eventHubMessage.toString());
+        context.getLogger().info("\tFound CosmosDB: " + inputDoc);
+        Map<String, Map<String, ProductInventory>> currentProductInventoryByLocation = new HashMap<>();
+        if (inputDoc != null) {
+            JSONArray currentProductInventory = new JSONArray(inputDoc);
+            /*
+                [
+                    {
+                        "productId":"1",
+                        "description":"\tType intake from Coffee Shop Downtown NY(B199E0C7-433F-48EC-BCB5-5BAA522F6A9A) to event hub eventhub-for-transactions",
+                        "location":"New York",
+                        "id":"1",
+                        "type":"intake",
+                        "transactionTime":"Sun Apr 15 22:33:30 GMT 2018",
+                        "productCount":5,
+                        "productName":"coffee",
+                        "productDescription":"Coffee"
+                    },
+                    {
+                        "productId":"2",
+                        "description":"\tType intake from Coffee Shop Downtown NY(B199E0C7-433F-48EC-BCB5-5BAA522F6A9A) to event hub eventhub-for-transactions",
+                        "location":"New York",
+                        "id":"2",
+                        "type":"intake",
+                        "transactionTime":"Sun Apr 15 22:05:30 GMT 2018",
+                        "productCount":3,
+                        "productName":"tea",
+                        "productDescription":"Tea"
+                    }
+                ]
+            */
+            for (Object item : currentProductInventory) {
+                context.getLogger().info("\tFound currentProductInventory item: " + item.toString());
+
+                ProductInventory productInventory = gson.fromJson(item.toString(), ProductInventory.class);
+                if (productInventory.location != null && productInventory.productId != null) {
+                    if (currentProductInventoryByLocation.get(productInventory.location) == null) {
+                        Map<String, ProductInventory> productById = new HashMap<>();
+                        productById.put(productInventory.productId, productInventory);
+                        currentProductInventoryByLocation.put(productInventory.location, productById);
+                    } else {
+                        Map<String, ProductInventory> productById = currentProductInventoryByLocation.get(productInventory.location);
+                        productById.putIfAbsent(productInventory.productId, productInventory);
+                    }
+                }
+            }
+            context.getLogger().info("\tBuilt Map of product inventory: " + gson.toJson(currentProductInventoryByLocation));
+
+            eventHubMessage.put("id", "1");
+        }
 
         String pointOfTransactionData = (String) eventHubMessage.get("pointOfTransaction").toString();
         context.getLogger().info("\tFound pointOfTransactionData: " + pointOfTransactionData);
         JSONObject pointOfTransaction = new JSONObject(pointOfTransactionData);
         context.getLogger().info("\tFound pointOfTransaction: " + pointOfTransaction);
         context.getLogger().info("\tFound pointOfTransaction location: " + pointOfTransaction.get("location"));
-        eventHubMessage.put("location", pointOfTransaction.get("location"));
-        eventHubMessage.remove("pointOfTransaction");
 
         String productInformationData = (String) eventHubMessage.get("productInformation").toString();
         context.getLogger().info("\tFound productInformationData: " + productInformationData);
@@ -56,38 +114,48 @@ public class UpdateProductInventory {
         context.getLogger().info("\tFound pointOfTransaction productName: " + productInformation.get("productName"));
         context.getLogger().info("\tFound pointOfTransaction description: " + productInformation.get("description"));
         context.getLogger().info("\tFound pointOfTransaction count: " + productInformation.get("count"));
-        eventHubMessage.put("productId", productInformation.get("productId"));
-        eventHubMessage.put("productName", productInformation.get("productName"));
-        eventHubMessage.put("productDescription", productInformation.get("description"));
-        eventHubMessage.put("productCount", productInformation.get("count"));
-        eventHubMessage.remove("productInformation");
 
-        context.getLogger().info("\tSaving: " + eventHubMessage.toString());
-        document.setValue(eventHubMessage.toString());
+        ProductInventory productInventoryOutput = new ProductInventory();
+        productInventoryOutput.id = UUID.randomUUID().toString();
+        productInventoryOutput.location = pointOfTransaction.get("location").toString();
+        productInventoryOutput.productId = productInformation.get("productId").toString();
+        productInventoryOutput.productName = productInformation.get("productName").toString();
+        productInventoryOutput.description = productInformation.get("description").toString();
+
+        long currentCount = Long.valueOf(productInformation.get("count").toString());
+        Map<String, ProductInventory> productFromMap = currentProductInventoryByLocation.get(productInventoryOutput.location);
+        if (productFromMap != null && productFromMap.get(productInventoryOutput.productId) != null) {
+            productInventoryOutput.id = productFromMap.get(productInventoryOutput.productId).id;
+            String totalCount = productFromMap.get(productInventoryOutput.productId).totalCount;
+            long currentProductTotal = Long.valueOf(totalCount != null ? totalCount : "0");
+            if (eventHubMessage.get("type").toString().equals("intake")) {
+                currentCount += currentProductTotal; // add to the inventory
+            } else if (eventHubMessage.get("type").toString().equals("sell")) {
+                currentCount = currentProductTotal - currentCount; // subtract from the inventory
+            } else {
+                currentCount = 0;
+            }
+        } else {
+            if (eventHubMessage.get("type").toString().equals("intake")) {
+                currentCount = currentCount; // intake
+            } else if (eventHubMessage.get("type").toString().equals("sell")) {
+                currentCount = -currentCount; // sell
+            } else {
+                currentCount = 0;
+            }
+        }
+        productInventoryOutput.totalCount = Long.toString(currentCount);
+
+        context.getLogger().info("\tSaving: " + gson.toJson(productInventoryOutput));
+        document.setValue(gson.toJson(productInventoryOutput));
+    }
+
+    static final class ProductInventory {
+        public String id;
+        public String productId;
+        public String productName;
+        public String description;
+        public String location;
+        public String totalCount;
     }
 }
-
-/*
-{
-    "id": "12",
-    "productId": "2",
-    "productName": "coffeeVerona",
-    "description": "Verona Coffee",
-    "totalCount": "150",
-    "location": "Seattle"
-}
-            this.transactionTime = new Date().toString();
-            this.productInformation = new POT.TransactionEvent.ProductInformation();
-            this.productInformation.productId = "1";
-            this.productInformation.productName = "coffee";
-            this.productInformation.description = "Coffee";
-            this.productInformation.count = Long.toString(new Random().nextInt(seed));
-
-            this.pointOfTransaction = new POT.TransactionEvent.PointOfTransactionLocation();
-            this.pointOfTransaction.id = System.getProperty("POT_FUNCTION_APP_ID");
-            this.pointOfTransaction.description = System.getenv("POT_FUNCTION_APP_DESCRIPTION");
-            this.pointOfTransaction.location = System.getProperty("POT_FUNCTION_APP_LOCATION_NAME");
-            this.pointOfTransaction.latitude = System.getProperty("POT_FUNCTION_APP_LOCATION_LATITUDE");
-            this.pointOfTransaction.longitude = System.getProperty("POT_FUNCTION_APP_LOCATION_LONGITUDE");
-
- */
