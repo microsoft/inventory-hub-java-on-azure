@@ -4,18 +4,28 @@
   "parameters": {
     "cosmosDBName": {
       "type": "string",
+      "defaultValue": "inventory-hub-cosmosdb-dev",
       "metadata": {
         "description": "The Azure Cosmos DB database account name."
       }
     },
     "primaryLocation": {
       "type": "string",
+      "defaultValue": "eastus",
       "metadata": {
         "description": "The location of the main region of the database account."
       }
     },
     "secondaryLocation": {
       "type": "string",
+      "defaultValue": "uksouth",
+      "metadata": {
+        "description": "The location of the secondary region of the database account."
+      }
+    },
+    "thirdLocation": {
+      "type": "string",
+      "defaultValue": "southeastasia",
       "metadata": {
         "description": "The location of the secondary region of the database account."
       }
@@ -41,6 +51,10 @@
           {
             "locationName": "[parameters('secondaryLocation')]",
             "failoverPriority": 1
+          },
+          {
+            "locationName": "[parameters('thirdLocation')]",
+            "failoverPriority": 2
           }
         ]
       }

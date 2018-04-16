@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.List;
+
 /**
  * Function for notifying inventory update.
  * Phase one - use Java in Azure Functions
@@ -24,7 +26,7 @@ public class NotifyInventoryUpdate {
             connection = "InventoryEventHubNotificationsConnectionString") OutputBinding<String> Output,
 //        @DocumentDBInput(name = "document", databaseName = "inventory",
 //            collectionName = "products",
-//            connection = "InventoryCosmosDBConnectionString") String data,
+//            connection = "InventoryCosmosDBConnectionString") List<String> data,
         final ExecutionContext context) {
         context.getLogger().info("Java Event Hub Notification trigger processed a request: " + dataInput);
         final Gson gson = new GsonBuilder().create();

@@ -1,0 +1,277 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "namespace_name": {
+            "defaultValue": "inventory-eventhub-eastus-dev1",
+            "type": "String"
+        },
+        "region_name": {
+            "defaultValue": "eastus",
+            "type": "String",
+            "metadata": {
+                "description": "The location of the EventHub."
+            }
+        },
+        "namespace_authorization_rule_name": {
+            "defaultValue": "RootManageSharedAccessKey",
+            "type": "String"
+        },
+        "transactions_eventhub_name": {
+            "defaultValue": "eventhub-for-transactions",
+            "type": "String"
+        },
+        "transactions_eventhub_cg_inventory": {
+            "defaultValue": "inventory",
+            "type": "String"
+        },
+        "transactions_eventhub_cg_product_inventory": {
+            "defaultValue": "product-inventory",
+            "type": "String"
+        },
+        "transactions_eventhub_cg_transaction_events": {
+            "defaultValue": "transaction-events",
+            "type": "String"
+        },
+        "transactions_eventhub_rule_intake_events": {
+            "defaultValue": "intakeEvents",
+            "type": "String"
+        },
+        "transactions_eventhub_rule_dispatchEvents": {
+            "defaultValue": "dispatchEvents",
+            "type": "String"
+        },
+        "notifications_eventhub_name": {
+            "defaultValue": "eventhub-for-notifications",
+            "type": "String"
+        },
+        "notifications_eventhub_cg_inventory": {
+            "defaultValue": "inventory",
+            "type": "String"
+        },
+        "notifications_eventhub_rule_intake_events": {
+            "defaultValue": "intakeEvents",
+            "type": "String"
+        },
+        "notifications_eventhub_rule_dispatch_events": {
+            "defaultValue": "dispatchEvents",
+            "type": "String"
+        },
+        "notifications_eventhub_cg_transaction_events": {
+            "defaultValue": "transaction-events",
+            "type": "String"
+        },
+        "notifications_eventhub_cg_notification_events": {
+            "defaultValue": "notification-events",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.EventHub/namespaces",
+            "sku": {
+                "name": "Standard",
+                "tier": "Standard",
+                "capacity": 2
+            },
+            "name": "[parameters('namespace_name')]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "tags": {},
+            "scale": null,
+            "properties": {
+                "isAutoInflateEnabled": true,
+                "maximumThroughputUnits": 20
+            },
+            "dependsOn": []
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/AuthorizationRules",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('namespace_authorization_rule_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Listen",
+                    "Manage",
+                    "Send"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('notifications_eventhub_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {
+                "messageRetentionInDays": 1,
+                "partitionCount": 16,
+                "status": "Active"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {
+                "messageRetentionInDays": 1,
+                "partitionCount": 16,
+                "status": "Active"
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('notifications_eventhub_name'), '/', parameters('notifications_eventhub_rule_intake_events'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Manage",
+                    "Listen",
+                    "Send"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('notifications_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('notifications_eventhub_name'), '/', parameters('notifications_eventhub_rule_dispatch_events'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Listen"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('notifications_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('notifications_eventhub_name'), '/', parameters('notifications_eventhub_cg_inventory'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('notifications_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('notifications_eventhub_name'), '/', parameters('notifications_eventhub_cg_transaction_events'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('notifications_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('transactions_eventhub_rule_intake_events'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Manage",
+                    "Listen",
+                    "Send"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('transactions_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('transactions_eventhub_rule_dispatchEvents'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {
+                "rights": [
+                    "Listen"
+                ]
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('transactions_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('transactions_eventhub_cg_inventory'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('transactions_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('notifications_eventhub_cg_notification_events'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('transactions_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('transactions_eventhub_cg_product_inventory'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('transactions_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('transactions_eventhub_cg_transaction_events'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('transactions_eventhub_name'))]"
+            ]
+        }
+    ]
+}
