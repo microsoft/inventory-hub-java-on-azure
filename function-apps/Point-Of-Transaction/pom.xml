@@ -61,6 +61,11 @@
             <artifactId>azure-eventhubs</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-documentdb</artifactId>
+            <version>LATEST</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>

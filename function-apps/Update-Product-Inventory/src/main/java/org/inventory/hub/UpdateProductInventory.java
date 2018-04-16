@@ -54,32 +54,6 @@ public class UpdateProductInventory {
         Map<String, Map<String, ProductInventory>> currentProductInventoryByLocation = new HashMap<>();
         if (inputDoc != null) {
             JSONArray currentProductInventory = new JSONArray(inputDoc);
-            /*
-                [
-                    {
-                        "productId":"1",
-                        "description":"\tType intake from Coffee Shop Downtown NY(B199E0C7-433F-48EC-BCB5-5BAA522F6A9A) to event hub eventhub-for-transactions",
-                        "location":"New York",
-                        "id":"1",
-                        "type":"intake",
-                        "transactionTime":"Sun Apr 15 22:33:30 GMT 2018",
-                        "productCount":5,
-                        "productName":"coffee",
-                        "productDescription":"Coffee"
-                    },
-                    {
-                        "productId":"2",
-                        "description":"\tType intake from Coffee Shop Downtown NY(B199E0C7-433F-48EC-BCB5-5BAA522F6A9A) to event hub eventhub-for-transactions",
-                        "location":"New York",
-                        "id":"2",
-                        "type":"intake",
-                        "transactionTime":"Sun Apr 15 22:05:30 GMT 2018",
-                        "productCount":3,
-                        "productName":"tea",
-                        "productDescription":"Tea"
-                    }
-                ]
-            */
             for (Object item : currentProductInventory) {
                 context.getLogger().info("\tFound currentProductInventory item: " + item.toString());
 
