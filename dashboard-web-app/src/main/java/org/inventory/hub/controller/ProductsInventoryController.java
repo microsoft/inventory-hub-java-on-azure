@@ -3,11 +3,11 @@
  * Licensed under the MIT License. See LICENSE in the project root for
  * license information.
  */
-package com.microsoft.azure.sample.controller;
+package org.inventory.hub.controller;
 
-import com.microsoft.azure.sample.dao.ProductsInventoryRepository;
-import com.microsoft.azure.sample.model.Product;
-import com.microsoft.azure.sample.model.ProductsInventory;
+import org.inventory.hub.dao.ProductsInventoryRepository;
+import org.inventory.hub.model.Product;
+import org.inventory.hub.model.ProductsInventory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
@@ -46,14 +47,16 @@ public class ProductsInventoryController {
     public ResponseEntity<?> getProduct(@PathVariable("productName") String productName) {
         try {
 
-            final ResponseEntity<List<ProductsInventory>> productInventories = 
-                new ResponseEntity<List<ProductsInventory>>(ProductsInventoryRepository
-                    .findAll(productName), HttpStatus.OK);
-            //        .findByProductName(productName), HttpStatus.OK);
+            final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
+            new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
+                .findAll(), HttpStatus.OK);
+        
 
-            final List<ProductsInventory> productInventories2 = productInventories.getBody();
-            
-            final Iterator <ProductsInventory> it = productInventories2.iterator();
+            System.out.println("======= /api/products/{productName} ===== ");
+            System.out.println(productInventories.toString());
+
+            final Iterable <ProductsInventory> iterable = (Iterable<ProductsInventory>) productInventories.getBody();
+            final Iterator <ProductsInventory> it = makeCollection(iterable).iterator();
             
             final Product product = new Product();
             ProductsInventory productInventory = null;
@@ -73,6 +76,14 @@ public class ProductsInventoryController {
         }
     }
 
+    private static <E> Collection<E> makeCollection(Iterable<E> iter) {
+        Collection<E> list = new ArrayList<E>();
+        for (E item : iter) {
+            list.add(item);
+        }
+        return list;
+    }
+
     /**
      * HTTP GET ALL
      */
@@ -81,15 +92,16 @@ public class ProductsInventoryController {
         try {
             // return new ResponseEntity<List<ProductsInventory>>(ProductsInventoryRepository.findAll(), HttpStatus.OK);
         
-            final ResponseEntity<List<ProductsInventory>> productInventories = 
-                new ResponseEntity<List<ProductsInventory>>(ProductsInventoryRepository
+            final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
+                new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
                     .findAll(), HttpStatus.OK);
             
+
             System.out.println("======= /api/products ===== ");
             System.out.println(productInventories.toString());
 
-            final List<ProductsInventory> productInventories2 = productInventories.getBody();
-            final Iterator <ProductsInventory> it = productInventories2.iterator();
+            final Iterable <ProductsInventory> iterable = (Iterable<ProductsInventory>) productInventories.getBody();
+            final Iterator <ProductsInventory> it = makeCollection(iterable).iterator();
             
             Product product;
             final Map<String, Product> products = new HashMap<String, Product>();
@@ -153,15 +165,16 @@ public class ProductsInventoryController {
     @RequestMapping(value = "/api/locations", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getLocations() {
         try {
-            final ResponseEntity<List<ProductsInventory>> productInventories =
-                new ResponseEntity<List<ProductsInventory>>(ProductsInventoryRepository
+
+            final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
+                new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
                     .findAll(), HttpStatus.OK);
 
             System.out.println("======= /api/locations ===== ");
             System.out.println(productInventories.toString());
 
-            final List<ProductsInventory> productInventories2 = productInventories.getBody();
-            final Iterator <ProductsInventory> it = productInventories2.iterator();
+            final Iterable <ProductsInventory> iterable = (Iterable<ProductsInventory>) productInventories.getBody();
+            final Iterator <ProductsInventory> it = makeCollection(iterable).iterator();
 
             final Map<String, Integer> locations = new HashMap<>();
 

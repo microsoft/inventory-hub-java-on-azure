@@ -23,6 +23,7 @@
             <ul class="navbar-nav">
                 <li ng-class="{ active: isActive('/Home') }"><a class="nav-link" href="#/Home">Home</a></li>
                 <li ng-class="{ active: isActive('/Products') }"><a class="nav-link" href="#/Products">Products</a></li>
+                <li ng-class="{ active: isActive('/Events') }"><a class="nav-link" href="events.html">Events</a></li>
             </ul>
         </div>
     </div>
@@ -33,13 +34,22 @@
 </div>
 </div>
 </body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
-<script src="https://code.angularjs.org/1.2.25/angular-route.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
-<script src="Scripts/app.js"></script>
-<script src="Scripts/homeCtrl.js"></script>
-<script src="Scripts/productsCtrl.js"></script>
-<script src="Scripts/productsSvc.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="https://code.angularjs.org/1.2.25/angular-route.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"></script>
+    <script src="Scripts/app.js"></script>
+    <script src="Scripts/homeCtrl.js"></script>
+    <script src="Scripts/productsCtrl.js"></script>
+    <script src="Scripts/productsSvc.js"></script>
+
+    <script src="libs/sockjs/sockjs.min.js" type="text/javascript"></script>
+    <script src="libs/stomp-websocket/lib/stomp.min.js" type="text/javascript"></script>
+    <script src="libs/lodash/dist/lodash.min.js"></script> 
+<!--    <script src="Scripts/receiver.js" type="text/javascript"></script>-->
+    <script src="Scripts/receiverCtrl.js" type="text/javascript"></script>
+    <script src="Scripts/receiverSvc.js" type="text/javascript"></script>
+
 </html>

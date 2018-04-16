@@ -3,10 +3,10 @@
  * Licensed under the MIT License. See LICENSE in the project root for
  * license information.
  */
-package com.microsoft.azure.sample.controller;
+package org.inventory.hub.controller;
 
-import com.microsoft.azure.sample.event.TransactionsFIFO;
-import com.microsoft.azure.sample.event.Transaction;
+import org.inventory.hub.event.TransactionsFIFO;
+import org.inventory.hub.event.Transaction;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class TransactionsController {
 
-    public final static TransactionsFIFO transactions = new TransactionsFIFO();
+    public static TransactionsFIFO transactions = new TransactionsFIFO();
 
     public TransactionsController() {
     }
@@ -26,6 +26,10 @@ public class TransactionsController {
      */
     @RequestMapping(value = "/api/transactions", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getTransactions() {
+
+        if (transactions == null)
+            transactions = new TransactionsFIFO();
+
         try {
             
             System.out.println("======= /api/transactions ===== ");
