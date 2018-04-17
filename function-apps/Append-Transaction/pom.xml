@@ -137,15 +137,15 @@
                             <value>beta</value>
                         </property>
                         <property>
-                            <name>DOCUMENTDB_CONNECTION_STRING</name>
+                            <name>TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME</name>
                             <value>${TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME}</value>
                         </property>
                         <property>
-                            <name>DOCUMENTDB_DBNAME</name>
+                            <name>TRANSACTIONS_DOCUMENTDB_DBNAME</name>
                             <value>${TRANSACTIONS_DOCUMENTDB_DBNAME}</value>
                         </property>
                         <property>
-                            <name>DOCUMENTDB_COLLECTION_NAME</name>
+                            <name>TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING</name>
                             <value>${TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING}</value>
                         </property>
                         <property>
@@ -161,11 +161,11 @@
                             <value>${TRANSACTIONS_EVENT_HUB_CONNECTION_STRING}</value>
                         </property>
                         <property>
-                            <name>UPDATE_INVENTORY_FUNCTION_APP_NAME</name>
+                            <name>APPEND_TRANSACTION_FUNCTION_APP_NAME</name>
                             <value>${APPEND_TRANSACTION_FUNCTION_APP_NAME}</value>
                         </property>
                         <property>
-                            <name>UPDATE_INVENTORY_FUNCTION_APP_ID</name>
+                            <name>APPEND_TRANSACTION_FUNCTION_APP_ID</name>
                             <value>${APPEND_TRANSACTION_FUNCTION_APP_ID}</value>
                         </property>
                         <property>
