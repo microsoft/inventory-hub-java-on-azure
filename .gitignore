@@ -35,10 +35,13 @@ function-app/.sts4-cache/
 function-app/bin/
 function-app/local.settings.json.example
 function-apps/Append-Transaction/bin/
+function-apps/Append-Transaction/bin_backup/
 function-apps/Append-Transaction/functions-extensions
 function-apps/Notify-Inventory/bin/
+function-apps/Notify-Inventory/bin_backup/
 function-apps/Notify-Inventory/functions-extensions
 function-apps/Point-Of-Transaction/bin/
+function-apps/Point-Of-Transaction/bin_backup/
 function-apps/Point-Of-Transaction/functions-extensions
 function-apps/Update-Product-Inventory/bin/
 function-apps/Update-Product-Inventory/bin_backup/
