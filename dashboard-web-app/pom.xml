@@ -174,9 +174,11 @@
                 <configuration>
                     <resourceGroup>${azure.resourceGroup.name}</resourceGroup>
                     <appName>${azure.app.name}</appName>
-                    <region>westus</region>
+                    <region>eastus</region>
                     <pricingTier>S3</pricingTier>
-                    <linuxRuntime>tomcat 8.5-jre8</linuxRuntime>
+                    <!--<linuxRuntime>tomcat 8.5-jre8</linuxRuntime>-->
+                    <javaVersion>1.8</javaVersion>
+                    <javaWebContainer>tomcat 8.5</javaWebContainer>
                     <deploymentType>war</deploymentType>
 
                     <resources>
