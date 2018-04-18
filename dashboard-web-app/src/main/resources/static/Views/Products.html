@@ -24,9 +24,9 @@
 
     <div data-ng-model="transactions" class="panel">
         <p ng-repeat="x in transactions">
-            <b>{{x.type}}</b> : {{x.productInformation.count}} of {{x.productInformation.name}}
-             @ {{x.pointOfUpdate.description}} in {{x.pointOfUpdate.location}} [
-             {{x.pointOfUpdate.longitude}}, {{x.pointOfUpdate.latitude}}]
+            <b>{{x.type}}</b> : {{x.productInformation.count}} of {{x.productInformation.productName}}
+             @ {{x.pointOfTransaction.description}} in {{x.pointOfTransaction.location}} [
+             {{x.pointOfTransaction.longitude}}, {{x.pointOfTransaction.latitude}}]
         </p>
     </div>
 </div>

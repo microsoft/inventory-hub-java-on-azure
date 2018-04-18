@@ -11,7 +11,7 @@ import com.microsoft.azure.spring.data.documentdb.core.mapping.PartitionKey;
 import java.util.Objects;
 
 
-@Document(collection = "ProductsInventory")
+@Document(collection = "product-inventory")
 
 public class ProductsInventory {
     
