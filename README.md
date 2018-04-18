@@ -73,6 +73,10 @@ The following diagram illustrates the full topology for this sample application 
 
 Open the Inventory Hub Web app ...
 
+    ![](./media/product-dashboard.jpg)
+    
+    ![](./media/transactions-arriving.jpg)
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
