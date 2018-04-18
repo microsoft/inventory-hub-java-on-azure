@@ -8,10 +8,10 @@ package org.inventory.hub.event;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 
-public class PointOfUpdate{
+public class PointOfTransaction {
 
-    @JsonProperty(value = "id")
-    private String id;
+//    @JsonProperty(value = "id")
+//    private String id;
 
     @JsonProperty(value = "location")
     private String location;
@@ -25,17 +25,17 @@ public class PointOfUpdate{
     @JsonProperty(value = "latitude")
     private String latitude;
 
-    public PointOfUpdate(){
+    public PointOfTransaction(){
 
     }
 
-    public String getId(){
-        return id;
-    }
-
-    public void setId(String id){
-        this.id = id;
-    }
+//    public String getId(){
+//        return id;
+//    }
+//
+//    public void setId(String id){
+//        this.id = id;
+//    }
 
     public String getLocation(){
         return location;
@@ -69,3 +69,25 @@ public class PointOfUpdate{
         this.latitude = latitude;
     }
 }
+
+/**
+ 2018-04-18T02:11:36.240 [Information] message:
+ {
+     "pointOfTransaction": {
+         "latitude":"42.374572",
+         "description":"Warehouse 1 Thomson Square",
+         "location":"Boston",
+         "longitude":"-71.062986"
+     },
+     "description":"\tType intake from Warehouse 1 Thomson Square(2FE5A135-3E22-4556-8930-071D9FE1E487) to event hub eventhub-for-transactions",
+     "productInformation": {
+         "productId":"1",
+         "count":"10",
+         "description":"Coffee",
+         "productName":"coffee"
+     },
+     "id":"1c7ac3d5-18cc-4b11-98b6-1157224206c4",
+     "type":"intake",
+     "transactionTime":"Wed Apr 18 01:24:00 GMT 2018"
+ }
+*/

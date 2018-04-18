@@ -10,8 +10,8 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class ProductInformation {
 
-    @JsonProperty(value = "name")
-    private String name;
+    @JsonProperty(value = "productName")
+    private String productName;
 
     @JsonProperty(value = "count")
     private int count;
@@ -19,19 +19,19 @@ public class ProductInformation {
     @JsonProperty(value = "description")
     private String description;
 
-    @JsonProperty(value = "id")
-    private String id;
+    @JsonProperty(value = "productId")
+    private String productId;
 
     public ProductInformation (){
 
     }
 
-    public String getName(){
-        return name;
+    public String getProductName(){
+        return this.productName;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void setProductName(String name){
+        this.productName = name;
     }
 
     public int getCount() {
@@ -50,12 +50,34 @@ public class ProductInformation {
         this.description = description;
     }
 
-    public String getId(){
-        return id;
+    public String getProductId(){
+        return productId;
     }
 
-    public void setId(String id){
-        this.id = id;
+    public void setProductId(String productId){
+        this.productId = productId;
     }
 
 }
+
+/**
+ 2018-04-18T02:11:36.240 [Information] message:
+ {
+     "pointOfTransaction": {
+         "latitude":"42.374572",
+         "description":"Warehouse 1 Thomson Square",
+         "location":"Boston",
+         "longitude":"-71.062986"
+     },
+     "description":"\tType intake from Warehouse 1 Thomson Square(2FE5A135-3E22-4556-8930-071D9FE1E487) to event hub eventhub-for-transactions",
+     "productInformation": {
+         "productId":"1",
+         "count":"10",
+         "description":"Coffee",
+         "productName":"coffee"
+     },
+     "id":"1c7ac3d5-18cc-4b11-98b6-1157224206c4",
+     "type":"intake",
+     "transactionTime":"Wed Apr 18 01:24:00 GMT 2018"
+ }
+ */
