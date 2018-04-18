@@ -25,8 +25,8 @@ public class Transaction {
     @JsonProperty(value = "productInformation")
     private ProductInformation productInformation;
 
-    @JsonProperty(value = "pointOfUpdate")
-    private PointOfUpdate pointOfUpdate;
+    @JsonProperty(value = "pointOfTransaction")
+    private PointOfTransaction pointOfTransaction;
 
     public Transaction(){
 
@@ -72,12 +72,12 @@ public class Transaction {
       this.productInformation = productInformation;
     }
 
-    public PointOfUpdate getPointOfUpdate(){
-      return pointOfUpdate;
+    public PointOfTransaction getPointOfTransaction(){
+      return this.pointOfTransaction;
     }
 
-    public void setPointOfUpdate(PointOfUpdate pointOfUpdate){
-      this.pointOfUpdate = pointOfUpdate;
+    public void setPointOfTransaction(PointOfTransaction pointOfTransaction){
+      this.pointOfTransaction = pointOfTransaction;
     }
 
     @Override
@@ -92,9 +92,9 @@ public class Transaction {
 
         return "======== ^^ " + typeString + ": " + productInformation.getCount() 
           + " of " 
-          + productInformation.getName() + " @ " 
-          + pointOfUpdate.getDescription() + " in " 
-          + pointOfUpdate.getLocation() 
+          + productInformation.getProductName() + " @ "
+          + pointOfTransaction.getDescription() + " in "
+          + pointOfTransaction.getLocation()
           // + " ["
           // + pointOfUpdate.getLongitude() + ", " 
           // + pointOfUpdate.getLatitude() + "]" 
@@ -104,6 +104,27 @@ public class Transaction {
 }
 
 /**
+ 2018-04-18T02:11:36.240 [Information] message:
+ {
+     "pointOfTransaction": {
+         "latitude":"42.374572",
+         "description":"Warehouse 1 Thomson Square",
+         "location":"Boston",
+         "longitude":"-71.062986"
+     },
+     "description":"\tType intake from Warehouse 1 Thomson Square(2FE5A135-3E22-4556-8930-071D9FE1E487) to event hub eventhub-for-transactions",
+     "productInformation": {
+         "productId":"1",
+         "count":"10",
+         "description":"Coffee",
+         "productName":"coffee"
+     },
+     "id":"1c7ac3d5-18cc-4b11-98b6-1157224206c4",
+     "type":"intake",
+     "transactionTime":"Wed Apr 18 01:24:00 GMT 2018"
+ }
+
+
  * SAMPLE (1,2886416,5299): {
   "pointOfUpdate": {
     "latitude": "47� 36' 37.3608\" N",

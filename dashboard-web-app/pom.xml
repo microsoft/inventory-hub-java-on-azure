@@ -34,9 +34,9 @@
 
         <!-- configurable properties -->
         <docker.image.prefix>put-your-docker-registry-url</docker.image.prefix>
-        <azure.resourceGroup.name>${WEBAPP_RESOURCEGROUP_NAME}</azure.resourceGroup.name>
         <azure.app.name>${WEBAPP_NAME}</azure.app.name>
-        <azure.region>${WEBAPP_REGION}</azure.region>
+        <azure.app.resourceGroupName>${WEBAPP_RESOURCEGROUP_NAME}</azure.app.resourceGroupName>
+        <azure.app.region>${WEBAPP_REGION}</azure.app.region>
 
         <!-- where to start running the app -->
         <start-class>org.inventory.hub.InventoryHub</start-class>
@@ -166,16 +166,16 @@
             </plugin>
 
             <!--*************************************************-->
-            <!-- Deploy to Tomcat on Azure App Service          -->
+            <!-- Deploy to Tomcat on Azure App Service           -->
             <!--*************************************************-->
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-webapp-maven-plugin</artifactId>
                 <version>0.2.0-SNAPSHOT</version>
                 <configuration>
-                    <resourceGroup>${azure.resourceGroup.name}</resourceGroup>
+                    <resourceGroup>${azure.app.resourceGroupName}</resourceGroup>
                     <appName>${azure.app.name}</appName>
-                    <region>${azure.region}</region>
+                    <region>${azure.app.region}</region>
                     <pricingTier>S3</pricingTier>
                     <!--<linuxRuntime>tomcat 8.5-jre8</linuxRuntime>-->
                     <javaVersion>1.8</javaVersion>

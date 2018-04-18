@@ -178,6 +178,26 @@
                             <value>${POT_FUNCTION_APP_LOCATION_LONGITUDE}</value>
                         </property>
                         <property>
+                            <name>PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING</name>
+                            <value>${PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING}</value>
+                        </property>
+                        <property>
+                            <name>PRODUCT_ITEMS_DOCUMENTDB_DBNAME</name>
+                            <value>${PRODUCT_ITEMS_DOCUMENTDB_DBNAME}</value>
+                        </property>
+                        <property>
+                            <name>PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME</name>
+                            <value>${PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME}</value>
+                        </property>
+                        <property>
+                            <name>PRODUCT_ITEMS_DOCUMENTDB_URI</name>
+                            <value>${PRODUCT_ITEMS_DOCUMENTDB_URI}</value>
+                        </property>
+                        <property>
+                            <name>PRODUCT_ITEMS_DOCUMENTDB_KEY</name>
+                            <value>${PRODUCT_ITEMS_DOCUMENTDB_KEY}</value>
+                        </property>
+                        <property>
                             <name>MSDEPLOY_RENAME_LOCKED_FILES</name>
                             <value>1</value>
                         </property>
