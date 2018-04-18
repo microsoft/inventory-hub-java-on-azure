@@ -1,6 +1,6 @@
 # Deploy Inventory Processor (Transactions++) - Inventory Hub App using Java on Azure #
 
-The purpose of this function app is to illustrate how to pick up events or transactions arriving through Event Hub and append those transactions to a Cosmos DB collection.
+The purpose of this function app is to illustrate how to pick up events or transactions streamed through Event Hub and append those transactions to Cosmos DB collections.
 
 ## Requirements
 

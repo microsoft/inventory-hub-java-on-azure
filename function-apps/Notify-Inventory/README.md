@@ -1,6 +1,6 @@
 # Deploy Notification Processor (Notify Inventory Update) - Inventory Hub App using Java on Azure #
 
-The purpose of this function app is to illustrate how to notify product inventory updates to listeners.
+The purpose of this function app is to illustrate how to notify product inventory updates in Cosmos DB to listeners through Event Hub.
 
 ## Requirements
 

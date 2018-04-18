@@ -1,6 +1,6 @@
 # Deploy Point-of-Sale or Point-of-Inventory Simulator - Inventory Hub App using Java on Azure #
 
-The purpose of this function app is to illustrate how to pick up transactions represented as events in Event Hub and update documents in Cosmos DB.
+The purpose of this function app is to illustrate how to pick up transactions represented as streamed events in Event Hub and update documents in Cosmos DB.
 
 ## Requirements
 

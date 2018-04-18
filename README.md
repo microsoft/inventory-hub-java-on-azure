@@ -66,8 +66,8 @@ The following diagram illustrates the full topology for this sample application 
 
 ### Deploy POI and POS Terminals as Azure Function Apps
 
-1. Deploy Point of Inventory terminal as function app as described in [README](./Point-Of-Transaction). Deploy one per terminal. If you were to imagine 4 terminals then you would deploy 4 similar function apps
-2. Deploy Point of Sale terminal as function app as described in [README](./Point-of-Transaction). Deploy one per terminal. If you were to imagine 4 terminals then you would deploy 4 similar function apps
+1. Deploy Point of Inventory terminal as function app as described in [README](./function-apps/Point-Of-Transaction). Deploy one per terminal. If you were to imagine 4 terminals then you would deploy 4 similar function apps
+2. Deploy Point of Sale terminal as function app as described in [README](./function-apps/Point-of-Transaction). Deploy one per terminal. If you were to imagine 4 terminals then you would deploy 4 similar function apps
 
 ### Open the Inventory Hub Web App
 
