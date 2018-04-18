@@ -1,6 +1,6 @@
 # Deploy Notification Processor (Notify Inventory Update) - Inventory Hub App using Java on Azure #
 
-The purpose of this function app is to illustrate how to pick up events or transactions arriving through Event Hub and notify listeners.
+The purpose of this function app is to illustrate how to notify product inventory updates to listeners.
 
 ## Requirements
 
