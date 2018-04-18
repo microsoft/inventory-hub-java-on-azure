@@ -36,7 +36,7 @@
         <docker.image.prefix>put-your-docker-registry-url</docker.image.prefix>
         <azure.resourceGroup.name>${WEBAPP_RESOURCEGROUP_NAME}</azure.resourceGroup.name>
         <azure.app.name>${WEBAPP_NAME}</azure.app.name>
-        <azure.region>${AZURE_REGION}</azure.region>
+        <azure.region>${WEBAPP_REGION}</azure.region>
 
         <!-- where to start running the app -->
         <start-class>org.inventory.hub.InventoryHub</start-class>
