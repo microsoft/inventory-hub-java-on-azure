@@ -33,6 +33,37 @@ The following diagram illustrates the full topology for this sample application 
 
    ![](./media/inventory-hub-layout.jpg)
 
+## Create and Deploy the Inventory Hub ##
+
+<a name="create-the-initial-build"></a>
+### Create the initial build ###
+
+1. Open a command prompt and navigate to the *~/deployment/* folder of your local repo.
+
+```shell
+   cd deployment
+   ```
+
+1. Login to your Azure account and specify which subscription to use:
+
+   ```shell
+   az login
+   az account set --subscription "<your-azure-subscription>"
+   ```
+
+   **NOTE**: You can use either a subscription name or id when specifying which subscription to use; to obtain a list of your subscriptions, type `az account list`.
+
+1. Build an initial layout on Azure using ARM templates as described in the [README](./deployment/README.md)
+
+### Deploy Intentory Processor
+
+### Deploy Inventory Dashbaord Web App
+
+### Deploy POI and POS Terminals as Azure Function Apps
+
+### Open the Inventory Hub Web App
+
+
 # Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
