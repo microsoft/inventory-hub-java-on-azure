@@ -11,7 +11,7 @@
             </tr>
             <tr ng-repeat="item in products">
                 <td>{{ item.description }}</td>
-                <td ng-repeat="(key, value) in item.countByLocation">
+                <td ng-repeat="(key, value) in item.countByLocation | orderBy:key:true">
                     <ul>
                         {{value}}
                     </ul>

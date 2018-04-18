@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.Collection;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.UUID;
 
 @RestController
@@ -104,7 +105,7 @@ public class ProductsInventoryController {
             final Iterator <ProductsInventory> it = makeCollection(iterable).iterator();
             
             Product product;
-            final Map<String, Product> products = new HashMap<String, Product>();
+            final Map<String, Product> products = new TreeMap<String, Product>();
 
             final Map<String, Integer> locations = new HashMap<>();
             
