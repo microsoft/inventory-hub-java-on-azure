@@ -53,16 +53,25 @@ The following diagram illustrates the full topology for this sample application 
 
    **NOTE**: You can use either a subscription name or id when specifying which subscription to use; to obtain a list of your subscriptions, type `az account list`.
 
-1. Build an initial layout on Azure using ARM templates as described in the [README](./deployment/README.md)
+1. Build an initial layout on Azure using ARM templates as described in the [README](./deployment)
 
-### Deploy Intentory Processor
+### Deploy Inventory Processor
+
+1. Deploy Update Product Inventory function app as described in the [README](./function-apps/Update-Product-Inventory)
+2. Deploy Append Transactions function app as described in the [README](./function-apps/Append-Transaction)
 
 ### Deploy Inventory Dashbaord Web App
 
+1. Deploy Inventory Dashboard Web app as described in [README](./dashboard-web-app)
+
 ### Deploy POI and POS Terminals as Azure Function Apps
+
+1. Deploy Point of Inventory terminal as function app as described in [README](./Point-Of-Transaction#POI). Deploy one per terminal. If you were to imagine 4 terminals then you would deploy 4 similar function apps
+2. Deploy Point of Sale terminal as function app as described in [README](./Point-of-Transaction#POS). Deploy one per terminal. If you were to imagine 4 terminals then you would deploy 4 similar function apps
 
 ### Open the Inventory Hub Web App
 
+Open the Inventory Hub Web app ...
 
 # Contributing
 
