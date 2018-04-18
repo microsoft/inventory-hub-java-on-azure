@@ -1,4 +1,4 @@
-# Deploy Inventory Hub Java Web App =TO=> Tomcat in Azure App Service Linux
+# Deploy Inventory Hub Java Web App =TO=> Tomcat in Azure App Service
 
 This Inventory Hub app is a Java application. It display product
 inventory using AngularJS code. 
