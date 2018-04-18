@@ -36,9 +36,10 @@
         <docker.image.prefix>put-your-docker-registry-url</docker.image.prefix>
         <azure.resourceGroup.name>${WEBAPP_RESOURCEGROUP_NAME}</azure.resourceGroup.name>
         <azure.app.name>${WEBAPP_NAME}</azure.app.name>
+        <azure.region>${AZURE_REGION}</azure.region>
 
         <!-- where to start running the app -->
-        <start-class>com.microsoft.azure.sample.InventoryHub</start-class>
+        <start-class>org.inventory.hub.InventoryHub</start-class>
     </properties>
 
     <dependencyManagement>
@@ -165,7 +166,7 @@
             </plugin>
 
             <!--*************************************************-->
-            <!-- Deploy to Tomcat on Azure App Service Linux          -->
+            <!-- Deploy to Tomcat on Azure App Service          -->
             <!--*************************************************-->
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
@@ -174,7 +175,7 @@
                 <configuration>
                     <resourceGroup>${azure.resourceGroup.name}</resourceGroup>
                     <appName>${azure.app.name}</appName>
-                    <region>eastus</region>
+                    <region>${azure.region}</region>
                     <pricingTier>S3</pricingTier>
                     <!--<linuxRuntime>tomcat 8.5-jre8</linuxRuntime>-->
                     <javaVersion>1.8</javaVersion>
