@@ -1,6 +1,6 @@
 # Deploy Point-of-Sale or Point-of-Inventory Simulator - Inventory Hub App using Java on Azure #
 
-The purpose of this function app is to illustrate how to stream "sell" or "intake" or "other" transactions into an event hub for processing.
+The purpose of this function app is to illustrate how to stream "sell" or "intake" or "other" transactions into an Event Hub for processing.
 
 ## POS
 
@@ -72,5 +72,5 @@ export PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING="<put-your-cosmosdb-connec
 # Deploy Notify Inventory Update Function
 
 ```shell
-   mvn clean package azure-functions:deploy
-   ```
+mvn clean package azure-functions:deploy
+```

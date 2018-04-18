@@ -48,5 +48,5 @@ export NOTIFICATIONS_DOCUMENTDB_COLLECTION_NAME="<put-your-cosmosdb-collection-n
 # Deploy Notify Inventory Update Function
 
 ```shell
-   mvn clean package azure-functions:deploy
-   ```
+mvn clean package azure-functions:deploy
+```

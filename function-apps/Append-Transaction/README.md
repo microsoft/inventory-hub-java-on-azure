@@ -44,5 +44,5 @@ export TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME="<put-your-cosmosdb-collection-na
 # Deploy Append Transactions
 
 ```shell
-   mvn clean package azure-functions:deploy
-   ```
+mvn clean package azure-functions:deploy
+```

@@ -46,5 +46,5 @@ export UPI_FUNCTION_APP_STORAGE_ACCOUNT_CONNECTION_STRING="<put-your-storage-acc
 # Deploy Notify Inventory Update Function
 
 ```shell
-   mvn clean package azure-functions:deploy
-   ```
+mvn clean package azure-functions:deploy
+```
