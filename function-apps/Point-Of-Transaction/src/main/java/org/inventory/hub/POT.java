@@ -42,29 +42,31 @@ public class POT {
 //        executionContext.getLogger().info("\tFound CosmosDB: " + inputDoc);
 
         final Gson gson = new GsonBuilder().create();
-
-        DocumentClient client = new DocumentClient(System.getenv("PRODUCT_ITEMS_DOCUMENTDB_URI"),
-            System.getenv("PRODUCT_ITEMS_DOCUMENTDB_KEY"), null, null);
-
-        final String collectionLink = String.format("/dbs/%s/colls/%s",
-            System.getenv("PRODUCT_ITEMS_DOCUMENTDB_DBNAME"),
-            System.getenv("PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME"));
-
-        FeedOptions options = new FeedOptions();
-        options.setEnableCrossPartitionQuery(true);
-
-        Iterator<Document> it = client.queryDocuments(collectionLink, "SELECT * from r", options).getQueryIterator();
-
         List<ProductItem> productItems = new ArrayList<>();
-        while(it.hasNext()) {
-            Document doc = it.next();
-            ProductItem productItem = new ProductItem();
-            productItem.id = doc.getId();
-            productItem.productId = doc.getString("productId");
-            productItem.productName = doc.getString("productName");
-            productItem.description = doc.getString("description");
-            productItems.add(productItem);
-        }
+
+        try {
+            DocumentClient client = new DocumentClient(System.getenv("PRODUCT_ITEMS_DOCUMENTDB_URI"),
+                System.getenv("PRODUCT_ITEMS_DOCUMENTDB_KEY"), null, null);
+
+            final String collectionLink = String.format("/dbs/%s/colls/%s",
+                System.getenv("PRODUCT_ITEMS_DOCUMENTDB_DBNAME"),
+                System.getenv("PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME"));
+
+            FeedOptions options = new FeedOptions();
+            options.setEnableCrossPartitionQuery(true);
+
+            Iterator<Document> it = client.queryDocuments(collectionLink, "SELECT * from r", options).getQueryIterator();
+
+            while (it.hasNext()) {
+                Document doc = it.next();
+                ProductItem productItem = new ProductItem();
+                productItem.id = doc.getId();
+                productItem.productId = doc.getString("productId");
+                productItem.productName = doc.getString("productName");
+                productItem.description = doc.getString("description");
+                productItems.add(productItem);
+            }
+        } catch (Exception e) { }
 
         final POT.TransactionEvent transactionEvent = productItems.size() > 0 ? new POT.TransactionEvent(10, productItems) : new POT.TransactionEvent(10);
         executionContext.getLogger().info("Timer trigger input: " + timerInfo);

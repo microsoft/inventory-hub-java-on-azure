@@ -1,0 +1,64 @@
+{
+  "productItems": [
+  {
+    "id": "1",
+    "productId": "1",
+    "productName": "coffee",
+    "description": "Coffee"
+  },
+  {
+    "id": "2",
+    "productId": "2",
+    "productName": "tea",
+    "description": "Tea"
+  },
+  {
+    "id": "3",
+    "productId": "3",
+    "productName": "bagelPlain",
+    "description": "Bagel Plain"
+  },
+  {
+    "id": "4",
+    "productId": "4",
+    "productName": "chocolateMilk",
+    "description": "Chocolate Milk"
+  },
+  {
+    "id": "5",
+    "productId": "5",
+    "productName": "danish",
+    "description": "Danish"
+  },
+  {
+    "id": "6",
+    "productId": "6",
+    "productName": "proteinBox",
+    "description": "Protein Box"
+  },
+  {
+    "id": "7",
+    "productId": "7",
+    "productName": "eggSandwich",
+    "description": "Egg Sandwich"
+  },
+  {
+    "id": "8",
+    "productId": "8",
+    "productName": "bltSandwich",
+    "description": "BLT Sandwich"
+  },
+  {
+    "id": "9",
+    "productId": "9",
+    "productName": "fruitSmoothie",
+    "description": "Fruit Smoothie"
+  },
+  {
+    "id": "10",
+    "productId": "10",
+    "productName": "Yogurt",
+    "description": "Yogurt"
+  }
+  ]
+}
