@@ -28,7 +28,7 @@ are effortless now.
 
 * [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8 and above
 * [Maven](https://maven.apache.org/) 3.0 and above
-* [Tomcat](https://tomcat.apache.org/download-80.cgi) 8.5 and above
+* [Cloud Foundry CLI](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html)
 
 ## Create Azure Cosmos DB and Event Hub
 
@@ -46,20 +46,13 @@ Set these values in ./push-cf-env.sh:
 # Insert environment values and run source push-cf-env.sh
 
 cf set-env inventory-hub  DOCUMENTDB_URI put-your-documentdb-uri-here
-
 cf set-env inventory-hub DOCUMENTDB_KEY put-your-documentdb-key-here
-
 cf set-env inventory-hub DOCUMENTDB_DBNAME put-your-documentdb-databasename-here
 
-
 cf set-env inventory-hub NOTIFICATIONS_EVENT_HUB_NAME put-your-eventhub-for-notifications
-
 cf set-env inventory-hub NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME put-your-eventhub-consumer-group-for-notifications 
-
 cf set-env inventory-hub NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING put-your-event-hub-connection-string
-
 cf set-env inventory-hub NOTIFICATIONS_STORAGE_CONTAINER_NAME put-your-storage-container-name
-
 cf set-env inventory-hub NOTIFICATIONS_STORAGE_CONNECTION_STRING put-your-storage-connection-string
 ```
 
@@ -109,7 +102,7 @@ Otherwise, login as an admin and satisfy these prerequisites as follows:
    ```
 
 2. Temporarly, to avoid a null pointer exception at startup time ... create an 'empty' service
-## Create a Cosmos Service Instance
+
 If you last logged in as an admin, for example to execute the steps above, log in to Cloud Foundry with the
 credentials that have the SpaceDeveloper role for the space you're going to use.
 
@@ -149,7 +142,7 @@ buildpack:         client-certificate-mapper=1.2.0_RELEASE
                    java-buildpack=v4.5-offline-https://github.com/cloudfoundry/java-buildpack.git#ffeefb9
                    java-main java-opts jvmkill-agent=1.10.0_RELEASE
                    open-jdk-like-jre=1.8.0_1...
-start command: JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.10.0_RELEASE=printHeapHistogram=1
+start command:     JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.10.0_RELEASE=printHeapHistogram=1
                    -Djava.io.tmpdir=$TMPDIR
                    -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext
                    -Djava.security.properties=$PWD/.java-buildpack/security_providers/java.security
