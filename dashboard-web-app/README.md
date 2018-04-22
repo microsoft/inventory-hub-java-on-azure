@@ -1,4 +1,4 @@
-# Deploy Inventory Hub Java Web App =TO=> Tomcat in Azure App Service
+# Deploy Inventory Hub Java Web App =TO=> Pivotal Cloud Foundry on Azure
 
 This Inventory Hub app is a Java application. It display product
 inventory using AngularJS code. 
@@ -37,37 +37,33 @@ You can follow steps described in the [deployment folder][../deployment/README.m
 ## Configuration
 
 Note down your DocumentDB uri and key from last step, 
-specify a database name but no need to create it. Pick an 
-Azure Resource Group name and Web app name for App Service - 
-you can use an existing resource group and Web 
-app or let the Maven plugin create these for you. 
-Set these values in system environment variables:
+specify a database name but no need to create it.
 
-``` txt
-DOCUMENTDB_URI=put-your-documentdb-uri-here
-DOCUMENTDB_KEY=put-your-documentdb-key-here
-DOCUMENTDB_DBNAME=put-your-documentdb-databasename-here
+Set these values in ./push-cf-env.sh:
 
-NOTIFICATIONS_EVENT_HUB_NAME=put-your-eventhub-for-notifications
-NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME="\$Default"
-NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING=put-your-event-hub-connection-string
-NOTIFICATIONS_STORAGE_CONTAINER_NAME=put-your-storage-container-name
-NOTIFICATIONS_STORAGE_CONNECTION_STRING=put-your-storage-connection-string
+``` bash
+# Setup Cloud Foundry Environment Variables for Inventory Hub
+# Insert environment values and run source push-cf-env.sh
 
-WEBAPP_RESOURCEGROUP_NAME=put-your-resourcegroup-name-here
-WEBAPP_NAME=put-your-webapp-name-here
-WEBAPP_REGION=put-your-region-here
+cf set-env inventory-hub  DOCUMENTDB_URI put-your-documentdb-uri-here
+
+cf set-env inventory-hub DOCUMENTDB_KEY put-your-documentdb-key-here
+
+cf set-env inventory-hub DOCUMENTDB_DBNAME put-your-documentdb-databasename-here
+
+
+cf set-env inventory-hub NOTIFICATIONS_EVENT_HUB_NAME put-your-eventhub-for-notifications
+
+cf set-env inventory-hub NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME put-your-eventhub-consumer-group-for-notifications 
+
+cf set-env inventory-hub NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING put-your-event-hub-connection-string
+
+cf set-env inventory-hub NOTIFICATIONS_STORAGE_CONTAINER_NAME put-your-storage-container-name
+
+cf set-env inventory-hub NOTIFICATIONS_STORAGE_CONNECTION_STRING put-your-storage-connection-string
 ```
 
-Optional. If you plan to test the Web app locally, then 
-you must start a local instance of Tomcat. Set another value in
-the system environment variable
-
-``` txt
-TOMCAT_HOME=put-your-tomcat-home-here
-```
-
-## Build Inventory Hub Web App - WAR
+## Build Inventory Hub Web App - JAR
 
 ```bash
 mvn clean package
@@ -75,78 +71,112 @@ mvn clean package
 
 ## Run it locally - OPTIONAL STEP
 
-Deploy the Inventory Hub app to local Tomcat. You must start 
-a local instance of Tomcat.
+Run the Inventory Hub app locally.
 
 ```bash
-mvn cargo:deploy
+mvn spring-boot:run
 ```
 
 Open `http://localhost:8080/` you can see the Inventory Hub app
 
-## Deploy to Tomcat on Azure App Service
+## Deploy to Pivotal Cloud Foundry on Azure
 
-### Temporary Step - Until the Updated Maven Plugin for Azure Web Apps is released
+### Deploy and Configure Pivotal Cloud Foundry on Azure
 
-Install a SNAPSHOT version of the Maven Plugin for Azure Web Apps:
+Enterprise deployments of Cloud Foundry typically comprise many VMs and are shared across multiple users, and
+setting one up from scratch is outside the scope of this tutorial.  If you have a deployment available to you
+already, you will probably prefer to use it instead of creating a new one.  However, if you don't have a 
+deployment already or want to start from scratch, you can find choices, instructions, and more information 
+[here](https://docs.microsoft.com/en-us/azure/cloudfoundry/).
+
+
+To proceed, you will need to know the FQDN of your Cloud Foundry API.  For example, it may look like this:
 
 ```bash
-git clone https://github.com/Microsoft/azure-maven-plugins.git
-cd azure-maven-plugins
-git checkout cs/wardeploy
-mvn clean install -DskipTests
+api.system.<IP address>.cf.pcfazure.com 
 ```
-### Deploy to Tomcat on Azure App Service
+
+1. To deploy the app to Cloud Foundry, you will need a user account, an org and space, and the SpaceDeveloper
+role for the space assigned to the user.  If you already have these, [skip to the next step](#deploy-broker).
+Otherwise, login as an admin and satisfy these prerequisites as follows:
+    
+   ```bash
+   cf login -a <api-fqdn> --skip-ssl-validation
+   cf create-user <user> <password>
+   cf create-org <org>
+   cf create-space <space> -o <org>
+   cf set-space-role <user> <org> <space> SpaceDeveloper
+   ```
+
+2. Temporarly, to avoid a null pointer exception at startup time ... create an 'empty' service
+## Create a Cosmos Service Instance
+If you last logged in as an admin, for example to execute the steps above, log in to Cloud Foundry with the
+credentials that have the SpaceDeveloper role for the space you're going to use.
+
+```bash
+cf login -a <api-fqdn> --skip-ssl-validation
+
+cf create-user-provided-service empty
+```
+
+### Deploy to Pivotal Cloud Foundry on Azure
 
 Deploy in one step. You can continue to deploy again and 
 again without restarting Tomcat.
 
 ```bash
-mvn azure-webapp:deploy
+cf push inventory-hub --no-start
+
+source push-cf-env.sh
+
+cf start inventory-hub
 ```
 
 ```bash
 ...
 ...
-[INFO] Start deploying to Web App inventory-hub...
-[INFO] Authenticate with Azure CLI 2.0
-[INFO] Updating target Web App...
-[INFO] Successfully updated Web App.
-[INFO] Starting to deploy the war file...
-[INFO] Successfully deployed Web App at https://inventory-hub.azurewebsites.net
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 02:13 min
-[INFO] Finished at: 2018-04-17T21:34:57-04:00
-[INFO] Final Memory: 70M/730M
-[INFO] ------------------------------------------------------------------------
-```
+Waiting for app to start...
 
-### Enable Web Sockets in Azure App Service
+name:              inventory-hub
+requested state:   started
+instances:         2/2
+usage:             1G x 2 instances
+routes:            inventory-hub.app.13.82.232.247.cf.pcfazure.com
+last uploaded:     Sat 21 Apr 15:55:54 PDT 2018
+stack:             cflinuxfs2
+buildpack:         client-certificate-mapper=1.2.0_RELEASE
+                   container-security-provider=1.8.0_RELEASE
+                   java-buildpack=v4.5-offline-https://github.com/cloudfoundry/java-buildpack.git#ffeefb9
+                   java-main java-opts jvmkill-agent=1.10.0_RELEASE
+                   open-jdk-like-jre=1.8.0_1...
+start command: JAVA_OPTS="-agentpath:$PWD/.java-buildpack/open_jdk_jre/bin/jvmkill-1.10.0_RELEASE=printHeapHistogram=1
+                   -Djava.io.tmpdir=$TMPDIR
+                   -Djava.ext.dirs=$PWD/.java-buildpack/container_security_provider:$PWD/.java-buildpack/open_jdk_jre/lib/ext
+                   -Djava.security.properties=$PWD/.java-buildpack/security_providers/java.security
+                   $JAVA_OPTS" &&
+                   CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-3.9.0_RELEASE
+                   -totMemory=$MEMORY_LIMIT -stackThreads=300
+                   -loadedClasses=15771 -poolType=metaspace
+                   -vmOptions="$JAVA_OPTS") && echo JVM Memory Configuration:
+                   $CALCULATED_MEMORY && JAVA_OPTS="$JAVA_OPTS
+                   $CALCULATED_MEMORY" && SERVER_PORT=$PORT eval exec
+                   $PWD/.java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -cp
+                   $PWD/. org.springframework.boot.loader.JarLauncher
 
-```bash
-az webapp config set -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME} --web-sockets-enabled true
-az webapp stop -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME}
-az webapp start -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME}
-```
-
-### Temporary Step - until it is fixed on the App Service service-side
-
-1. Go the Web App on Linux in the Azure Portal
-2. Click on Development Tools / Advanced Tools
-3. Click on Go --> to the app's CMD Shell
-
-```bash
-cd \home\site\wwwroot\webapps\ROOT
-rm index.jsp
+     state     since                  cpu    memory         disk           details
+#0   running   2018-04-21T22:57:24Z   0.0%   316.8M of 1G   150.6M of 1G   
+#1   running   2018-04-21T22:57:25Z   0.0%   333.2M of 1G   150.6M of 1G 
 ```
 
 ### Open the Inventory Hub Web app
 
 Open it in a browser
 
-![](./media/inventory-hub-app.jpg)
+![](../media/product-dashboard-pcf.jpg)
+
+![](../media/transactions-arriving-pcf.jpg)
+
+![](../media/pcf-portal.jpg)
 
 ## Clean up
 
@@ -156,20 +186,4 @@ Delete the Azure resources you created by running the following command:
 az group delete -y --no-wait -n <your-resource-group-name>
 ```
 
-## Contribution
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.microsoft.com.
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Useful links
-- [Azure Spring Boot Starters](https://github.com/Microsoft/azure-spring-boot)
-- [Azure Maven plugins](https://github.com/Microsoft/azure-maven-plugins)
