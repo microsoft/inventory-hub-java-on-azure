@@ -18,11 +18,9 @@ are effortless now.
 * [Requirements](#requirements)
 * [Create Azure Cosmos DB and Event Hub](#create-azure-cosmos-db-and-event-hub)
 * [Configuration](#configuration)
-* [Build](#build-inventory-hub-web-app---war)
+* [Build](#build-inventory-hub-web-app---jar)
 * [Run Locally](#run-it-locally---optional-step)
-* [Deploy to Tomcat on App Service](#deploy-to-tomcat-on-azure-app-service)
-* [Contribution](#contribution)
-* [Useful links](#useful-links)
+* [Deploy to Pivotal Cloud Foundry on Azure](#deploy-to-pivotal-cloud-foundry-on-azure)
 
 ## Requirements
 
@@ -112,7 +110,7 @@ cf login -a <api-fqdn> --skip-ssl-validation
 cf create-user-provided-service empty
 ```
 
-### Deploy to Pivotal Cloud Foundry on Azure
+### Now, Deploy to Pivotal Cloud Foundry on Azure
 
 Deploy in one step. You can continue to deploy again and 
 again without restarting Tomcat.
