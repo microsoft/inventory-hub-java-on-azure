@@ -27,7 +27,7 @@ import java.util.Random;
 
 public class POT {
     @FunctionName("Point-of-Transaction")
-    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/30 * * * * *")
+    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/10 * * * * *")
                          String timerInfo,
                      @EventHubOutput(name = "data", eventHubName = "TRANSACTIONS_EVENT_HUB_NAME",
                          connection = "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING")

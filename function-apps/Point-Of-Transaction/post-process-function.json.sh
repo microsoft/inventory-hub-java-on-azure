@@ -1,5 +1,5 @@
 sed -i -e 's/path/eventHubName/g' target/azure-functions/*/Point-of-Transaction/function.json
-sed -i -e '22s/connection/connectionStringSetting/' target/azure-functions/*/Point-of-Transaction/function.json
+echo sed -i -e '22s/connection/connectionStringSetting/' target/azure-functions/*/Point-of-Transaction/function.json
 
 sed -i -e "s/TRANSACTIONS_EVENT_HUB_NAME/$TRANSACTIONS_EVENT_HUB_NAME/g" target/azure-functions/*/Point-of-Transaction/function.json
 echo sed -i -e "s@TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME@$TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME@g" target/azure-functions/*/Point-of-Transaction/function.json
