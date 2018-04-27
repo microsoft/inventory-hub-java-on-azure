@@ -7,6 +7,11 @@ package org.inventory.hub;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import com.microsoft.azure.documentdb.Document;
+import com.microsoft.azure.documentdb.DocumentClient;
+import com.microsoft.azure.documentdb.FeedOptions;
+
 import com.microsoft.azure.serverless.functions.ExecutionContext;
 import com.microsoft.azure.serverless.functions.OutputBinding;
 import com.microsoft.azure.serverless.functions.annotation.DocumentDBInput;
@@ -21,6 +26,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Function for capturing a transaction into the CosmosDB database.
@@ -121,7 +128,41 @@ public class UpdateProductInventory {
         productInventoryOutput.totalCount = Long.toString(currentCount);
 
         context.getLogger().info("\tSaving: " + gson.toJson(productInventoryOutput));
-        document.setValue(gson.toJson(productInventoryOutput));
+
+        String cosmosDBUri = System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_URI");
+        String cosmosDBKey = System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_KEY");
+
+        // Extract CosmosDB URI and key
+        String cosmosDbConnectionString = System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING");
+        String pattern = "AccountEndpoint=(.*);AccountKey=(.*);";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(cosmosDbConnectionString);
+        if (m.find()) {
+            cosmosDBUri = m.group(1);
+            cosmosDBKey = m.group(2);
+        }
+
+        DocumentClient client = new DocumentClient(cosmosDBUri, cosmosDBKey, null, null);
+
+        final String storedProcedureLink = String.format("/dbs/%s/colls/%s/sprocs/update-product-inventory",
+            System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_DBNAME"),
+            System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME"));
+        Object[] procedureParams = {
+            eventHubMessage.get("type"),
+            productInformation.get("count").toString(),
+            productInformation.get("productId").toString(),
+            productInformation.get("productName"),
+            productInformation.get("description"),
+            pointOfTransaction.get("location")
+        };
+        try {
+            context.getLogger().info("\t Stored Procedure call: " + gson.toJson(procedureParams));
+            client.executeStoredProcedure(storedProcedureLink, procedureParams);
+        } catch (Exception e) {
+            context.getLogger().info("ERROR Stored Procedure call failed: " + gson.toJson(e));
+        }
+
+//        document.setValue(gson.toJson(productInventoryOutput));
     }
 
     static final class ProductInventory {
@@ -133,3 +174,75 @@ public class UpdateProductInventory {
         public String totalCount;
     }
 }
+
+/*
+
+Corresponding stored procedure: "update-product-inventory"
+
+function updateProductInventory(typeOfTransaction, count, productId, productName, description, location) {
+    var collection = getContext().getCollection();
+
+    // var id = uuidv4();
+
+    // Query documents and take 1st item.
+    var query = { query: "select * from root r where r.productName=@productName and r.location=@location", parameters:
+        [
+            {name: "@productName", value: productName},
+            {name: "@location", value: location}
+        ]};
+    var isAccepted = collection.queryDocuments(
+        collection.getSelfLink(),
+        query,
+    function (err, feed, options) {
+        if (err) throw err;
+
+        if (!feed || !feed.length) {
+            var response = getContext().getResponse();
+            console.log('No documents found; this is a new document.');
+            var id = uuidv4();
+            var doc = {
+                id: id,
+                productId: productId,
+                productName: productName,
+                description: description,
+                location: location,
+                totalCount: count};
+            console.log(JSON.stringify(doc));
+            response.setBody(JSON.stringify(doc));
+
+            var isNewDocument = collection.createDocument(collection.getSelfLink(),
+                doc,
+                function (err, doc) {
+                    if (err) throw new Error('Error' + err.message);
+                    response.setBody(JSON.stringify(doc))
+                });
+            if (!isNewDocument) console.log("Failed to create new document " + JSON.stringify(doc));
+        } else {
+            var response = getContext().getResponse();
+            var doc = feed[0];
+
+            var totalCountValue = parseInt(doc.totalCount);
+            var countValue = parseInt(count);
+            if (typeOfTransaction == "intake") {
+                totalCountValue += countValue;
+            } else if (typeOfTransaction == "sell") {
+                totalCountValue -= countValue;
+            }
+            doc.totalCount = "" + totalCountValue;
+            response.setBody(doc);
+            var isReplacedDocument = collection.replaceDocument(feed[0]._self, doc,
+                function (err2, docReplaced) {
+                    if (err) throw "Unable to update document, abort";
+                });
+            if (!isReplacedDocument) console.log("Failed to replace document " + JSON.stringify(doc));
+        }
+    });
+
+    function uuidv4() {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        });
+    }
+}
+*/
