@@ -7,3 +7,5 @@ sed -i -e "s/TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME/$TRANSACTIONS_DOCUMENTDB_CO
 
 sed -i -e "s/TRANSACTIONS_EVENT_HUB_NAME/$TRANSACTIONS_EVENT_HUB_NAME/g" target/azure-functions/*/Append-Transaction/function.json
 sed -i -e "s/TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME/$TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME/g" target/azure-functions/*/Append-Transaction/function.json
+
+rm target/azure-functions/*/lib/azure-functions-java-core-1.0.0-beta-2.jar

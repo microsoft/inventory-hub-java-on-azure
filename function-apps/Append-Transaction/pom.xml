@@ -134,7 +134,7 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>beta</value>
+                            <value>2.0.11651-alpha</value>
                         </property>
                         <property>
                             <name>TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME</name>
