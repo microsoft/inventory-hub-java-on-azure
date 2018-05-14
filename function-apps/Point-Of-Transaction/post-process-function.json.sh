@@ -11,3 +11,4 @@ sed -i -e "s@POT_FUNCTION_APP_STORAGE_ACCOUNT_CONNECTION_STRING@$POT_FUNCTION_AP
 sed -i -e "s@TRANSACTIONS_EVENT_HUB_CONNECTION_STRING@$TRANSACTIONS_EVENT_HUB_CONNECTION_STRING@g" target/azure-functions/*/local.settings.json
 sed -i -e "s@PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING@$PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING@g" target/azure-functions/*/local.settings.json
 
+rm target/azure-functions/*/lib/azure-functions-java-core-1.0.0-beta-2.jar
