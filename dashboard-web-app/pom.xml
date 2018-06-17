@@ -40,6 +40,9 @@
 
         <!-- where to start running the app -->
         <start-class>org.inventory.hub.InventoryHub</start-class>
+
+        <!-- Spring Cloud Stream -->
+        <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -51,8 +54,36 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
         </dependencies>
     </dependencyManagement>
+
+    <repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+        <repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
     <dependencies>
         <dependency>
@@ -129,6 +160,34 @@
             <artifactId>spring-messaging</artifactId>
         </dependency>
 
+        <!-- Spring Cloud Stream -->
+
+        <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream</artifactId>
+		</dependency>
+
+        <dependency>
+		  <groupId>org.springframework.cloud</groupId>
+		  <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream-test-support</artifactId>
+			<scope>test</scope>
+		</dependency>
+
     </dependencies>
 
     <build>
@@ -171,7 +230,7 @@
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-webapp-maven-plugin</artifactId>
-                <version>0.2.0-SNAPSHOT</version>
+                <version>1.1.0</version>
                 <configuration>
                     <resourceGroup>${azure.app.resourceGroupName}</resourceGroup>
                     <appName>${azure.app.name}</appName>
@@ -232,6 +291,10 @@
                         <property>
                             <name>NOTIFICATIONS_STORAGE_CONNECTION_STRING</name>
                             <value>${NOTIFICATIONS_STORAGE_CONNECTION_STRING}</value>
+                        </property>
+                        <property>
+                            <name>NOTIFICATIONS_EVENT_HUB_FQDN</name>
+                            <value>${NOTIFICATIONS_EVENT_HUB_FQDN}</value>
                         </property>
 
                     </appSettings>
