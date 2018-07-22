@@ -5,6 +5,7 @@
 package org.inventory.hub;
 
 import com.microsoft.azure.eventhubs.EventData;
+import com.microsoft.azure.eventhubs.EventPosition;
 import com.microsoft.azure.eventprocessorhost.CloseReason;
 import com.microsoft.azure.eventprocessorhost.EventProcessorHost;
 import com.microsoft.azure.eventprocessorhost.EventProcessorOptions;
@@ -29,6 +30,7 @@ import org.inventory.hub.event.Transaction;
 
 import java.util.function.Consumer;
 import java.time.Duration;
+import java.util.function.Function;
 
 @Component
 public class EventReceiver implements Runnable, ApplicationListener<ApplicationReadyEvent>
@@ -113,6 +115,12 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
 		EventProcessorOptions options = new EventProcessorOptions();
 		options.setExceptionNotification(new ErrorNotificationHandler());
 		options.setReceiveTimeOut(Duration.ofSeconds(999999999));
+		options.setInitialPositionProvider(new Function<String, EventPosition>() {
+			@Override
+			public EventPosition apply(String s) {
+				return EventPosition.fromEndOfStream();
+			}
+		});
 
 		try {		
 			host.registerEventProcessor(EventProcessor.class, options)
