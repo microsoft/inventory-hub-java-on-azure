@@ -5,6 +5,9 @@
  */
 package org.inventory.hub;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.OutputBinding;
 import com.microsoft.azure.functions.annotation.CosmosDBTrigger;
@@ -13,6 +16,9 @@ import com.microsoft.azure.functions.annotation.EventHubTrigger;
 import com.microsoft.azure.functions.annotation.FunctionName;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Function for notifying inventory update.
@@ -33,8 +39,39 @@ public class NotifyInventoryUpdate {
 
         context.getLogger().info("Java CosmosDB Notification trigger processed a request: " + document);
 
-        dataOutput.setValue(document);
+        final Gson gson = new GsonBuilder().create();
+        // We don't want to send the document content as is since it contains some properties we might not want
+        List<TransactionEvent> transactionEvents = gson.fromJson(document, new TypeToken<ArrayList<TransactionEvent>>(){}.getType());
+
+        context.getLogger().info("Creating Event Hub notifications: " + gson.toJson(transactionEvents));
+        dataOutput.setValue(gson.toJson(transactionEvents));
     }
+
+    static final class TransactionEvent {
+        public String id;
+        public String description;
+        public String type;
+        public String transactionTime;
+        public TransactionEvent.ProductInformation productInformation;
+        public TransactionEvent.PointOfTransactionLocation pointOfTransaction;
+
+        static final class ProductInformation {
+            public String productId;
+            public String productName;
+            public String description;
+            public String count;
+        }
+
+        // TODO: retrieve this record from the CosmosDB may be?
+        static final class PointOfTransactionLocation {
+            public String id;
+            public String description;
+            public String location;
+            public String longitude;
+            public String latitude;
+        }
+    }
+
 }
 
 /*
