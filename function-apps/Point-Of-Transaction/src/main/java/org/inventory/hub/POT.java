@@ -8,20 +8,16 @@ package org.inventory.hub;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.microsoft.azure.documentdb.Document;
-import com.microsoft.azure.documentdb.DocumentClient;
-import com.microsoft.azure.documentdb.FeedOptions;
-
-import com.microsoft.azure.serverless.functions.ExecutionContext;
-import com.microsoft.azure.serverless.functions.annotation.DocumentDBInput;
-import com.microsoft.azure.serverless.functions.annotation.EventHubOutput;
-import com.microsoft.azure.serverless.functions.annotation.FunctionName;
-import com.microsoft.azure.serverless.functions.annotation.TimerTrigger;
-import com.microsoft.azure.serverless.functions.OutputBinding;
+import com.google.gson.reflect.TypeToken;
+import com.microsoft.azure.functions.ExecutionContext;
+import com.microsoft.azure.functions.OutputBinding;
+import com.microsoft.azure.functions.annotation.CosmosDBInput;
+import com.microsoft.azure.functions.annotation.EventHubOutput;
+import com.microsoft.azure.functions.annotation.FunctionName;
+import com.microsoft.azure.functions.annotation.TimerTrigger;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -32,41 +28,16 @@ public class POT {
                      @EventHubOutput(name = "data", eventHubName = "TRANSACTIONS_EVENT_HUB_NAME",
                          connection = "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING")
                          OutputBinding<String> Output,
-// TODO: CosmosDB input binding need to be tested
-//                     @DocumentDBInput(name = "documents", databaseName = "PRODUCT_ITEMS_DOCUMENTDB_DBNAME",
-//                         collectionName = "PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME",
-//                         connection = "PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING",
-//                         sqlQuery = "SELECT * FROM root r") String documents,
+                     @CosmosDBInput(name = "documents", databaseName = "%PRODUCT_ITEMS_DOCUMENTDB_DBNAME%",
+                         collectionName = "%PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME%",
+                         connectionStringSetting = "PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING",
+                         sqlQuery = "SELECT * FROM root r") String documents,
                      final ExecutionContext executionContext) {
 
-//        executionContext.getLogger().info("\tFound CosmosDB: " + inputDoc);
-
         final Gson gson = new GsonBuilder().create();
-        List<ProductItem> productItems = new ArrayList<>();
+        List<ProductItem> productItems = gson.fromJson(documents, new TypeToken<ArrayList<ProductItem>>(){}.getType());
 
-        try {
-            DocumentClient client = new DocumentClient(System.getenv("PRODUCT_ITEMS_DOCUMENTDB_URI"),
-                System.getenv("PRODUCT_ITEMS_DOCUMENTDB_KEY"), null, null);
-
-            final String collectionLink = String.format("/dbs/%s/colls/%s",
-                System.getenv("PRODUCT_ITEMS_DOCUMENTDB_DBNAME"),
-                System.getenv("PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME"));
-
-            FeedOptions options = new FeedOptions();
-            options.setEnableCrossPartitionQuery(true);
-
-            Iterator<Document> it = client.queryDocuments(collectionLink, "SELECT * from r", options).getQueryIterator();
-
-            while (it.hasNext()) {
-                Document doc = it.next();
-                ProductItem productItem = new ProductItem();
-                productItem.id = doc.getId();
-                productItem.productId = doc.getString("productId");
-                productItem.productName = doc.getString("productName");
-                productItem.description = doc.getString("description");
-                productItems.add(productItem);
-            }
-        } catch (Exception e) { }
+        executionContext.getLogger().info(String.format("Found %d documents", productItems.size()));
 
         final POT.TransactionEvent transactionEvent = productItems.size() > 0 ? new POT.TransactionEvent(10, productItems) : new POT.TransactionEvent(10);
         executionContext.getLogger().info("Timer trigger input: " + timerInfo);
