@@ -36,16 +36,24 @@ function-app/bin/
 function-app/local.settings.json.example
 function-apps/Append-Transaction/bin/
 function-apps/Append-Transaction/bin_backup/
+function-apps/Append-Transaction/extensions.csproj
 function-apps/Append-Transaction/functions-extensions
+function-apps/Append-Transaction/obj/
 function-apps/Notify-Inventory/bin/
 function-apps/Notify-Inventory/bin_backup/
+function-apps/Notify-Inventory/extensions.csproj
 function-apps/Notify-Inventory/functions-extensions
+function-apps/Notify-Inventory/obj/
 function-apps/Point-Of-Transaction/bin/
 function-apps/Point-Of-Transaction/bin_backup/
+function-apps/Point-Of-Transaction/extensions.csproj
 function-apps/Point-Of-Transaction/functions-extensions
+function-apps/Point-Of-Transaction/obj/
 function-apps/Update-Product-Inventory/bin/
 function-apps/Update-Product-Inventory/bin_backup/
+function-apps/Update-Product-Inventory/extensions.csproj
 function-apps/Update-Product-Inventory/functions-extensions
+function-apps/Update-Product-Inventory/obj/
 
 # Spring logs
 logs/
