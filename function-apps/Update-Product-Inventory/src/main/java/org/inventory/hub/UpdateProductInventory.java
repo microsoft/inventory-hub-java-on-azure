@@ -8,23 +8,19 @@ package org.inventory.hub;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.microsoft.azure.documentdb.Document;
 import com.microsoft.azure.documentdb.DocumentClient;
-import com.microsoft.azure.documentdb.FeedOptions;
+import com.microsoft.azure.functions.ExecutionContext;
+import com.microsoft.azure.functions.OutputBinding;
+import com.microsoft.azure.functions.annotation.CosmosDBInput;
+import com.microsoft.azure.functions.annotation.CosmosDBOutput;
+import com.microsoft.azure.functions.annotation.EventHubTrigger;
+import com.microsoft.azure.functions.annotation.FunctionName;
 
-import com.microsoft.azure.serverless.functions.ExecutionContext;
-import com.microsoft.azure.serverless.functions.OutputBinding;
-import com.microsoft.azure.serverless.functions.annotation.DocumentDBInput;
-import com.microsoft.azure.serverless.functions.annotation.DocumentDBOutput;
-import com.microsoft.azure.serverless.functions.annotation.EventHubTrigger;
-import com.microsoft.azure.serverless.functions.annotation.FunctionName;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,20 +31,21 @@ import java.util.regex.Pattern;
 public class UpdateProductInventory {
     @FunctionName("Update-Product-Inventory")
     public void update(
-        @EventHubTrigger(name = "data", eventHubName = "TRANSACTIONS_EVENT_HUB_NAME",
+        @EventHubTrigger(name = "data", eventHubName = "%TRANSACTIONS_EVENT_HUB_NAME%",
             connection = "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING",
-            consumerGroup = "TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME") String data,
-        @DocumentDBOutput(name = "document", databaseName = "PRODUCT_INVENTORY_DOCUMENTDB_DBNAME",
-            collectionName = "PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME",
-            connection = "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING",
+            consumerGroup = "%TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME%") String data,
+        @CosmosDBOutput(name = "document", databaseName = "%PRODUCT_INVENTORY_DOCUMENTDB_DBNAME%",
+            collectionName = "%PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME%",
+            connectionStringSetting = "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING",
             createIfNotExists = true)
             OutputBinding<String> document,
-        @DocumentDBInput(name = "documents", databaseName = "PRODUCT_INVENTORY_DOCUMENTDB_DBNAME",
-            collectionName = "PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME",
-            connection = "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING",
-            sqlQuery = "SELECT * FROM root r")
+        @CosmosDBInput(name = "documents", databaseName = "%PRODUCT_INVENTORY_DOCUMENTDB_DBNAME%",
+        collectionName = "%PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME%",
+        connectionStringSetting = "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING",
+        sqlQuery = "SELECT * FROM root r")
             String inputDoc,
         final ExecutionContext context) {
+
         context.getLogger().info("Java Event Hub transaction trigger from "
             + System.getenv("UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME")
             + "(" + System.getenv("UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME")
@@ -57,7 +54,7 @@ public class UpdateProductInventory {
         JSONObject eventHubMessage = new JSONObject(data);
         eventHubMessage.put("id", UUID.randomUUID().toString());
         context.getLogger().info("\tFound eventGridMessage: " + eventHubMessage.toString());
-        context.getLogger().info("\tFound CosmosDB: " + inputDoc);
+        // context.getLogger().info("\tFound CosmosDB: " + inputDoc);
         Map<String, Map<String, ProductInventory>> currentProductInventoryByLocation = new HashMap<>();
         if (inputDoc != null) {
             JSONArray currentProductInventory = new JSONArray(inputDoc);
@@ -76,7 +73,7 @@ public class UpdateProductInventory {
                     }
                 }
             }
-            context.getLogger().info("\tBuilt Map of product inventory: " + gson.toJson(currentProductInventoryByLocation));
+            // context.getLogger().info("\tBuilt Map of product inventory: " + gson.toJson(currentProductInventoryByLocation));
 
             eventHubMessage.put("id", "1");
         }

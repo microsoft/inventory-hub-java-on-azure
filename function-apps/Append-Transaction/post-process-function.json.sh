@@ -1,11 +1,4 @@
-sed -i -e 's/documentdb/cosmosDb/g' target/azure-functions/*/Append-Transaction/function.json
-sed -i -e 's/path/eventHubName/g' target/azure-functions/*/Append-Transaction/function.json
-sed -i -e '17s/connection/connectionStringSetting/' target/azure-functions/*/Append-Transaction/function.json
-
-sed -i -e "s/TRANSACTIONS_DOCUMENTDB_DBNAME/$TRANSACTIONS_DOCUMENTDB_DBNAME/g" target/azure-functions/*/Append-Transaction/function.json
-sed -i -e "s/TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME/$TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME/g" target/azure-functions/*/Append-Transaction/function.json
-
-sed -i -e "s/TRANSACTIONS_EVENT_HUB_NAME/$TRANSACTIONS_EVENT_HUB_NAME/g" target/azure-functions/*/Append-Transaction/function.json
-sed -i -e "s/TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME/$TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME/g" target/azure-functions/*/Append-Transaction/function.json
-
-rm target/azure-functions/*/lib/azure-functions-java-core-1.0.0-beta-2.jar
+# Script to be run post build to set the content for running the function locally using the environment variable settings
+sed -i -e "s@AT_FUNCTION_APP_STORAGE_ACCOUNT_CONNECTION_STRING@$AT_FUNCTION_APP_STORAGE_ACCOUNT_CONNECTION_STRING@g" target/azure-functions/*/local.settings.json
+sed -i -e "s@TRANSACTIONS_EVENT_HUB_CONNECTION_STRING@$TRANSACTIONS_EVENT_HUB_CONNECTION_STRING@g" target/azure-functions/*/local.settings.json
+sed -i -e "s@TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING@$TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING@g" target/azure-functions/*/local.settings.json

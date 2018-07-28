@@ -47,9 +47,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-functions-java-core</artifactId>
-            <version>1.0.0-beta-2</version>
+            <groupId>com.microsoft.azure.functions</groupId>
+            <artifactId>azure-functions-java-library</artifactId>
+            <version>1.0.0-beta-5</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -97,7 +97,7 @@
                 <plugin>
                     <groupId>com.microsoft.azure</groupId>
                     <artifactId>azure-functions-maven-plugin</artifactId>
-                    <version>0.2.1</version>
+                    <version>1.0.0-beta-2</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -134,7 +134,7 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>2.0.11651-alpha</value>
+                            <value>2.0.11933</value>
                         </property>
                         <property>
                             <name>TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME</name>
@@ -204,22 +204,6 @@
                                         <include>host.json</include>
                                         <include>local.settings.json</include>
                                     </includes>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-bin</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                            <overwrite>true</overwrite>
-                            <outputDirectory>${project.build.directory}/azure-functions/${functionAppName}/bin</outputDirectory>
-                            <resources>
-                                <resource>
-                                    <directory>bin</directory>
                                 </resource>
                             </resources>
                         </configuration>
