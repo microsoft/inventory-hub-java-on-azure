@@ -40,19 +40,22 @@ public class EventReceiver implements Runnable, ApplicationListener<ApplicationR
 	 * This event is executed as late as conceivably possible to indicate that 
 	 * the application is ready to service requests.
 	 */
+	
+	
 	@Override
 	public void onApplicationEvent(final ApplicationReadyEvent event) {
-	
-		System.out.println("hello world, I have just started up");
-		System.out.println("=== app ready event ===\n" + event);
 
-        Runnable notificationsReceiver = new EventReceiver();
-        Thread receiverThread = new Thread(notificationsReceiver);
-        receiverThread.start();
-        System.out.println("====== Event Receiver Started =====");
+		// System.out.println("hello world, I have just started up");
+		// System.out.println("=== app ready event ===\n" + event);
+
+        // Runnable notificationsReceiver = new EventReceiver();
+        // Thread receiverThread = new Thread(notificationsReceiver);
+        // receiverThread.start();
+        // System.out.println("====== Event Receiver Started =====");
 	
-		return;
+		// return;
 	}
+
 
     public void run() 
     {
