@@ -64,6 +64,10 @@
         "notifications_eventhub_cg_notification_events": {
             "defaultValue": "notification-events",
             "type": "String"
+        },
+        "notifications_eventhub_cg_notification_errors": {
+            "defaultValue": "notification-errors",
+            "type": "String"
         }
     },
     "variables": {},
@@ -193,6 +197,30 @@
             ]
         },
         {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('notifications_eventhub_name'), '/', parameters('notifications_eventhub_cg_notification_events'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('notifications_eventhub_name'))]"
+            ]
+        },
+        {
+            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
+            "name": "[concat(parameters('namespace_name'), '/', parameters('notifications_eventhub_name'), '/', parameters('notifications_eventhub_cg_notification_errors'))]",
+            "apiVersion": "2017-04-01",
+            "location": "[parameters('region_name')]",
+            "scale": null,
+            "properties": {},
+            "dependsOn": [
+                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
+                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('notifications_eventhub_name'))]"
+            ]
+        },
+        {
             "type": "Microsoft.EventHub/namespaces/eventhubs/authorizationRules",
             "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('transactions_eventhub_rule_intake_events'))]",
             "apiVersion": "2017-04-01",
@@ -229,18 +257,6 @@
         {
             "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
             "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('transactions_eventhub_cg_inventory'))]",
-            "apiVersion": "2017-04-01",
-            "location": "[parameters('region_name')]",
-            "scale": null,
-            "properties": {},
-            "dependsOn": [
-                "[resourceId('Microsoft.EventHub/namespaces', parameters('namespace_name'))]",
-                "[resourceId('Microsoft.EventHub/namespaces/eventhubs', parameters('namespace_name'), parameters('transactions_eventhub_name'))]"
-            ]
-        },
-        {
-            "type": "Microsoft.EventHub/namespaces/eventhubs/consumergroups",
-            "name": "[concat(parameters('namespace_name'), '/', parameters('transactions_eventhub_name'), '/', parameters('notifications_eventhub_cg_notification_events'))]",
             "apiVersion": "2017-04-01",
             "location": "[parameters('region_name')]",
             "scale": null,
