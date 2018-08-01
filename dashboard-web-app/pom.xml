@@ -285,6 +285,10 @@
                             <value>${NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING}</value>
                         </property>
                         <property>
+                            <name>NOTIFICATIONS_EVENT_HUB_NAMESPACE_CONNECTION_STRING</name>
+                            <value>${NOTIFICATIONS_EVENT_HUB_NAMESPACE_CONNECTION_STRING}</value>
+                        </property>
+                        <property>
                             <name>NOTIFICATIONS_STORAGE_CONTAINER_NAME</name>
                             <value>${NOTIFICATIONS_STORAGE_CONTAINER_NAME}</value>
                         </property>
@@ -295,6 +299,10 @@
                         <property>
                             <name>NOTIFICATIONS_EVENT_HUB_FQDN</name>
                             <value>${NOTIFICATIONS_EVENT_HUB_FQDN}</value>
+                        </property>
+                        <property>
+                            <name>NOTIFICATION_ERRORS_EVENT_HUB_NAME</name>
+                            <value>${NOTIFICATION_ERRORS_EVENT_HUB_NAME}</value>
                         </property>
 
                     </appSettings>
