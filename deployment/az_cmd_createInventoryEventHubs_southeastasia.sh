@@ -5,7 +5,6 @@ az group deployment create --name "inventory-hub-eventhub-southeastasia-td1" --r
 # list authorization rule keys and connection strings
 az eventhubs eventhub authorization-rule keys list --resource-group "inventory-hub-southeastasia-dev" --namespace-name "inventory-eventhub-southeastasia-kafka1" --eventhub-name "eventhub-for-notifications" --name "intakeEvents"
 az eventhubs eventhub authorization-rule keys list --resource-group "inventory-hub-southeastasia-dev" --namespace-name "inventory-eventhub-southeastasia-kafka1" --eventhub-name "eventhub-for-notifications" --name "dispatchEvents"
-az eventhubs eventhub authorization-rule keys list --resource-group "inventory-hub-southeastasia-dev" --namespace-name "inventory-eventhub-southeastasia-kafka1" --eventhub-name "eventhub-for-notifications" --name "myerrors"
 az eventhubs eventhub authorization-rule keys list --resource-group "inventory-hub-southeastasia-dev" --namespace-name "inventory-eventhub-southeastasia-kafka1" --eventhub-name "eventhub-for-transactions" --name "intakeEvents"
 az eventhubs eventhub authorization-rule keys list --resource-group "inventory-hub-southeastasia-dev" --namespace-name "inventory-eventhub-southeastasia-kafka1" --eventhub-name "eventhub-for-transactions" --name "dispatchEvents"
 
