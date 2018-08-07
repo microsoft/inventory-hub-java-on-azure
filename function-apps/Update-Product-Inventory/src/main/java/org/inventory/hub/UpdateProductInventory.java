@@ -9,6 +9,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import com.microsoft.azure.documentdb.DocumentClient;
+import com.microsoft.azure.documentdb.PartitionKey;
+import com.microsoft.azure.documentdb.RequestOptions;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.OutputBinding;
 import com.microsoft.azure.functions.annotation.CosmosDBInput;
@@ -154,12 +156,12 @@ public class UpdateProductInventory {
         };
         try {
             context.getLogger().info("\t Stored Procedure call: " + gson.toJson(procedureParams));
-            client.executeStoredProcedure(storedProcedureLink, procedureParams);
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.setPartitionKey(new PartitionKey(pointOfTransaction.get("location")));
+            client.executeStoredProcedure(storedProcedureLink, requestOptions, procedureParams);
         } catch (Exception e) {
             context.getLogger().info("ERROR Stored Procedure call failed: " + gson.toJson(e));
         }
-
-//        document.setValue(gson.toJson(productInventoryOutput));
     }
 
     static final class ProductInventory {
