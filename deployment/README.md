@@ -23,7 +23,13 @@ In addition, you will need all of the following components before you go through
 
    **NOTE**: You can use either a subscription name or id when specifying which subscription to use; to obtain a list of your subscriptions, type `az account list`.
 
-2. Create Cosmos DB and Event Hubs
+2. Set a unique prefix for creating an initial layout on Azure.
+
+   ```shell
+   export INVENTORY_HUB_APP_NAME="<your-unique-prefix>"
+   ```
+
+3. Create Cosmos DB and Event Hubs
 
 ```shell
    source az_cmd_createInventoryCosmosDB.sh

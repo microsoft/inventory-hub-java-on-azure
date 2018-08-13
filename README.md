@@ -53,7 +53,14 @@ The following diagram illustrates the full topology for this sample application 
 
    **NOTE**: You can use either a subscription name or id when specifying which subscription to use; to obtain a list of your subscriptions, type `az account list`.
 
-1. Define **INVENTORY_HUB_APP_NAME** environment variable representing an unique prefix name to be used when creating the Azure resources then build the initial layout on Azure using ARM templates as described in the [README](./deployment)
+1. Set a unique prefix for creating an initial layout on Azure.
+
+   ```shell
+   export INVENTORY_HUB_APP_NAME="<your-unique-prefix>"
+   ```
+
+2. Follow the deployment [README](./deployment) instructions to create Azure resources.
+
 
 ### Deploy Inventory Processor
 
