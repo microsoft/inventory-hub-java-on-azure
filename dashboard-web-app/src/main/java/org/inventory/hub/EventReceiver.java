@@ -19,8 +19,11 @@ import com.microsoft.azure.eventprocessorhost.IEventProcessor;
 
 import com.microsoft.azure.eventprocessorhost.PartitionContext;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.event.ApplicationStartedEvent;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -33,28 +36,33 @@ import java.time.Duration;
 import java.util.function.Function;
 
 @Component
-public class EventReceiver implements Runnable, ApplicationListener<ApplicationReadyEvent>
+public class EventReceiver implements Runnable, ApplicationListener<ApplicationStartedEvent>
 {	
 
 	/**
 	 * This event is executed as late as conceivably possible to indicate that 
 	 * the application is ready to service requests.
 	 */
-	
-	
+
 	@Override
-	public void onApplicationEvent(final ApplicationReadyEvent event) {
+	public void onApplicationEvent(final ApplicationStartedEvent applicationStartedEvent) {
 
-		// System.out.println("hello world, I have just started up");
-		// System.out.println("=== app ready event ===\n" + event);
-
-        // Runnable notificationsReceiver = new EventReceiver();
-        // Thread receiverThread = new Thread(notificationsReceiver);
-        // receiverThread.start();
-        // System.out.println("====== Event Receiver Started =====");
-	
-		// return;
 	}
+	
+	
+//	@Override
+//	public void onApplicationEvent(final ApplicationReadyEvent event) {
+//
+//		// System.out.println("hello world, I have just started up");
+//		// System.out.println("=== app ready event ===\n" + event);
+//
+//        // Runnable notificationsReceiver = new EventReceiver();
+//        // Thread receiverThread = new Thread(notificationsReceiver);
+//        // receiverThread.start();
+//        // System.out.println("====== Event Receiver Started =====");
+//
+//		// return;
+//	}
 
 
     public void run() 
