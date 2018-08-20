@@ -25,9 +25,16 @@ In addition, you will need all of the following components before you go through
 
 2. Set a unique prefix for creating an initial layout on Azure.
 
+OSX and *nix:
    ```shell
    export INVENTORY_HUB_APP_NAME="<your-unique-prefix>"
    ```
+
+Powershell:
+
+```
+ $env:INVENTORY_HUB_APP_NAME="<your-unique-prefix>"
+```
 
 3. Create Cosmos DB and Event Hubs
 

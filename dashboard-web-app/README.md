@@ -32,7 +32,7 @@ are effortless now.
 
 ## Create Azure Cosmos DB and Event Hub
 
-You can follow steps described in the [deployment folder][../deployment/README.md].
+You can follow steps described in the [deployment folder](../deployment/README.md).
 
 ## Configuration
 
@@ -58,6 +58,8 @@ WEBAPP_RESOURCEGROUP_NAME=put-your-resourcegroup-name-here
 WEBAPP_NAME=put-your-webapp-name-here
 WEBAPP_REGION=put-your-region-here
 ```
+
+**Note:** Your webapp name must be all lowercase.
 
 Optional. If you plan to test the Web app locally, then 
 you must start a local instance of Tomcat. Set another value in
@@ -85,18 +87,6 @@ mvn cargo:deploy
 Open `http://localhost:8080/` you can see the Inventory Hub app
 
 ## Deploy to Tomcat on Azure App Service
-
-### Temporary Step - Until the Updated Maven Plugin for Azure Web Apps is released
-
-Install a SNAPSHOT version of the Maven Plugin for Azure Web Apps:
-
-```bash
-git clone https://github.com/Microsoft/azure-maven-plugins.git
-cd azure-maven-plugins
-git checkout cs/wardeploy
-mvn clean install -DskipTests
-```
-### Deploy to Tomcat on Azure App Service
 
 Deploy in one step. You can continue to deploy again and 
 again without restarting Tomcat.
@@ -131,16 +121,49 @@ az webapp stop -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME}
 az webapp start -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME}
 ```
 
-### Temporary Step - until it is fixed on the App Service service-side
+### SSH into your instance
 
-1. Go the Web App on Linux in the Azure Portal
-2. Click on Development Tools / Advanced Tools
-3. Click on Go --> to the app's CMD Shell
+At some point you may want to SSH into your webapp. The following steps will guide you to your project directory within the web app.
+
+1. Add the "webapp" extension to your Azure CLI./
 
 ```bash
-cd \home\site\wwwroot\webapps\ROOT
-rm index.jsp
+az extension add -n webapp
 ```
+
+If you already have the extension installed, you may want to update it:
+
+```bash
+az extension update -n webapp
+```
+For more information on the `webapp` extension, please see [this blog post](https://blogs.msdn.microsoft.com/waws/2018/05/07/things-you-should-know-web-apps-and-ssh/).
+
+2. Open TCP port to instance
+
+```bash
+az webapp remote-connection create -g your-resourcegroup-name -n your-webapp-name
+```
+This command will return a port number, username, and password that we will use in the next step.
+Note that the command above will automatically select a port. If you would like to specify a port, append `-p port-number` to the command. (Where `port-number` is your specified port number.)
+
+3. SSH into instance
+
+Next, use your favorite SSH client to SSH into the instance. (If you require more detailed instructions on this step, please [click here](https://blogs.msdn.microsoft.com/waws/2018/05/07/things-you-should-know-web-apps-and-ssh/).)
+
+#### For OSX/*nix users
+Use your built-in SSH client with the following command:
+
+```bash
+ssh root@127.0.0.1 -p port-number
+```
+
+Enter the username and password from the previous step.
+
+#### For Windows users
+
+Open [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html) and set the IP address to 127.0.0.1. Set the port to the port number given in the previous step. When the console indow opens, enter the username and password from the previous step.
+
+4. After successfully SSHing into the web app, your project's assests from the war deployment will be under `/home/site/wwwroot/webapps/ROOT/`.
 
 ### Open the Inventory Hub Web app
 
