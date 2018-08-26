@@ -20,6 +20,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.inventory.hub.controller.TransactionsController;
 import org.inventory.hub.event.Transaction;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.UUID;
+
 @EnableBinding(Sink.class)
 @SpringBootApplication
 public class InventoryHub extends SpringBootServletInitializer {
@@ -29,6 +33,30 @@ public class InventoryHub extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        try {
+            // WEBSITE_INSTANCE_ID=3bd0b3a7eafa0e40e89ad50242c3591b222ecc564d8875c1feadd4ac6f52234a
+            String webSiteInstanceId = System.getenv("WEBSITE_INSTANCE_ID");
+            if (webSiteInstanceId == null || webSiteInstanceId.isEmpty()) {
+                webSiteInstanceId = System.getenv("NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME");
+            }
+            if (webSiteInstanceId == null || webSiteInstanceId.isEmpty()) {
+                webSiteInstanceId = UUID.randomUUID().toString();
+            }
+            if (webSiteInstanceId.length() > 49) {
+                webSiteInstanceId = webSiteInstanceId.substring(0, 49);
+            }
+
+            // This will replace System environment variable value with the newly computed value
+            Map<String, String> env = System.getenv();
+            Class<?> cl = env.getClass();
+            Field field = cl.getDeclaredField("m");
+            field.setAccessible(true);
+            Map<String, String> writableEnv = (Map<String, String>) field.get(env);
+            writableEnv.put("NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME", webSiteInstanceId);
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to set environment variable", e);
+        }
+
         return application.sources(InventoryHub.class);
     }
 
@@ -65,13 +93,3 @@ public class InventoryHub extends SpringBootServletInitializer {
 
 
 }
-
-/*
-@SpringBootApplication
-public class InventoryHub {
-
-    public static void main(String[] args) {
-        SpringApplication.run(InventoryHub.class, args);
-    }
-}
-*/
