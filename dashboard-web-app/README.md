@@ -131,17 +131,6 @@ az webapp stop -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME}
 az webapp start -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME}
 ```
 
-### Temporary Step - until it is fixed on the App Service service-side
-
-1. Go the Web App on Linux in the Azure Portal
-2. Click on Development Tools / Advanced Tools
-3. Click on Go --> to the app's CMD Shell
-
-```bash
-cd \home\site\wwwroot\webapps\ROOT
-rm index.jsp
-```
-
 ### Open the Inventory Hub Web app
 
 Open it in a browser
