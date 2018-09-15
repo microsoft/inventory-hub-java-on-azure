@@ -171,28 +171,16 @@
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-webapp-maven-plugin</artifactId>
-                <version>0.2.0-SNAPSHOT</version>
+                <version>1.4.0</version>
                 <configuration>
+
+                    <!-- Web App information -->
                     <resourceGroup>${azure.app.resourceGroupName}</resourceGroup>
                     <appName>${azure.app.name}</appName>
                     <region>${azure.app.region}</region>
-                    <pricingTier>S3</pricingTier>
-                    <!--<linuxRuntime>tomcat 8.5-jre8</linuxRuntime>-->
-                    <javaVersion>1.8</javaVersion>
-                    <javaWebContainer>tomcat 8.5</javaWebContainer>
-                    <deploymentType>war</deploymentType>
 
-                    <resources>
-                        <resource>
-                            <!-- Where your artifacts are stored -->
-                            <directory>${project.basedir}/target</directory>
-                            <!-- Relative path to /site/wwwroot/ -->
-                            <targetPath>.</targetPath>
-                            <includes>
-                                <include>*.war</include>
-                            </includes>
-                        </resource>
-                    </resources>
+                    <!-- Java Runtime Stack for Web App on Linux-->
+                    <linuxRuntime>tomcat 8.5-jre8</linuxRuntime>
 
                     <appSettings>
 
