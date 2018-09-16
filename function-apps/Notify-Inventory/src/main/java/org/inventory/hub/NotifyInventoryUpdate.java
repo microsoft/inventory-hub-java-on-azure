@@ -33,7 +33,7 @@ public class NotifyInventoryUpdate {
             connectionStringSetting = "NOTIFICATIONS_DOCUMENTDB_CONNECTION_STRING",
             leaseCollectionName = "", createLeaseCollectionIfNotExists = true)
             String document,
-        @EventHubOutput(name = "dataOutput", eventHubName = "NOTIFICATIONS_EVENT_HUB_NAME",
+        @EventHubOutput(name = "dataOutput", eventHubName = "%NOTIFICATIONS_EVENT_HUB_NAME%",
             connection = "NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING") OutputBinding<String> dataOutput,
         final ExecutionContext context) {
 
