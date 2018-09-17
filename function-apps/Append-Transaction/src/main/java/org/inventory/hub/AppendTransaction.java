@@ -12,7 +12,6 @@ import com.microsoft.azure.functions.annotation.EventHubTrigger;
 import com.microsoft.azure.functions.annotation.FunctionName;
 
 import java.util.UUID;
-
 import org.json.JSONObject;
 
 import org.springframework.cloud.function.adapter.azure.AzureSpringBootRequestHandler;
@@ -21,47 +20,52 @@ import org.springframework.cloud.function.adapter.azure.AzureSpringBootRequestHa
  * Function for capturing a transaction into the CosmosDB database.
  */
 
-public class AppendTransaction {
+public class AppendTransaction extends AzureSpringBootRequestHandler<MyEventHubData, MyCosmosDBDocument> {
     @FunctionName("Append-Transaction")
     public void update(
         @EventHubTrigger(name = "data", eventHubName = "%TRANSACTIONS_EVENT_HUB_NAME%",
             connection = "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING",
-            consumerGroup = "%TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME%") String data,
+            consumerGroup = "%TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME%") MyEventHubData data,
         @CosmosDBOutput(name = "document", databaseName = "%TRANSACTIONS_DOCUMENTDB_DBNAME%",
-        collectionName = "%TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME%",
-        connectionStringSetting = "TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING",
-        createIfNotExists = true)
-            OutputBinding<String> document,
+            collectionName = "%TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME%",
+            connectionStringSetting = "TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING",
+            createIfNotExists = true) OutputBinding<MyCosmosDBDocument> document,
         final ExecutionContext context) {
 
         context.getLogger().info("Java Event Hub transaction trigger from "
             + System.getenv("APPEND_TRANSACTION_FUNCTION_APP_NAME")
             + "(" + System.getenv("APPEND_TRANSACTION_FUNCTION_APP_ID")
-            + ") processed a request: " + data);
-        JSONObject eventHubMessage = new JSONObject(data);
-        eventHubMessage.put("id", UUID.randomUUID().toString());
-        context.getLogger().info("message: " + eventHubMessage.toString());
-        document.setValue(eventHubMessage.toString());
+            + ") processed a request: " + data.getValue());
+        handleOutput(data, document, context);
     }
 }
 
-//public class AppendTransaction extends AzureSpringBootRequestHandler<MyEventHubData, MyCosmosDBDocument> {
+
+/**
+ * Non-SpringBoot function for capturing a transaction into the CosmosDB database.
+ */
+//
+//public class AppendTransaction {
 //    @FunctionName("Append-Transaction")
 //    public void update(
 //        @EventHubTrigger(name = "data", eventHubName = "%TRANSACTIONS_EVENT_HUB_NAME%",
 //            connection = "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING",
-//            consumerGroup = "%TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME%") MyEventHubData data,
+//            consumerGroup = "%TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME%") String data,
 //        @CosmosDBOutput(name = "document", databaseName = "%TRANSACTIONS_DOCUMENTDB_DBNAME%",
-//            collectionName = "%TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME%",
-//            connectionStringSetting = "TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING",
-//            createIfNotExists = true) OutputBinding<MyCosmosDBDocument> document,
+//        collectionName = "%TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME%",
+//        connectionStringSetting = "TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING",
+//        createIfNotExists = true)
+//            OutputBinding<String> document,
 //        final ExecutionContext context) {
 //
 //        context.getLogger().info("Java Event Hub transaction trigger from "
 //            + System.getenv("APPEND_TRANSACTION_FUNCTION_APP_NAME")
 //            + "(" + System.getenv("APPEND_TRANSACTION_FUNCTION_APP_ID")
-//            + ") processed a request: " + data.getValue());
-//        handleOutput(data, document, context);
+//            + ") processed a request: " + data);
+//        JSONObject eventHubMessage = new JSONObject(data);
+//        eventHubMessage.put("id", UUID.randomUUID().toString());
+//        context.getLogger().info("message: " + eventHubMessage.toString());
+//        document.setValue(eventHubMessage.toString());
 //    }
 //}
 
