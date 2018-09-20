@@ -10,14 +10,14 @@ import java.util.UUID;
 import com.microsoft.azure.functions.ExecutionContext;
 import org.json.JSONObject;
 
-public class MyCosmosDBDocument {
+public class TransactionDocument {
     private String value;
     private ExecutionContext context;
 
-    MyCosmosDBDocument() {
+    TransactionDocument() {
     }
 
-    public MyCosmosDBDocument(String value) {
+    public TransactionDocument(String value) {
         this.setValue(value);
     }
 

@@ -8,15 +8,13 @@ package org.inventory.hub;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.UUID;
-
-public class MyEventHubData {
+public class TransactionEvent {
     public String id;
     public String description;
     public String type;
     public String transactionTime;
-    public MyEventHubData.ProductInformation productInformation;
-    public MyEventHubData.PointOfTransactionLocation pointOfTransaction;
+    public TransactionEvent.ProductInformation productInformation;
+    public TransactionEvent.PointOfTransactionLocation pointOfTransaction;
 
     public class ProductInformation {
         public String productId;
@@ -34,7 +32,7 @@ public class MyEventHubData {
         public String latitude;
     }
 
-    MyEventHubData() {
+    TransactionEvent() {
     }
 
     public String getValue() {
