@@ -6,9 +6,6 @@
 package org.inventory.hub;
 
 import java.util.function.Function;
-import java.util.UUID;
-
-import org.json.JSONObject;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,57 +13,16 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class FunctionApplication {
+    /*
+     * The pom.xml needs to capture an entry to this class as the main class via a Maven configuration manifest in order
+     *   to ensure that the SpringBoot is initialized before the function is called.
+     */
     public static void main(String[] args) throws Exception {
         SpringApplication.run(FunctionApplication.class, args);
     }
 
     @Bean
-    public Function<MyEventHubData, MyCosmosDBDocument> appendTransaction() {
-        return eventHubData -> new MyCosmosDBDocument(eventHubData.withId());
-    }
-}
-
-class MyEventHubData {
-    private String value;
-
-    MyEventHubData() {
-    }
-
-    public MyEventHubData(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String withId() {
-        JSONObject eventHubMessage = new JSONObject(this.value);
-        eventHubMessage.put("id", UUID.randomUUID().toString());
-//        context.getLogger().info("message: " + eventHubMessage.toString());
-        return eventHubMessage.toString();
-    }
-}
-
-class MyCosmosDBDocument {
-    private String value;
-
-    MyCosmosDBDocument() {
-    }
-
-    public MyCosmosDBDocument(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public Function<TransactionEvent, TransactionDocument> appendTransaction() {
+        return eventHubData -> new TransactionDocument(eventHubData.getValue());
     }
 }
