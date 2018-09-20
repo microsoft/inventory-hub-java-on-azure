@@ -34,8 +34,12 @@ public class InventoryHub extends SpringBootServletInitializer {
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         try {
-            // WEBSITE_INSTANCE_ID=3bd0b3a7eafa0e40e89ad50242c3591b222ecc564d8875c1feadd4ac6f52234a
+            // Azure WEBSITE_INSTANCE_ID=3bd0b3a7eafa0e40e89ad50242c3591b222ecc564d8875c1feadd4ac6f52234a
             String webSiteInstanceId = System.getenv("WEBSITE_INSTANCE_ID");
+            // Cloud Foundry CF_INSTANCE_GUID=41653aa4-3a3a-486a-4431-ef258b39f042
+            if (webSiteInstanceId == null || webSiteInstanceId.isEmpty()) {
+                webSiteInstanceId = System.getenv("CF_INSTANCE_GUID");
+            }
             if (webSiteInstanceId == null || webSiteInstanceId.isEmpty()) {
                 webSiteInstanceId = System.getenv("NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME");
             }
