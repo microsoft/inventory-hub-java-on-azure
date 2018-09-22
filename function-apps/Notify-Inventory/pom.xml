@@ -134,7 +134,7 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>2.0.12095.0</value>
+                            <value>2.0.12115</value>
                         </property>
                         <property>
                             <name>NOTIFICATIONS_DOCUMENTDB_CONNECTION_STRING</name>
