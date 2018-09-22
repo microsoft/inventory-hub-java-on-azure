@@ -23,6 +23,6 @@ public class FunctionApplication {
 
     @Bean
     public Function<TransactionEvent, TransactionDocument> appendTransaction() {
-        return eventHubData -> new TransactionDocument(eventHubData.getValue());
+        return eventHubData -> eventHubData.getTransactionDocument();
     }
 }
