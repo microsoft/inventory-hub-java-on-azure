@@ -8,6 +8,8 @@ package org.inventory.hub;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.UUID;
+
 public class TransactionEvent {
     public String id;
     public String description;
@@ -38,6 +40,13 @@ public class TransactionEvent {
     public String getValue() {
         final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);
+    }
+
+    public TransactionDocument getTransactionDocument() {
+        final Gson gson = new GsonBuilder().create();
+        TransactionDocument transactionDocument = gson.fromJson(gson.toJson(this), TransactionDocument.class);
+        transactionDocument.id = UUID.randomUUID().toString();
+        return transactionDocument;
     }
 }
 
