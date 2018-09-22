@@ -31,15 +31,15 @@ public class NotifyInventoryUpdate {
         @CosmosDBTrigger(name = "document", databaseName = "%NOTIFICATIONS_DOCUMENTDB_DBNAME%",
             collectionName = "%NOTIFICATIONS_DOCUMENTDB_COLLECTION_NAME%",
             connectionStringSetting = "NOTIFICATIONS_DOCUMENTDB_CONNECTION_STRING",
-            leaseCollectionName = "", createLeaseCollectionIfNotExists = true)
+            leaseCollectionName = "%NOTIFY_INVENTORY_UPDATE_FUNCTION_APP_NAME%", createLeaseCollectionIfNotExists = true)
             String document,
-        @EventHubOutput(name = "dataOutput", eventHubName = "NOTIFICATIONS_EVENT_HUB_NAME",
+        @EventHubOutput(name = "dataOutput", eventHubName = "%NOTIFICATIONS_EVENT_HUB_NAME%",
             connection = "NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING") OutputBinding<String> dataOutput,
         final ExecutionContext context) {
 
         context.getLogger().info("Java CosmosDB Notification trigger processed a request: " + document);
 
-        final Gson gson = new GsonBuilder().create();
+        final Gson gson = new GsonBuilder().setPrettyPrinting().create();
         // We don't want to send the document content as is since it contains some properties we might not want
         List<TransactionEvent> transactionEvents = gson.fromJson(document, new TypeToken<ArrayList<TransactionEvent>>(){}.getType());
 
