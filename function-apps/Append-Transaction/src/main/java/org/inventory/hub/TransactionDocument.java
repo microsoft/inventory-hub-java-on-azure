@@ -5,31 +5,31 @@
  */
 package org.inventory.hub;
 
-import java.util.UUID;
-
-import com.microsoft.azure.functions.ExecutionContext;
-import org.json.JSONObject;
-
 public class TransactionDocument {
-    private String value;
-    private ExecutionContext context;
+    public String id;
+    public String description;
+    public String type;
+    public String transactionTime;
+    public TransactionEvent.ProductInformation productInformation;
+    public TransactionEvent.PointOfTransactionLocation pointOfTransaction;
+
+    public class ProductInformation {
+        public String productId;
+        public String productName;
+        public String description;
+        public String count;
+    }
+
+    // TODO: retrieve this record from the CosmosDB may be?
+    public class PointOfTransactionLocation {
+        public String id;
+        public String description;
+        public String location;
+        public String longitude;
+        public String latitude;
+    }
 
     TransactionDocument() {
-    }
-
-    public TransactionDocument(String value) {
-        this.setValue(value);
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        JSONObject eventHubMessage = new JSONObject(value);
-        eventHubMessage.put("id", UUID.randomUUID().toString());
-        this.value = eventHubMessage.toString();
-        if (context != null) context.getLogger().info("My CosmosDB document: " + this.value);
     }
 }
 

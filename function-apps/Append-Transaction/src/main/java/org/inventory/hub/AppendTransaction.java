@@ -18,7 +18,7 @@ import org.springframework.cloud.function.adapter.azure.AzureSpringBootRequestHa
  *
  * TransactionEvent is a POJO representing the event data which is received as a JSON string and de-serialized into
  *   the object by the Azure Functions runtime.
- * TransactionDocument is a POJO that must implement "void setValue(String)" and "String getValue()" methods
+ * TransactionDocument is a POJO that represents the final document to be saved in the database collection
  */
 
 public class AppendTransaction extends AzureSpringBootRequestHandler<TransactionEvent, TransactionDocument> {
