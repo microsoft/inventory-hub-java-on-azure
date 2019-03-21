@@ -61,6 +61,11 @@
             <artifactId>azure-eventhubs</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-function-adapter-azure</artifactId>
+            <version>2.0.0.BUILD-SNAPSHOT</version>
+        </dependency>
 
         <!-- Test -->
         <dependency>
@@ -97,7 +102,18 @@
                 <plugin>
                     <groupId>com.microsoft.azure</groupId>
                     <artifactId>azure-functions-maven-plugin</artifactId>
-                    <version>1.0.0-beta-2</version>
+                    <version>1.0.0-beta-6</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <configuration>
+                        <archive>
+                            <manifest>
+                                <mainClass>org.inventory.hub.FunctionApplication</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -134,7 +150,7 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>2.0.11933</value>
+                            <value>2.0.12115</value>
                         </property>
                         <property>
                             <name>TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME</name>
@@ -228,6 +244,36 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>obj</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

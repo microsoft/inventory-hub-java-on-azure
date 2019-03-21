@@ -52,11 +52,6 @@
             <version>1.0.0-beta-5</version>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.8.2</version>
-        </dependency>
-        <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-eventhubs</artifactId>
             <version>1.0.0</version>
@@ -102,7 +97,7 @@
                 <plugin>
                     <groupId>com.microsoft.azure</groupId>
                     <artifactId>azure-functions-maven-plugin</artifactId>
-                    <version>1.0.0-beta-2</version>
+                    <version>1.0.0-beta-6</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -139,7 +134,7 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>2.0.11933</value>
+                            <value>2.0.12115</value>
                         </property>
                         <property>
                             <name>TRANSACTIONS_EVENT_HUB_NAME</name>
@@ -256,6 +251,17 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>obj</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
             </plugin>
         </plugins>
     </build>

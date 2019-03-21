@@ -94,7 +94,8 @@ public class Transaction {
           + " of " 
           + productInformation.getProductName() + " @ "
           + pointOfTransaction.getDescription() + " in "
-          + pointOfTransaction.getLocation()
+          + pointOfTransaction.getLocation() + " at "
+          + transactionTime
           // + " ["
           // + pointOfUpdate.getLongitude() + ", " 
           // + pointOfUpdate.getLatitude() + "]" 
