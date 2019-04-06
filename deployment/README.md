@@ -33,6 +33,7 @@ In addition, you will need all of the following components before you go through
 
 ```shell
    source az_cmd_createInventoryCosmosDB.sh
-   source az_cmd_createInventoryEventHubs_eastus_uksouth.sh
+   source az_cmd_createInventoryEventHubs_eastus.sh
+   source az_cmd_createInventoryEventHubs_uksouth.sh
    source az_cmd_createInventoryEventHubs_southeastasia.sh
    ```

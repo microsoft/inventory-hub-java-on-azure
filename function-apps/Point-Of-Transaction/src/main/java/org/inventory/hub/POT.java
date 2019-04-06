@@ -23,14 +23,14 @@ import java.util.Random;
 
 public class POT {
     @FunctionName("Point-of-Transaction")
-    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/10 * * * * *")
+    public void sell(@TimerTrigger(name = "timerInfo", schedule = "*/30 * * * * *")
                          String timerInfo,
                      @EventHubOutput(name = "data", eventHubName = "TRANSACTIONS_EVENT_HUB_NAME",
                          connection = "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING")
                          OutputBinding<String> Output,
-                     @CosmosDBInput(name = "documents", databaseName = "%PRODUCT_ITEMS_DOCUMENTDB_DBNAME%",
-                         collectionName = "%PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME%",
-                         connectionStringSetting = "PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING",
+                     @CosmosDBInput(name = "documents", databaseName = "%PRODUCT_ITEMS_COSMOSDB_DBNAME%",
+                         collectionName = "%PRODUCT_ITEMS_COSMOSDB_COLLECTION_NAME%",
+                         connectionStringSetting = "PRODUCT_ITEMS_COSMOSDB_CONNECTION_STRING",
                          sqlQuery = "SELECT * FROM root r") String documents,
                      final ExecutionContext executionContext) {
 

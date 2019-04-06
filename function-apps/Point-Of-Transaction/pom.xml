@@ -49,7 +49,12 @@
         <dependency>
             <groupId>com.microsoft.azure.functions</groupId>
             <artifactId>azure-functions-java-library</artifactId>
-            <version>1.0.0-beta-5</version>
+            <version>1.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.2</version>
         </dependency>
         <dependency>
             <groupId>com.microsoft.azure</groupId>
@@ -97,7 +102,7 @@
                 <plugin>
                     <groupId>com.microsoft.azure</groupId>
                     <artifactId>azure-functions-maven-plugin</artifactId>
-                    <version>1.0.0-beta-6</version>
+                    <version>1.3.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -134,7 +139,11 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>2.0.12115</value>
+                            <value>~2</value>
+                        </property>
+                        <property>
+                            <name>FUNCTIONS_WORKER_RUNTIME</name>
+                            <value>java</value>
                         </property>
                         <property>
                             <name>TRANSACTIONS_EVENT_HUB_NAME</name>
@@ -173,29 +182,31 @@
                             <value>${POT_FUNCTION_APP_LOCATION_LONGITUDE}</value>
                         </property>
                         <property>
-                            <name>PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING</name>
-                            <value>${PRODUCT_ITEMS_DOCUMENTDB_CONNECTION_STRING}</value>
+                            <name>PRODUCT_ITEMS_COSMOSDB_CONNECTION_STRING</name>
+                            <value>${PRODUCT_ITEMS_COSMOSDB_CONNECTION_STRING}</value>
                         </property>
                         <property>
-                            <name>PRODUCT_ITEMS_DOCUMENTDB_DBNAME</name>
-                            <value>${PRODUCT_ITEMS_DOCUMENTDB_DBNAME}</value>
+                            <name>PRODUCT_ITEMS_COSMOSDB_DBNAME</name>
+                            <value>${PRODUCT_ITEMS_COSMOSDB_DBNAME}</value>
                         </property>
                         <property>
-                            <name>PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME</name>
-                            <value>${PRODUCT_ITEMS_DOCUMENTDB_COLLECTION_NAME}</value>
+                            <name>PRODUCT_ITEMS_COSMOSDB_COLLECTION_NAME</name>
+                            <value>${PRODUCT_ITEMS_COSMOSDB_COLLECTION_NAME}</value>
                         </property>
                         <property>
-                            <name>PRODUCT_ITEMS_DOCUMENTDB_URI</name>
-                            <value>${PRODUCT_ITEMS_DOCUMENTDB_URI}</value>
+                            <name>PRODUCT_ITEMS_COSMOSDB_URI</name>
+                            <value>${PRODUCT_ITEMS_COSMOSDB_URI}</value>
                         </property>
                         <property>
-                            <name>PRODUCT_ITEMS_DOCUMENTDB_KEY</name>
-                            <value>${PRODUCT_ITEMS_DOCUMENTDB_KEY}</value>
+                            <name>PRODUCT_ITEMS_COSMOSDB_KEY</name>
+                            <value>${PRODUCT_ITEMS_COSMOSDB_KEY}</value>
                         </property>
+                        <!--
                         <property>
                             <name>MSDEPLOY_RENAME_LOCKED_FILES</name>
                             <value>1</value>
                         </property>
+                        -->
                     </appSettings>
                 </configuration>
                 <executions>
@@ -251,17 +262,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-clean-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <filesets>
-                        <fileset>
-                            <directory>obj</directory>
-                        </fileset>
-                    </filesets>
-                </configuration>
             </plugin>
         </plugins>
     </build>
