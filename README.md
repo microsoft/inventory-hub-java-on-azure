@@ -24,12 +24,12 @@ In the following sections, you will create a development sandbox environment on 
 - One [Cosmos DB](https://azure.microsoft.com/en-us/services/cosmos-db/) configured for "read/write" in the first region and "read" for additional regions
 - Set of [Azure Functions](https://azure.microsoft.com/en-us/services/functions/) apps per region
     - One Point of Sale (POS) function app to simulate a terminal in a store, one per terminal
-    - One Point of Intake (POI) function app to simulate a terminal in a warehose, one per terminal
+    - One Point of Intake (POI) function app to simulate a terminal in a warehouse, one per terminal
     - One Update Inventory function app triggered by events produced by POS and POI units to update inventory 
     - One Notify function app triggered by updates to inventory
 - One [Azure Web App](https://azure.microsoft.com/en-us/services/app-service/web/) per region or One [Pivotal Cloud Foundry instance on Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/pivotal.pivotal-cloud-foundry) per region
 
-The following diagram illustrates the full topology for this sample application enviroment:
+The following diagram illustrates the full topology for this sample application environment:
 
    ![](./media/inventory-hub-layout.jpg)
 
@@ -67,7 +67,7 @@ The following diagram illustrates the full topology for this sample application 
 1. Deploy Update Product Inventory function app as described in the [README](./function-apps/Update-Product-Inventory)
 2. Deploy Append Transactions function app as described in the [README](./function-apps/Append-Transaction)
 
-### Deploy Inventory Dashbaord Web App
+### Deploy Inventory Dashboard Web App
 
 1. Deploy Inventory Dashboard Web app as described in [README](./dashboard-web-app)
 
