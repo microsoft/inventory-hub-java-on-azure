@@ -184,10 +184,6 @@
                             <name>NOTIFY_INVENTORY_UPDATE_FUNCTION_APP_ID</name>
                             <value>${NOTIFY_INVENTORY_UPDATE_FUNCTION_APP_ID}</value>
                         </property>
-                        <property>
-                            <name>MSDEPLOY_RENAME_LOCKED_FILES</name>
-                            <value>1</value>
-                        </property>
                     </appSettings>
                 </configuration>
                 <executions>
