@@ -67,7 +67,7 @@ The following diagram illustrates the full topology for this sample application 
 1. Deploy Update Product Inventory function app as described in the [README](./function-apps/Update-Product-Inventory)
 2. Deploy Append Transactions function app as described in the [README](./function-apps/Append-Transaction)
 
-### Deploy Inventory Dashbaord Web App
+### Deploy Inventory Dashboard Web App
 
 1. Deploy Inventory Dashboard Web app as described in [README](./dashboard-web-app)
 
