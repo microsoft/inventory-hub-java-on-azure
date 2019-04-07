@@ -138,6 +138,10 @@
                     <region>${functionAppRegion}</region>
                     <appSettings>
                         <property>
+                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
+                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
+                        </property>
+                        <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
                             <value>~2</value>
                         </property>
