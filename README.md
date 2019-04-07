@@ -29,7 +29,7 @@ In the following sections, you will create a development sandbox environment on 
     - One Notify function app triggered by updates to inventory
 - One [Azure Web App](https://azure.microsoft.com/en-us/services/app-service/web/) per region or One [Pivotal Cloud Foundry instance on Azure](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/pivotal.pivotal-cloud-foundry) per region
 
-The following diagram illustrates the full topology for this sample application enviroment:
+The following diagram illustrates the full topology for this sample application environment:
 
    ![](./media/inventory-hub-layout.jpg)
 
