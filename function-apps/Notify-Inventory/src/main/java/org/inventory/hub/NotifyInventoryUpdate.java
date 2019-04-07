@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class NotifyInventoryUpdate {
     @FunctionName("Notify-Inventory-Update")
-    public void notify(
+    public void notifyInventoryUpdate(
         @CosmosDBTrigger(name = "document", databaseName = "%NOTIFICATIONS_COSMOSDB_DBNAME%",
             collectionName = "%NOTIFICATIONS_COSMOSDB_COLLECTION_NAME%",
             connectionStringSetting = "NOTIFICATIONS_COSMOSDB_CONNECTION_STRING",
