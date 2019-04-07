@@ -134,8 +134,8 @@
             "location": "[parameters('region_name')]",
             "scale": null,
             "properties": {
-                "messageRetentionInDays": 7,
-                "partitionCount": 1,
+                "messageRetentionInDays": 1,
+                "partitionCount": 16,
                 "status": "Active"
             },
             "dependsOn": [
