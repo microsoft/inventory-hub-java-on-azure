@@ -7,6 +7,6 @@
 #export TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME="<put-your-eventhub-for-transactions-consumer-group-name>"
 #export TRANSACTIONS_EVENT_HUB_CONNECTION_STRING="<put-your-eventhub-for-transactions-connection-string>"
 
-#export TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING="<put-your-cosmosdb-connection-string>"
-#export TRANSACTIONS_DOCUMENTDB_DBNAME="<put-your-cosmosdb-database-name>"
-#export TRANSACTIONS_DOCUMENTDB_COLLECTION_NAME="<put-your-cosmosdb-collection-name>"
+#export TRANSACTIONS_COSMOSDB_CONNECTION_STRING="<put-your-cosmosdb-connection-string>"
+#export TRANSACTIONS_COSMOSDB_DBNAME="<put-your-cosmosdb-database-name>"
+#export TRANSACTIONS_COSMOSDB_COLLECTION_NAME="<put-your-cosmosdb-collection-name>"

@@ -11,6 +11,6 @@
 #export NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME="<put-your-eventhub-for-notifications-consumer-group-name>"
 #export NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING="<put-your-eventhub-for-notifications-connection-string>"
 
-#export NOTIFICATIONS_DOCUMENTDB_CONNECTION_STRING="<put-your-storage-account-connection-string>"
-#export NOTIFICATIONS_DOCUMENTDB_DBNAME="<put-your-cosmosdb-database-name>"
-#export NOTIFICATIONS_DOCUMENTDB_COLLECTION_NAME="<put-your-cosmosdb-collection-name>"
+#export NOTIFICATIONS_COSMOSDB_CONNECTION_STRING="<put-your-storage-account-connection-string>"
+#export NOTIFICATIONS_COSMOSDB_DBNAME="<put-your-cosmosdb-database-name>"
+#export NOTIFICATIONS_COSMOSDB_COLLECTION_NAME="<put-your-cosmosdb-collection-name>"

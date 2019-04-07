@@ -49,7 +49,7 @@
         <dependency>
             <groupId>com.microsoft.azure.functions</groupId>
             <artifactId>azure-functions-java-library</artifactId>
-            <version>1.0.0-beta-5</version>
+            <version>1.3.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -97,7 +97,7 @@
                 <plugin>
                     <groupId>com.microsoft.azure</groupId>
                     <artifactId>azure-functions-maven-plugin</artifactId>
-                    <version>1.0.0-beta-6</version>
+                    <version>1.3.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -134,19 +134,23 @@
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
-                            <value>2.0.12115</value>
+                            <value>~2</value>
                         </property>
                         <property>
-                            <name>NOTIFICATIONS_DOCUMENTDB_CONNECTION_STRING</name>
-                            <value>${NOTIFICATIONS_DOCUMENTDB_CONNECTION_STRING}</value>
+                            <name>FUNCTIONS_WORKER_RUNTIME</name>
+                            <value>java</value>
                         </property>
                         <property>
-                            <name>NOTIFICATIONS_DOCUMENTDB_DBNAME</name>
-                            <value>${NOTIFICATIONS_DOCUMENTDB_DBNAME}</value>
+                            <name>NOTIFICATIONS_COSMOSDB_CONNECTION_STRING</name>
+                            <value>${NOTIFICATIONS_COSMOSDB_CONNECTION_STRING}</value>
                         </property>
                         <property>
-                            <name>NOTIFICATIONS_DOCUMENTDB_COLLECTION_NAME</name>
-                            <value>${NOTIFICATIONS_DOCUMENTDB_COLLECTION_NAME}</value>
+                            <name>NOTIFICATIONS_COSMOSDB_DBNAME</name>
+                            <value>${NOTIFICATIONS_COSMOSDB_DBNAME}</value>
+                        </property>
+                        <property>
+                            <name>NOTIFICATIONS_COSMOSDB_COLLECTION_NAME</name>
+                            <value>${NOTIFICATIONS_COSMOSDB_COLLECTION_NAME}</value>
                         </property>
                         <property>
                             <name>TRANSACTIONS_EVENT_HUB_NAME</name>
@@ -179,10 +183,6 @@
                         <property>
                             <name>NOTIFY_INVENTORY_UPDATE_FUNCTION_APP_ID</name>
                             <value>${NOTIFY_INVENTORY_UPDATE_FUNCTION_APP_ID}</value>
-                        </property>
-                        <property>
-                            <name>MSDEPLOY_RENAME_LOCKED_FILES</name>
-                            <value>1</value>
                         </property>
                     </appSettings>
                 </configuration>

@@ -40,6 +40,9 @@
 
         <!-- where to start running the app -->
         <start-class>org.inventory.hub.InventoryHub</start-class>
+
+        <!-- Spring Cloud Stream -->
+        <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -51,8 +54,36 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
         </dependencies>
     </dependencyManagement>
+
+    <repositories>
+		<repository>
+			<id>spring-milestones</id>
+			<name>Spring Milestones</name>
+			<url>https://repo.spring.io/milestone</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+        <repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 
     <dependencies>
         <dependency>
@@ -62,6 +93,7 @@
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-documentdb-spring-boot-starter</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -84,7 +116,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <version>2.0.1.RELEASE</version>
             <scope>provided</scope>
         </dependency>
 
@@ -128,6 +159,34 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-messaging</artifactId>
         </dependency>
+
+        <!-- Spring Cloud Stream -->
+
+        <dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream</artifactId>
+		</dependency>
+
+        <dependency>
+		  <groupId>org.springframework.cloud</groupId>
+		  <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+		</dependency>
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-stream-test-support</artifactId>
+			<scope>test</scope>
+		</dependency>
 
     </dependencies>
 
@@ -187,16 +246,16 @@
                         <!-- Inventory Cosmos DB -->
 
                         <property>
-                            <name>DOCUMENTDB_URI</name>
-                            <value>${DOCUMENTDB_URI}</value>
+                            <name>COSMOSDB_URI</name>
+                            <value>${COSMOSDB_URI}</value>
                         </property>
                         <property>
-                            <name>DOCUMENTDB_KEY</name>
-                            <value>${DOCUMENTDB_KEY}</value>
+                            <name>COSMOSDB_KEY</name>
+                            <value>${COSMOSDB_KEY}</value>
                         </property>
                         <property>
-                            <name>DOCUMENTDB_DBNAME</name>
-                            <value>${DOCUMENTDB_DBNAME}</value>
+                            <name>COSMOSDB_DBNAME</name>
+                            <value>${COSMOSDB_DBNAME}</value>
                         </property>
 
                         <!-- Notifications Event Hub -->
@@ -214,12 +273,24 @@
                             <value>${NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING}</value>
                         </property>
                         <property>
+                            <name>NOTIFICATIONS_EVENT_HUB_NAMESPACE_CONNECTION_STRING</name>
+                            <value>${NOTIFICATIONS_EVENT_HUB_NAMESPACE_CONNECTION_STRING}</value>
+                        </property>
+                        <property>
                             <name>NOTIFICATIONS_STORAGE_CONTAINER_NAME</name>
                             <value>${NOTIFICATIONS_STORAGE_CONTAINER_NAME}</value>
                         </property>
                         <property>
                             <name>NOTIFICATIONS_STORAGE_CONNECTION_STRING</name>
                             <value>${NOTIFICATIONS_STORAGE_CONNECTION_STRING}</value>
+                        </property>
+                        <property>
+                            <name>NOTIFICATIONS_EVENT_HUB_FQDN</name>
+                            <value>${NOTIFICATIONS_EVENT_HUB_FQDN}</value>
+                        </property>
+                        <property>
+                            <name>NOTIFICATION_ERRORS_EVENT_HUB_NAME</name>
+                            <value>${NOTIFICATION_ERRORS_EVENT_HUB_NAME}</value>
                         </property>
 
                     </appSettings>

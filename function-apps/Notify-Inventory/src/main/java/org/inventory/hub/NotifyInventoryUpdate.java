@@ -27,10 +27,10 @@ import java.util.List;
  */
 public class NotifyInventoryUpdate {
     @FunctionName("Notify-Inventory-Update")
-    public void notify(
-        @CosmosDBTrigger(name = "document", databaseName = "%NOTIFICATIONS_DOCUMENTDB_DBNAME%",
-            collectionName = "%NOTIFICATIONS_DOCUMENTDB_COLLECTION_NAME%",
-            connectionStringSetting = "NOTIFICATIONS_DOCUMENTDB_CONNECTION_STRING",
+    public void notifyInventoryUpdate(
+        @CosmosDBTrigger(name = "document", databaseName = "%NOTIFICATIONS_COSMOSDB_DBNAME%",
+            collectionName = "%NOTIFICATIONS_COSMOSDB_COLLECTION_NAME%",
+            connectionStringSetting = "NOTIFICATIONS_COSMOSDB_CONNECTION_STRING",
             leaseCollectionName = "%NOTIFY_INVENTORY_UPDATE_FUNCTION_APP_NAME%", createLeaseCollectionIfNotExists = true)
             String document,
         @EventHubOutput(name = "dataOutput", eventHubName = "%NOTIFICATIONS_EVENT_HUB_NAME%",

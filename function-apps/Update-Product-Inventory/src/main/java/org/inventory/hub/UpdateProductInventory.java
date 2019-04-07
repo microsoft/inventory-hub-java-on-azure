@@ -13,6 +13,7 @@ import com.microsoft.azure.documentdb.PartitionKey;
 import com.microsoft.azure.documentdb.RequestOptions;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.OutputBinding;
+import com.microsoft.azure.functions.annotation.Cardinality;
 import com.microsoft.azure.functions.annotation.CosmosDBInput;
 import com.microsoft.azure.functions.annotation.CosmosDBOutput;
 import com.microsoft.azure.functions.annotation.EventHubTrigger;
@@ -35,15 +36,16 @@ public class UpdateProductInventory {
     public void update(
         @EventHubTrigger(name = "data", eventHubName = "%TRANSACTIONS_EVENT_HUB_NAME%",
             connection = "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING",
+            cardinality = Cardinality.ONE,
             consumerGroup = "%TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME%") String data,
-        @CosmosDBOutput(name = "document", databaseName = "%PRODUCT_INVENTORY_DOCUMENTDB_DBNAME%",
-            collectionName = "%PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME%",
-            connectionStringSetting = "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING",
+        @CosmosDBOutput(name = "document", databaseName = "%PRODUCT_INVENTORY_COSMOSDB_DBNAME%",
+            collectionName = "%PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME%",
+            connectionStringSetting = "PRODUCT_INVENTORY_COSMOSDB_CONNECTION_STRING",
             createIfNotExists = true)
             OutputBinding<String> document,
-        @CosmosDBInput(name = "documents", databaseName = "%PRODUCT_INVENTORY_DOCUMENTDB_DBNAME%",
-        collectionName = "%PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME%",
-        connectionStringSetting = "PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING",
+        @CosmosDBInput(name = "documents", databaseName = "%PRODUCT_INVENTORY_COSMOSDB_DBNAME%",
+        collectionName = "%PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME%",
+        connectionStringSetting = "PRODUCT_INVENTORY_COSMOSDB_CONNECTION_STRING",
         sqlQuery = "SELECT * FROM root r")
             String inputDoc,
         final ExecutionContext context) {
@@ -128,11 +130,11 @@ public class UpdateProductInventory {
 
         context.getLogger().info("\tSaving: " + gson.toJson(productInventoryOutput));
 
-        String cosmosDBUri = System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_URI");
-        String cosmosDBKey = System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_KEY");
+        String cosmosDBUri = System.getenv("PRODUCT_INVENTORY_COSMOSDB_URI");
+        String cosmosDBKey = System.getenv("PRODUCT_INVENTORY_COSMOSDB_KEY");
 
         // Extract CosmosDB URI and key
-        String cosmosDbConnectionString = System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_CONNECTION_STRING");
+        String cosmosDbConnectionString = System.getenv("PRODUCT_INVENTORY_COSMOSDB_CONNECTION_STRING");
         String pattern = "AccountEndpoint=(.*);AccountKey=(.*);";
         Pattern r = Pattern.compile(pattern);
         Matcher m = r.matcher(cosmosDbConnectionString);
@@ -144,8 +146,8 @@ public class UpdateProductInventory {
         DocumentClient client = new DocumentClient(cosmosDBUri, cosmosDBKey, null, null);
 
         final String storedProcedureLink = String.format("/dbs/%s/colls/%s/sprocs/update-product-inventory",
-            System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_DBNAME"),
-            System.getenv("PRODUCT_INVENTORY_DOCUMENTDB_COLLECTION_NAME"));
+            System.getenv("PRODUCT_INVENTORY_COSMOSDB_DBNAME"),
+            System.getenv("PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME"));
         Object[] procedureParams = {
             eventHubMessage.get("type"),
             productInformation.get("count").toString(),

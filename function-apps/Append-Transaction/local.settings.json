@@ -4,8 +4,7 @@
     "AzureWebJobsStorage": "AT_FUNCTION_APP_STORAGE_ACCOUNT_CONNECTION_STRING",
     "AzureWebJobsDashboard": "",
     "EventHubConnection": "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING",
-    "AzureWebJobsCosmosDBConnectionString": "TRANSACTIONS_DOCUMENTDB_CONNECTION_STRING",
-    "FUNCTIONS_WORKER_RUNTIME": "java"
+    "AzureWebJobsCosmosDBConnectionString": "TRANSACTIONS_COSMOSDB_CONNECTION_STRING"
   }
 }
 
