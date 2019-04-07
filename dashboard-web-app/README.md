@@ -44,9 +44,9 @@ app or let the Maven plugin create these for you.
 Set these values in system environment variables:
 
 ``` txt
-DOCUMENTDB_URI=put-your-documentdb-uri-here
-DOCUMENTDB_KEY=put-your-documentdb-key-here
-DOCUMENTDB_DBNAME=put-your-documentdb-databasename-here
+COSMOSDB_URI=put-your-COSMOSDB-uri-here
+COSMOSDB_KEY=put-your-COSMOSDB-key-here
+COSMOSDB_DBNAME=put-your-COSMOSDB-databasename-here
 
 NOTIFICATIONS_EVENT_HUB_NAME=put-your-eventhub-for-notifications
 NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME="\$Default"
