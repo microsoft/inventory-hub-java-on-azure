@@ -150,6 +150,10 @@
                             <value>java</value>
                         </property>
                         <property>
+                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
+                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
+                        </property>
+                        <property>
                             <name>TRANSACTIONS_EVENT_HUB_NAME</name>
                             <value>${TRANSACTIONS_EVENT_HUB_NAME}</value>
                         </property>
@@ -205,12 +209,6 @@
                             <name>PRODUCT_ITEMS_COSMOSDB_KEY</name>
                             <value>${PRODUCT_ITEMS_COSMOSDB_KEY}</value>
                         </property>
-                        <!--
-                        <property>
-                            <name>MSDEPLOY_RENAME_LOCKED_FILES</name>
-                            <value>1</value>
-                        </property>
-                        -->
                     </appSettings>
                 </configuration>
                 <executions>

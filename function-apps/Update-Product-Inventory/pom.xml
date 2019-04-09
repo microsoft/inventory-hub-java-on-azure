@@ -150,6 +150,10 @@
                             <value>java</value>
                         </property>
                         <property>
+                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
+                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
+                        </property>
+                        <property>
                             <name>PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME</name>
                             <value>${PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME}</value>
                         </property>
@@ -180,10 +184,6 @@
                         <property>
                             <name>UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_ID</name>
                             <value>${UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_ID}</value>
-                        </property>
-                        <property>
-                            <name>MSDEPLOY_RENAME_LOCKED_FILES</name>
-                            <value>1</value>
                         </property>
                     </appSettings>
                 </configuration>

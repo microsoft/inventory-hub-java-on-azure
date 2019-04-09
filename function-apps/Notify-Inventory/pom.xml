@@ -145,6 +145,10 @@
                             <value>java</value>
                         </property>
                         <property>
+                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
+                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
+                        </property>
+                        <property>
                             <name>NOTIFICATIONS_COSMOSDB_CONNECTION_STRING</name>
                             <value>${NOTIFICATIONS_COSMOSDB_CONNECTION_STRING}</value>
                         </property>
