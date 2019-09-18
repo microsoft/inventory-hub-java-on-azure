@@ -111,6 +111,17 @@
 	  		<artifactId>azure-eventhubs-eph</artifactId>
 	  		<version>1.0.0</version>
 	 	</dependency>
+        
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>spring-cloud-azure-appconfiguration-config</artifactId>
+            <version>1.1.0.M4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>spring-cloud-starter-azure-eventhubs</artifactId>
+            <version>1.1.0.RC5</version>
+        </dependency>
 
         <!-- use embedded servlet container -->
         <dependency>
