@@ -5,8 +5,8 @@
  */
 package org.inventory.hub.model;
 
-import com.microsoft.azure.spring.data.documentdb.core.mapping.Document;
-import com.microsoft.azure.spring.data.documentdb.core.mapping.PartitionKey;
+import com.microsoft.azure.spring.data.cosmosdb.core.mapping.Document;
+import com.microsoft.azure.spring.data.cosmosdb.core.mapping.PartitionKey;
 
 import java.util.Objects;
 

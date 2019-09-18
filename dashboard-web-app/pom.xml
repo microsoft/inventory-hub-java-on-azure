@@ -15,7 +15,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.1.RELEASE</version>
+        <version>2.1.7.RELEASE</version>
         <!--
         <version>1.5.8.RELEASE</version>
         -->
@@ -42,7 +42,7 @@
         <start-class>org.inventory.hub.InventoryHub</start-class>
 
         <!-- Spring Cloud Stream -->
-        <spring-cloud.version>Finchley.BUILD-SNAPSHOT</spring-cloud.version>
+        <spring-cloud.version>Greenwich.BUILD-SNAPSHOT</spring-cloud.version>
     </properties>
 
     <dependencyManagement>
@@ -50,7 +50,7 @@
             <dependency>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-spring-boot-bom</artifactId>
-                <version>2.0.1</version>
+                <version>2.1.7</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -92,13 +92,15 @@
         </dependency>
         <dependency>
             <groupId>com.microsoft.azure</groupId>
-            <artifactId>azure-documentdb-spring-boot-starter</artifactId>
-            <version>2.0.1</version>
+            <artifactId>azure-cosmosdb-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-active-directory-b2c-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
