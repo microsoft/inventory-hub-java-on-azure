@@ -7,14 +7,17 @@ package org.inventory.hub.model;
 
 import com.microsoft.azure.spring.data.cosmosdb.core.mapping.Document;
 import com.microsoft.azure.spring.data.cosmosdb.core.mapping.PartitionKey;
+import org.springframework.data.annotation.Id;
 
 import java.util.Objects;
 
 
 @Document(collection = "product-inventory")
-
 public class ProductsInventory {
-    
+
+    @Id
+    private String id;
+
     private String productName;
 
     @PartitionKey
