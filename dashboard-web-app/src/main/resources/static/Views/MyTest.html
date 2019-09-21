@@ -1,0 +1,39 @@
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/main.css" rel="stylesheet">
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/app.js"></script>
+
+<div class="panel" ng-controller="mytestCtrl" style="background-color:transparent !important;">
+    <h1>MyTest</h1>
+
+    <table border="0" style="text-align:right">
+        <tr>
+            <td>
+                <h2>First Panel</h2>
+                <table id="product-table">
+                    <tr><td>There are no items...</td></tr>
+                </table>
+            </td>
+            <td width="50"></td>
+            <td>
+                <h2>Second Panel</h2>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="conversation" class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Transactions across the globe ...</th>
+                            </tr>
+                            </thead>
+                            <tbody id="greetings">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>

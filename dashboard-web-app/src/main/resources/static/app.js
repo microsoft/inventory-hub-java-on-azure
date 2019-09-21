@@ -22,6 +22,7 @@ function connect() {
             console.log("Received = " + greeting);
             console.log("===========");
             showGreeting(JSON.parse(greeting.body).name);
+            showTable();
         });
     });
 }
@@ -39,6 +40,29 @@ function showGreeting(message) {
     // $("#greetings").append("<tr><td>" + message + "</td></tr>");
     $("#greetings").prepend("<tr><td>" + message + "</td></tr>");
 
+}
+
+function showTable() {
+    console.log("Refreshing Product table content");
+    var jsonData = [
+        { field1: 'value a1', field2: 'value a2', field3: 'value a3', field4: 'value a4' },
+        { field1: 'value b1', field2: 'value b2', field3: 'value b3', field4: 'value b4' },
+        { field1: 'value c1', field2: 'value c2', field3: 'value c3', field4: 'value c4' }
+    ];
+    loadTable('product-table', ['field1', 'field2', 'field3'], jsonData);
+}
+
+function loadTable(tableId, fields, data) {
+    //$('#' + tableId).empty(); //not really necessary
+    var rows = '';
+    $.each(data, function(index, item) {
+        var row = '<tr>';
+        $.each(fields, function(index, field) {
+            row += '<td>' + item[field+''] + '</td>';
+        });
+        rows += row + '<tr>';
+    });
+    $('#' + tableId).html(rows);
 }
 
 $(function () {
