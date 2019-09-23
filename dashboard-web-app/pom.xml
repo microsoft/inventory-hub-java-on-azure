@@ -189,38 +189,7 @@
         <plugins>
 
             <!--*************************************************-->
-            <!-- Deploy to tomcat on localhost                   -->
-            <!--*************************************************-->
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven2-plugin</artifactId>
-                <version>1.6.7</version>
-                <configuration>
-                    <container>
-                        <containerId>tomcat8x</containerId>
-                        <type>installed</type>
-                        <home>${TOMCAT_HOME}</home>
-                    </container>
-                    <configuration>
-                        <type>existing</type>
-                        <home>${TOMCAT_HOME}</home>
-                    </configuration>
-                    <!-- Deployables configuration -->
-                    <deployables>
-                        <deployable>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>${project.artifactId}</artifactId>
-                            <type>war</type>
-                            <properties>
-                                <context>ROOT</context>
-                            </properties>
-                        </deployable>
-                    </deployables>
-                </configuration>
-            </plugin>
-
-            <!--*************************************************-->
-            <!-- Deploy to Tomcat on Azure App Service           -->
+            <!-- Deploy to Azure App Service                     -->
             <!--*************************************************-->
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
