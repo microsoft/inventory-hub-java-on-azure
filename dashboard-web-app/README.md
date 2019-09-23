@@ -29,7 +29,6 @@ are effortless now.
 
 * [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8 and above
 * [Maven](https://maven.apache.org/) 3.0 and above
-* [Tomcat](https://tomcat.apache.org/download-80.cgi) 8.5 and above
 
 ## Create Azure Cosmos DB and Event Hub
 
