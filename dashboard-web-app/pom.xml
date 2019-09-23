@@ -7,7 +7,7 @@
     <groupId>org.inventory.hub</groupId>
     <artifactId>inventory-hub</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>Inventory Hub</name>
     <description>Inventory Hub - Real-time Inventory System Dashboard</description>
@@ -113,13 +113,6 @@
 	  		<artifactId>azure-eventhubs-eph</artifactId>
 	  		<version>1.0.0</version>
 	 	</dependency>
-
-        <!-- use embedded servlet container -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
@@ -232,7 +225,7 @@
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-webapp-maven-plugin</artifactId>
-                <version>1.5.4</version>
+                <version>1.7.0</version>
                 <configuration>
 
                     <!-- Web App information -->
@@ -241,10 +234,29 @@
                     <region>${azure.app.region}</region>
 
                     <!-- Java Runtime Stack for Web App on Linux-->
-                    <linuxRuntime>tomcat 8.5-jre8</linuxRuntime>
+                    <runtime>
+                        <os>linux</os>
+                        <javaVersion>jre8</javaVersion>
+                    </runtime>
+
+                    <schemaVersion>v2</schemaVersion>
+
+                    <!-- Deployment settings -->
+                    <deployment>
+                        <resources>
+                            <resource>
+                                <directory>${project.basedir}/target</directory>
+                                <includes>
+                                    <include>*.jar</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </deployment>
+
+                    <!-- This is to make sure the jar file can be released at the server side -->
+                    <stopAppDuringDeployment>true</stopAppDuringDeployment>
 
                     <appSettings>
-
                         <!-- Inventory Cosmos DB -->
 
                         <property>
@@ -295,6 +307,36 @@
                             <value>${NOTIFICATION_ERRORS_EVENT_HUB_NAME}</value>
                         </property>
 
+
+                        <!--  AAD B2C related  -->
+                        <!--  uncomment below if enable Azure AD B2C  -->
+                        <!--
+                        <property>
+                            <name>TENANT_NAME</name>
+                            <value>${TENANT_NAME}</value>
+                        </property>
+                        <property>
+                            <name>B2C_CLIENT_ID</name>
+                            <value>${B2C_CLIENT_ID}</value>
+                        </property>
+                        <property>
+                            <name>B2C_CLIENT_SECRET</name>
+                            <value>${B2C_CLIENT_SECRET}</value>
+                        </property>
+                        <property>
+                            <name>B2C_REPLY_URL</name>
+                            <value>${B2C_REPLY_URL}</value>
+                        </property>
+                        <property>
+                            <name>B2C_LOGOUT_SUCCESS_URL</name>
+                            <value>${B2C_LOGOUT_SUCCESS_URL}</value>
+                        </property>
+                        <property>
+                            <name>USER_FLOW_SIGNUP_SIGNIN</name>
+                            <value>${USER_FLOW_SIGNUP_SIGNIN}</value>
+                        </property>
+                        -->
+
                         <property>
                             <name>JAVA_OPTS</name>
                             <value>-Xms2048m -Xmx2048m</value>
@@ -337,6 +379,11 @@
 
             -->
 
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
         </plugins>
 
     </build>
