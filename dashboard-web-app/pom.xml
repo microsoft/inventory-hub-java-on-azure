@@ -278,8 +278,6 @@
 
 
                         <!--  AAD B2C related  -->
-                        <!--  uncomment below if enable Azure AD B2C  -->
-                        <!--
                         <property>
                             <name>TENANT_NAME</name>
                             <value>${TENANT_NAME}</value>
@@ -304,7 +302,6 @@
                             <name>USER_FLOW_SIGNUP_SIGNIN</name>
                             <value>${USER_FLOW_SIGNUP_SIGNIN}</value>
                         </property>
-                        -->
 
                         <property>
                             <name>JAVA_OPTS</name>

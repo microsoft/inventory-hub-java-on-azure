@@ -67,7 +67,7 @@ WEBAPP_REGION=put-your-region-here
 - [Create a sign-up and sign-in user flow](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-user-flows).
 - You can also use external identity providers, such as [Google](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-goog-app), [LinkedIn](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-li-app), [Microsoft Account](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-msa-app), and [Facebook](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-fb-app).
 
-### Uncomment below properties in `application.properties`
+### Configure AAD B2C related properties in `application-aad.properties`
    ```properties
 azure.activedirectory.b2c.enabled=true
 azure.activedirectory.b2c.tenant=put-your-b2c-tenant-name-here
@@ -79,33 +79,6 @@ azure.activedirectory.b2c.logout-success-url=<your-app-url-copied-from-App-Servi
 azure.activedirectory.b2c.user-flows.sign-up-or-sign-in=put-your-b2c-sign-up-sign-in-user-flow-name-here
 server.use-forward-headers=true
    ```
-### Uncomment below configurations, related to azure-webapp maven plugin, in `pom.xml`
-  ```xml
-<property>
-   <name>TENANT_NAME</name>
-   <value>${TENANT_NAME}</value>
-</property>
-<property>
-   <name>B2C_CLIENT_ID</name>
-   <value>${B2C_CLIENT_ID}</value>
-</property>
-<property>
-   <name>B2C_CLIENT_SECRET</name>
-   <value>${B2C_CLIENT_SECRET}</value>
-</property>
-<property>
-   <name>B2C_REPLY_URL</name>
-   <value>${B2C_REPLY_URL}</value>
-</property>
-<property>
-   <name>B2C_LOGOUT_SUCCESS_URL</name>
-   <value>${B2C_LOGOUT_SUCCESS_URL}</value>
-</property>
-<property>
-   <name>USER_FLOW_SIGNUP_SIGNIN</name>
-   <value>${USER_FLOW_SIGNUP_SIGNIN}</value>
-</property>
-  ```
 
 ## Build Inventory Hub Web App - JAR
 
@@ -119,12 +92,18 @@ mvn clean package
 mvn spring-boot:run
 ```
 
+Or if you want to run the application with AAD B2C enabled
+```bash
+mvn spring-boot:run -Dspring.profiles.active=aad
+```
+
 Open `http://localhost:8080/` you can see the Inventory Hub app
 
 ## Deploy to Azure App Service
 
 ### Deploy
 
+If you want to enable AAD B2C, append `-Dspring.profiles.active=add` to the `JAVA_OPTS` App Setting item of `azure-webapp-maven-plugin`.  
 Deploy in one step.
 
 ```bash
