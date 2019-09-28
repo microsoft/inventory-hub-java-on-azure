@@ -5,11 +5,19 @@
  */
 package org.inventory.hub.model;
 
+import org.springframework.data.annotation.Id;
+
 import java.util.Objects;
 
 public class Location {
+
+    @Id
+    private String id;
+
     private String name;
+
     private int longitude;
+
     private int latitude;
 
     public Location() {

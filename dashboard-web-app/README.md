@@ -1,4 +1,4 @@
-# Deploy Inventory Hub Java Web App =TO=> Tomcat in Azure App Service
+# Deploy Inventory Hub Java Web App =TO=> Azure App Service
 
 This Inventory Hub app is a Java application. It display product
 inventory using AngularJS code. 
@@ -17,10 +17,11 @@ are effortless now.
 
 * [Requirements](#requirements)
 * [Create Azure Cosmos DB and Event Hub](#create-azure-cosmos-db-and-event-hub)
+* [Integrate with Spring Security using Azure Active Directory B2C](#integrate-with-spring-security-using-azure-active-directory-b2c---optional-step)
 * [Configuration](#configuration)
-* [Build](#build-inventory-hub-web-app---war)
+* [Build](#build-inventory-hub-web-app---jar)
 * [Run Locally](#run-it-locally---optional-step)
-* [Deploy to Tomcat on App Service](#deploy-to-tomcat-on-azure-app-service)
+* [Deploy to App Service](#deploy-to-azure-app-service)
 * [Contribution](#contribution)
 * [Useful links](#useful-links)
 
@@ -28,7 +29,6 @@ are effortless now.
 
 * [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8 and above
 * [Maven](https://maven.apache.org/) 3.0 and above
-* [Tomcat](https://tomcat.apache.org/download-80.cgi) 8.5 and above
 
 ## Create Azure Cosmos DB and Event Hub
 
@@ -59,15 +59,28 @@ WEBAPP_NAME=put-your-webapp-name-here
 WEBAPP_REGION=put-your-region-here
 ```
 
-Optional. If you plan to test the Web app locally, then 
-you must start a local instance of Tomcat. Set another value in
-the system environment variable
+## Integrate with Spring Security using Azure Active Directory B2C - OPTIONAL STEP
 
-``` txt
-TOMCAT_HOME=put-your-tomcat-home-here
-```
+### Set up AAD B2C
+- [Create B2C tenant](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-tenant).
+- [Register your application](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-register-applications). For **Reply URL** enter \<your-app-url-copied-from-App-Service-Portal\>/home.
+- [Create a sign-up and sign-in user flow](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-user-flows).
+- You can also use external identity providers, such as [Google](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-goog-app), [LinkedIn](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-li-app), [Microsoft Account](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-msa-app), and [Facebook](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-fb-app).
 
-## Build Inventory Hub Web App - WAR
+### Configure AAD B2C related properties in `application-aad.properties`
+   ```properties
+azure.activedirectory.b2c.enabled=true
+azure.activedirectory.b2c.tenant=put-your-b2c-tenant-name-here
+azure.activedirectory.b2c.oidc-enabled=true
+azure.activedirectory.b2c.client-id=put-your-registered-application-client-id-here
+azure.activedirectory.b2c.client-secret=put-your-registered-application-client-secret-here
+azure.activedirectory.b2c.reply-url=<your-app-url-copied-from-App-Service-Portal>/home
+azure.activedirectory.b2c.logout-success-url=<your-app-url-copied-from-App-Service-Portal>/login
+azure.activedirectory.b2c.user-flows.sign-up-or-sign-in=put-your-b2c-sign-up-sign-in-user-flow-name-here
+server.use-forward-headers=true
+   ```
+
+## Build Inventory Hub Web App - JAR
 
 ```bash
 mvn clean package
@@ -75,31 +88,23 @@ mvn clean package
 
 ## Run it locally - OPTIONAL STEP
 
-Deploy the Inventory Hub app to local Tomcat. You must start 
-a local instance of Tomcat.
-
 ```bash
-mvn cargo:deploy
+mvn spring-boot:run
+```
+
+Or if you want to run the application with AAD B2C enabled
+```bash
+mvn spring-boot:run -Dspring.profiles.active=aad
 ```
 
 Open `http://localhost:8080/` you can see the Inventory Hub app
 
-## Deploy to Tomcat on Azure App Service
+## Deploy to Azure App Service
 
-### Temporary Step - Until the Updated Maven Plugin for Azure Web Apps is released
+### Deploy
 
-Install a SNAPSHOT version of the Maven Plugin for Azure Web Apps:
-
-```bash
-git clone https://github.com/Microsoft/azure-maven-plugins.git
-cd azure-maven-plugins
-git checkout cs/wardeploy
-mvn clean install -DskipTests
-```
-### Deploy to Tomcat on Azure App Service
-
-Deploy in one step. You can continue to deploy again and 
-again without restarting Tomcat.
+If you want to enable AAD B2C, append `-Dspring.profiles.active=add` to the `JAVA_OPTS` App Setting item of `azure-webapp-maven-plugin`.  
+Deploy in one step.
 
 ```bash
 mvn azure-webapp:deploy
@@ -110,10 +115,16 @@ mvn azure-webapp:deploy
 ...
 [INFO] Start deploying to Web App inventory-hub...
 [INFO] Authenticate with Azure CLI 2.0
-[INFO] Updating target Web App...
-[INFO] Successfully updated Web App.
-[INFO] Starting to deploy the war file...
-[INFO] Successfully deployed Web App at https://inventory-hub.azurewebsites.net
+[INFO] Stopping Web App before deploying artifacts...
+[INFO] Successfully stopped Web App.
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 1 resource to /inventory-hub-java-on-azure/dashboard-web-app/target/azure-webapp/inventory-hub
+[INFO] Trying to deploy artifact to inventory-hub...
+[INFO] Renaming /inventory-hub-java-on-azure/dashboard-web-app/target/azure-webapp/inventory-hub/inventory-hub-1.0-SNAPSHOT.jar to app.jar
+[INFO] Deploying the zip package inventory-hub.zip...
+[INFO] Successfully deployed the artifact to https://inventory-hub.azurewebsites.net
+[INFO] Starting Web App after deploying artifacts...
+[INFO] Successfully started Web App.
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
@@ -123,13 +134,6 @@ mvn azure-webapp:deploy
 [INFO] ------------------------------------------------------------------------
 ```
 
-### Enable Web Sockets in Azure App Service
-
-```bash
-az webapp config set -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME} --web-sockets-enabled true
-az webapp stop -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME}
-az webapp start -n ${WEBAPP_NAME} -g ${WEBAPP_RESOURCEGROUP_NAME}
-```
 
 ### Open the Inventory Hub Web app
 

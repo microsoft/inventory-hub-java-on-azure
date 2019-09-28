@@ -5,8 +5,8 @@
  */
 package org.inventory.hub.dao;
 
+import com.microsoft.azure.spring.data.cosmosdb.repository.DocumentDbRepository;
 import org.inventory.hub.model.ProductsInventory;
-import com.microsoft.azure.spring.data.documentdb.repository.DocumentDbRepository;
 import org.springframework.stereotype.Repository;
 
 // import java.util.List;
