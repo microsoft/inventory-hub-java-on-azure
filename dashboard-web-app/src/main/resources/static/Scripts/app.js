@@ -13,5 +13,5 @@ angular.module('inventoryHubApp', ['ngRoute'])
         }).when('/About', {
             controller: 'aboutCtrl',
             templateUrl: 'Views/About.html'
-        }).otherwise({redirectTo: '/About'});
+        }).otherwise({redirectTo: '/Home'});
     }]);
