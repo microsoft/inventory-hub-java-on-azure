@@ -1,13 +1,67 @@
-<div class="jumbotron" style="background-color:transparent !important;">
-    <h1>Inventory Hub - DASHBOARD</h1>
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="/main.css" rel="stylesheet">
+<script src="/webjars/jquery/jquery.min.js"></script>
+<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+<script src="/app.js"></script>
+<script src="Scripts/homeCtrl.js"></script>
 
-    <p>This project uses the following -- to create a simple inventory hub real-time dashboard:<br><br>
-        -- Frameworks - Spring Boot, Azure
-        Cosmos DB Spring Boot Starter, Spring Data for Cosmos DB, Kafka Streams,
-        Spring Cloud Stream, Spring Cloud Functions and AngularJS<br><br>
-
-        -- Azure services - Cosmos DB, Event Hub, Functions and
-        App Service <br><br>
-    </p>
-
+<div ng-init="fetchProductsAndEvents()" ng-controller="homeCtrl" style="margin-bottom: 40px !important;">
+    <table border="0" style="text-align:right">
+        <tr>
+            <td valign="top">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-striped" style="text-align:left">
+                            <thead>
+                            <tr>
+                                <th>Product Inventory World Wide</th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+                <table id="product-table" cellspacing="5" border="2" valign="top" style="text-align:right">
+                    <!--
+                    <tr><td>There are no items...</td></tr>
+                    -->
+                    <tr>
+                        <th></th>
+                        <th ng-repeat="(key, value) in locations | orderBy:key:true">{{key}}</th>
+                    </tr>
+                    <tr ng-repeat="item in products">
+                        <td>{{ item.description }}</td>
+                        <td ng-repeat="(key, value) in item.countByLocation | orderBy:key:true">
+                            {{value}}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td width="50"></td>
+            <td valign="top">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table id="conversation" class="table table-striped" style="text-align:left">
+                            <thead>
+                            <tr>
+                                <th>Transactions across the globe ...</th>
+                            </tr>
+                            </thead>
+                            <tbody id="greetings">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <!--
+    <div data-ng-model="transactions" class="panel">
+        <p ng-repeat="x in transactions">
+            <b>{{x.type}}</b> : {{x.productInformation.count}} of {{x.productInformation.productName}}
+            @ {{x.pointOfTransaction.description}} in {{x.pointOfTransaction.location}} [
+            {{x.pointOfTransaction.longitude}}, {{x.pointOfTransaction.latitude}}]
+        </p>
+    </div>
+    -->
 </div>
