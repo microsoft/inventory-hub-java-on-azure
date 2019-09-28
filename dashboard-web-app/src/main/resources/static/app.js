@@ -57,7 +57,7 @@ async function showTable() {
 
     var locations = await response.json();
 
-    var headTable = '<tr><th rowspan="0"></th>';
+    var headTable = '<tr><th></th>';
     Object.keys(locations).sort().forEach(function(location) {
         headTable += '<th>' + location + '</th>';
     });
