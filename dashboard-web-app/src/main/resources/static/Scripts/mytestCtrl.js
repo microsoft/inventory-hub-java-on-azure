@@ -6,8 +6,8 @@
 
 'use strict';
 angular.module('inventoryHubApp')
-    .controller('mytestCtrl', ['$scope', '$location', 'productsSvc',
-        function ($scope, $location, productsSvc) {
+    .controller('mytestCtrl', ['$scope', '$http',
+        function ($scope, $http) {
 
             $scope.error = '';
             $scope.loadingMessage = '';
@@ -16,36 +16,9 @@ angular.module('inventoryHubApp')
             $scope.transactions = null;
 
             $scope.populateProducts = function () {
-                productsSvc.getProducts().success(function (results) {
-                    $scope.products = results;
-                }).error(function (err) {
-                    $scope.error = err;
-                    $scope.loadingMessage = '';
-                })
-
-                productsSvc.getLocations().success(function (results) {
-                    $scope.locations = results;
-                }).error(function (err) {
-                    $scope.error = err;
-                    $scope.loadingMessage = '';
-                })
-
-                productsSvc.getTransactions().success(function (results) {
-                    $scope.transactions = results;
-                }).error(function (err) {
-                    $scope.error = err;
-                    $scope.loadingMessage = '';
-                })
-
             };
 
 
-            $scope.pushEvents = function () {
-                productsSvc.getProducts().success(function (results) {
-                    $scope.products = results;
-                }).error(function (err) {
-                    $scope.error = err;
-                    $scope.loadingMessage = '';
-                })
+            $scope.initialTableValues = function () {
             };
     }]);
