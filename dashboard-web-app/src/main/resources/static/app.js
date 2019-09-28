@@ -57,10 +57,10 @@ async function showTable() {
 
     var locations = await response.json();
 
-    var headTable = '<tr><th>HELLO KITTY</th>';
-    for (var location in locations) {
+    var headTable = '<tr><th rowspan="0"></th>';
+    Object.keys(locations).sort().forEach(function(location) {
         headTable += '<th>' + location + '</th>';
-    }
+    });
     headTable += "</tr>";
 
     var response2 = await window.fetch('api/products', {
@@ -73,51 +73,13 @@ async function showTable() {
         headTable += '<tr>';
         var product = products[productItem];
         headTable += '<td>' + product['description'] + '</td>';
-        Object.keys(product.countByLocation).forEach(function(countPerLocation) {
+        Object.keys(product.countByLocation).sort().forEach(function(countPerLocation) {
             headTable += '<td>' + product.countByLocation[countPerLocation] + '</td>';
         });
         headTable += '</tr>';
     });
 
-//     for (productitem in products) {
-//         headTable += '<tr>';
-//         var product = products[productItem];
-//         headTable += '<td>' + product.description + '</td>';
-// //        for (var countPerLocation in product.countByLocation) {
-// //            headTable += '<td>' + product.countByLocation['countPerLocation'] + '</td>';
-// //        }
-//         headTable += '</tr>';
-//     }
-
-
-
-
-    // $.each(locations, function(index, item) {
-    //     [key, value] = item;
-    //     headTable += '<tr><td>' + key + '</td></tr>'
-    // });
-
     $('#product-table').html(headTable);
-
-    // var jsonData = [
-    //     { field1: 'value a1', field2: 'value a2', field3: 'value a3', field4: 'value a4' },
-    //     { field1: 'value b1', field2: 'value b2', field3: 'value b3', field4: 'value b4' },
-    //     { field1: 'value c1', field2: 'value c2', field3: 'value c3', field4: 'value c4' }
-    // ];
-    // loadTable('product-table', ['field1', 'field2', 'field3'], jsonData);
-}
-
-function loadTable(tableId, fields, data) {
-    //$('#' + tableId).empty(); //not really necessary
-    var rows = '';
-    $.each(data, function(index, item) {
-        var row = '<tr>';
-        $.each(fields, function(index, field) {
-            row += '<td>' + item[field+''] + '</td>';
-        });
-        rows += row + '</tr>';
-    });
-    $('#' + tableId).html(rows);
 }
 
 $(function () {
