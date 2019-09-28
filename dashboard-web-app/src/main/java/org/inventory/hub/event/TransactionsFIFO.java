@@ -55,7 +55,7 @@ public class TransactionsFIFO
         System.out.println("--- Context = " + context.toString());
         WebSocketController controller = (WebSocketController) context.getBean(WebSocketController.class);
         System.out.println("--- WebSocket Controller = " + controller.toString());
-        System.out.println("--- Message Tempalate = " + controller.messagingTemplate);
+        System.out.println("--- Message Template = " + controller.messagingTemplate);
         System.out.println("--- Setting webSocket for push ...");
         TransactionsController.transactions.webSocket = controller.messagingTemplate;
         System.out.println("--- Set webSocket for push " + TransactionsController.transactions.webSocket);

@@ -6,8 +6,35 @@
 
 'use strict';
 angular.module('inventoryHubApp')
-    .controller('homeCtrl', ['$scope', '$location', function ($scope, $location) {
-        $scope.isActive = function (viewLocation) {
-            return viewLocation === $location.path();
-        };
-    }]);
+    .controller('homeCtrl', ['$scope', '$location', 'productsSvc',
+        function ($scope, $location, productsSvc) {
+            $scope.error = '';
+            $scope.loadingMessage = '';
+            $scope.products = null;
+            $scope.locations = null;
+            $scope.transactions = null;
+
+            $scope.fetchProductsAndEvents = function () {
+                productsSvc.getProducts().success(function (results) {
+                    $scope.products = results;
+                }).error(function (err) {
+                    $scope.error = err;
+                    $scope.loadingMessage = '';
+                });
+
+                productsSvc.getLocations().success(function (results) {
+                    $scope.locations = results;
+                }).error(function (err) {
+                    $scope.error = err;
+                    $scope.loadingMessage = '';
+                });
+
+                productsSvc.getTransactions().success(function (results) {
+                    $scope.transactions = results;
+                }).error(function (err) {
+                    $scope.error = err;
+                    $scope.loadingMessage = '';
+                });
+
+            };
+        }]);

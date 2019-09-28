@@ -90,7 +90,7 @@ public class Transaction {
           typeString = "ARRIVED";
         else typeString = type;
 
-        return "======== ^^ " + typeString + ": " + productInformation.getCount() 
+        return typeString + ": " + productInformation.getCount()
           + " of " 
           + productInformation.getProductName() + " @ "
           + pointOfTransaction.getDescription() + " in "
