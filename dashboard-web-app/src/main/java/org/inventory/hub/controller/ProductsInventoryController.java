@@ -50,7 +50,7 @@ public class ProductsInventoryController {
 
             final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
             new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
-                .findAll(), HttpStatus.OK);
+                .findAll().collectList().block(), HttpStatus.OK);
         
 
             System.out.println("======= /api/products/{productName} ===== ");
@@ -95,7 +95,7 @@ public class ProductsInventoryController {
         
             final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
                 new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
-                    .findAll(), HttpStatus.OK);
+                    .findAll().collectList().block(), HttpStatus.OK);
             
 
             System.out.println("======= /api/products ===== ");
@@ -169,7 +169,7 @@ public class ProductsInventoryController {
 
             final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
                 new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
-                    .findAll(), HttpStatus.OK);
+                    .findAll().collectList().block(), HttpStatus.OK);
 
             System.out.println("======= /api/locations ===== ");
             System.out.println(productInventories.toString());
