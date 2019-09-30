@@ -305,7 +305,7 @@
 
                         <property>
                             <name>JAVA_OPTS</name>
-                            <value>-Xms2048m -Xmx2048m</value>
+                            <value>-Xms2048m -Xmx2048m -DNOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=${DOLLAR}{COMPUTERNAME}</value>
                         </property>
 
                     </appSettings>

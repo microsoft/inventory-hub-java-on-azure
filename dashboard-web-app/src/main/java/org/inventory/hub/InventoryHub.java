@@ -30,9 +30,11 @@ public class InventoryHub extends SpringBootServletInitializer {
 
     ObjectMapper objectMapper = new ObjectMapper();
     Transaction transaction = new Transaction();
+/*
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+
         try {
             // Azure WEBSITE_INSTANCE_ID=3bd0b3a7eafa0e40e89ad50242c3591b222ecc564d8875c1feadd4ac6f52234a
             String webSiteInstanceId = System.getenv("WEBSITE_INSTANCE_ID");
@@ -63,6 +65,7 @@ public class InventoryHub extends SpringBootServletInitializer {
 
         return application.sources(InventoryHub.class);
     }
+*/
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(InventoryHub.class, args);
