@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -48,11 +49,12 @@ public class ProductsInventoryController {
     public ResponseEntity<?> getProduct(@PathVariable("productName") String productName) {
         try {
 
-            final Iterable<ProductsInventory> productsInventories = productsInventoryRepository.findAll().toIterable();
+            final Flux<ProductsInventory> productsInventoriesFlux = productsInventoryRepository.findAll();
+            final Iterable<ProductsInventory> productsInventories = productsInventoriesFlux.toIterable();
 
-            final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
+            final ResponseEntity<Iterable<ProductsInventory>> productInventories =
             new ResponseEntity<Iterable<ProductsInventory>>(productsInventories, HttpStatus.OK);
-        
+
 
             System.out.println("======= /api/products/{productName} ===== ");
             System.out.println(productInventories.toString());
@@ -94,11 +96,12 @@ public class ProductsInventoryController {
         try {
             // return new ResponseEntity<List<ProductsInventory>>(ProductsInventoryRepository.findAll(), HttpStatus.OK);
 
-            final Iterable<ProductsInventory> productsInventories = productsInventoryRepository.findAll().toIterable();
+            final Flux<ProductsInventory> productsInventoriesFlux = productsInventoryRepository.findAll();
+            final Iterable<ProductsInventory> productsInventories = productsInventoriesFlux.toIterable();
 
-            final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
+            final ResponseEntity<Iterable<ProductsInventory>> productInventories =
                 new ResponseEntity<Iterable<ProductsInventory>>(productsInventories, HttpStatus.OK);
-            
+
 
             System.out.println("======= /api/products ===== ");
             System.out.println(productInventories.toString());
@@ -169,9 +172,10 @@ public class ProductsInventoryController {
     public ResponseEntity<?> getLocations() {
         try {
 
-            final Iterable<ProductsInventory> productsInventories = productsInventoryRepository.findAll().toIterable();
+            final Flux<ProductsInventory> productsInventoriesFlux = productsInventoryRepository.findAll();
+            final Iterable<ProductsInventory> productsInventories = productsInventoriesFlux.toIterable();
 
-            final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
+            final ResponseEntity<Iterable<ProductsInventory>> productInventories =
                 new ResponseEntity<Iterable<ProductsInventory>>(productsInventories, HttpStatus.OK);
 
             System.out.println("======= /api/locations ===== ");
