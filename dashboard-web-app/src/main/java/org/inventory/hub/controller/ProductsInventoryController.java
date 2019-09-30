@@ -27,7 +27,7 @@ import java.util.UUID;
 public class ProductsInventoryController {
 
     @Autowired
-    private ProductsInventoryRepository ProductsInventoryRepository;
+    private ProductsInventoryRepository productsInventoryRepository;
 
     public ProductsInventoryController() {
     }
@@ -48,9 +48,10 @@ public class ProductsInventoryController {
     public ResponseEntity<?> getProduct(@PathVariable("productName") String productName) {
         try {
 
+            final Iterable<ProductsInventory> productsInventories = productsInventoryRepository.findAll().toIterable();
+
             final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
-            new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
-                .findAll().collectList().block(), HttpStatus.OK);
+            new ResponseEntity<Iterable<ProductsInventory>>(productsInventories, HttpStatus.OK);
         
 
             System.out.println("======= /api/products/{productName} ===== ");
@@ -92,10 +93,11 @@ public class ProductsInventoryController {
     public ResponseEntity<?> getProducts() {
         try {
             // return new ResponseEntity<List<ProductsInventory>>(ProductsInventoryRepository.findAll(), HttpStatus.OK);
-        
+
+            final Iterable<ProductsInventory> productsInventories = productsInventoryRepository.findAll().toIterable();
+
             final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
-                new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
-                    .findAll().collectList().block(), HttpStatus.OK);
+                new ResponseEntity<Iterable<ProductsInventory>>(productsInventories, HttpStatus.OK);
             
 
             System.out.println("======= /api/products ===== ");
@@ -167,9 +169,10 @@ public class ProductsInventoryController {
     public ResponseEntity<?> getLocations() {
         try {
 
+            final Iterable<ProductsInventory> productsInventories = productsInventoryRepository.findAll().toIterable();
+
             final ResponseEntity<Iterable<ProductsInventory>> productInventories = 
-                new ResponseEntity<Iterable<ProductsInventory>>(ProductsInventoryRepository
-                    .findAll().collectList().block(), HttpStatus.OK);
+                new ResponseEntity<Iterable<ProductsInventory>>(productsInventories, HttpStatus.OK);
 
             System.out.println("======= /api/locations ===== ");
             System.out.println(productInventories.toString());
