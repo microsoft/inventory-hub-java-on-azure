@@ -30,42 +30,6 @@ public class InventoryHub extends SpringBootServletInitializer {
 
     ObjectMapper objectMapper = new ObjectMapper();
     Transaction transaction = new Transaction();
-/*
-
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-
-        try {
-            // Azure WEBSITE_INSTANCE_ID=3bd0b3a7eafa0e40e89ad50242c3591b222ecc564d8875c1feadd4ac6f52234a
-            String webSiteInstanceId = System.getenv("WEBSITE_INSTANCE_ID");
-            // Cloud Foundry CF_INSTANCE_GUID=41653aa4-3a3a-486a-4431-ef258b39f042
-            if (webSiteInstanceId == null || webSiteInstanceId.isEmpty()) {
-                webSiteInstanceId = System.getenv("CF_INSTANCE_GUID");
-            }
-            if (webSiteInstanceId == null || webSiteInstanceId.isEmpty()) {
-                webSiteInstanceId = System.getenv("NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME");
-            }
-            if (webSiteInstanceId == null || webSiteInstanceId.isEmpty()) {
-                webSiteInstanceId = UUID.randomUUID().toString();
-            }
-            if (webSiteInstanceId.length() > 49) {
-                webSiteInstanceId = webSiteInstanceId.substring(0, 49);
-            }
-
-            // This will replace System environment variable value with the newly computed value
-            Map<String, String> env = System.getenv();
-            Class<?> cl = env.getClass();
-            Field field = cl.getDeclaredField("m");
-            field.setAccessible(true);
-            Map<String, String> writableEnv = (Map<String, String>) field.get(env);
-            writableEnv.put("NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME", webSiteInstanceId);
-        } catch (Exception e) {
-            throw new IllegalStateException("Failed to set environment variable", e);
-        }
-
-        return application.sources(InventoryHub.class);
-    }
-*/
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(InventoryHub.class, args);
