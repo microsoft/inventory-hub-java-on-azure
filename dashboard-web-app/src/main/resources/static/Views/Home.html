@@ -6,6 +6,31 @@
 <script src="/app.js"></script>
 <script src="Scripts/homeCtrl.js"></script>
 
+<style>
+    #product-table {
+        font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #product-table td, #product-table th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #product-table tr:nth-child(even){background-color: #f2f2f2;}
+
+    #product-table tr:hover {background-color: #ddd;}
+
+    #product-table th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+
 <div ng-init="fetchProductsAndEvents()" ng-controller="homeCtrl" style="margin-bottom: 40px !important;">
     <table border="0" style="text-align:right">
         <tr>
@@ -26,7 +51,7 @@
                     <tr><td>There are no items...</td></tr>
                     -->
                     <tr>
-                        <th></th>
+                        <th ng-hide="locations === null"></th>
                         <th ng-repeat="(key, value) in locations | orderBy:key:true">  {{key}}  </th>
                     </tr>
                     <tr ng-repeat="item in products">
