@@ -19,8 +19,15 @@ public class SetupKafkaConsumerGroupName implements ApplicationListener<Applicat
 
 	@Override
 	public void onApplicationEvent(final ApplicationStartedEvent applicationStartedEvent) {
-		System.out.println("DEBUGGING: Found new Spring Boot App consumer group ENV settings: " + applicationStartedEvent.getApplicationContext().getEnvironment().getSystemEnvironment().get("NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME"));
-		System.out.println("DEBUGGING: Found new Spring Boot App property : " + applicationStartedEvent.getApplicationContext().getEnvironment().getProperty("spring.cloud.stream.bindings.input.group"));
+		//System.out.println("DEBUGGING: Found new Spring Boot App property : " + applicationStartedEvent.getApplicationContext().getEnvironment().getProperty("spring.cloud.stream.bindings.input.group"));
+
+		System.out.println("======= ApplicationStartingEvent ===== ");
+	    System.out.println("What is the Event Hubs Consumer Group Name?");
+		System.out.println("NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=" +
+				applicationStartedEvent.
+						getApplicationContext().
+						getEnvironment().
+						getProperty("spring.cloud.stream.bindings.input.group"));
 	}
 	
 }
