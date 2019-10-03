@@ -5,10 +5,10 @@
  */
 package org.inventory.hub.dao;
 
-import com.microsoft.azure.spring.data.cosmosdb.repository.DocumentDbRepository;
+import com.microsoft.azure.spring.data.cosmosdb.repository.ReactiveCosmosRepository;
 import org.inventory.hub.model.Location;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface LocationRepository extends DocumentDbRepository<Location, String> {
+public interface LocationRepository extends ReactiveCosmosRepository<Location, String> {
 }
