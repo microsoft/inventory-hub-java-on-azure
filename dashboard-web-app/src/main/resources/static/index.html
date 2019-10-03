@@ -25,6 +25,13 @@
             <ul class="navbar-nav">
                 <li ng-class="{ active: isActive('/Home') }"><a class="nav-link" href="#/Home">Home</a></li>
                 <li ng-class="{ active: isActive('/About') }"><a class="nav-link" href="#/About" target="_blank">About</a></li>
+                <li ng-app="inventoryHubApp" ng-controller="homeCtrl" ng-init="fetchUsername()">
+                    Welcome {{username}} - Position 0
+                    <div ng-if="username">
+                        Welcome {{username}}!
+                        <a ng-class="{ active: isActive('/Logout) }" class="nav-link" href="/logout">(Logout)</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
