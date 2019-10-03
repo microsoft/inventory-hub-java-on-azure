@@ -19,9 +19,6 @@ angular.module('inventoryHubApp')
             },
             getProduct: function (id) {
                 return $http.get('api/product/' + id);
-            },
-            getUsername: function(){
-                return $http.get('api/username');
             }
         };
     }]);
