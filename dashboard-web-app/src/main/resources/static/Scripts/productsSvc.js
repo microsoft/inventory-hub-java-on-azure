@@ -17,6 +17,9 @@ angular.module('inventoryHubApp')
             getTransactions: function () {
                 return $http.get('api/transactions');
             },
+            getUsername: function () {
+                return $http.get('api/username');
+            },
             getProduct: function (id) {
                 return $http.get('api/product/' + id);
             }
