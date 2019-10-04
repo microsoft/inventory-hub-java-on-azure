@@ -25,6 +25,14 @@
             <ul class="navbar-nav">
                 <li ng-class="{ active: isActive('/Home') }"><a class="nav-link" href="#/Home">Home</a></li>
                 <li ng-class="{ active: isActive('/About') }"><a class="nav-link" href="#/About" target="_blank">About</a></li>
+                <li ng-app="inventoryHubApp" ng-controller="usernameCtrl" ng-init="fetchUsername()">
+                    <div ng-if="username">
+                        Welcome {{ username }}!
+                        <a ng-class="{ active: isActive('/Logout) }"
+                           class="nav-link"
+                           href="/logout">Welcome {{ username }}! (logout)</a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
@@ -45,6 +53,8 @@
     <script src="Scripts/homeCtrl.js"></script>
     <script src="Scripts/productsSvc.js"></script>
     <script src="Scripts/aboutCtrl.js"></script>
+    <script src="Scripts/usernameSvc.js"></script>
+    <script src="Scripts/usernameCtrl.js"></script>
 
     <script src="libs/sockjs/sockjs.min.js" type="text/javascript"></script>
     <script src="libs/stomp-websocket/lib/stomp.min.js" type="text/javascript"></script>
