@@ -27,7 +27,10 @@
                 <li ng-class="{ active: isActive('/About') }"><a class="nav-link" href="#/About" target="_blank">About</a></li>
                 <li ng-app="inventoryHubApp" ng-controller="usernameCtrl" ng-init="fetchUsername()">
                     <div ng-if="username">
-                        <p>Welcome {{username}}! <a ng-class="{ active: isActive('/Logout) }" class="nav-link" href="/logout">(logout)</a></p>
+                        Welcome {{ username }}!
+                        <a ng-class="{ active: isActive('/Logout) }"
+                           class="nav-link"
+                           href="/logout">Welcome {{ username }}! (logout)</a>
                     </div>
                 </li>
             </ul>
