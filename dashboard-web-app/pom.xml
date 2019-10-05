@@ -45,26 +45,6 @@
         <spring-cloud.version>Greenwich.BUILD-SNAPSHOT</spring-cloud.version>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>com.microsoft.azure</groupId>
-                <artifactId>azure-spring-boot-bom</artifactId>
-                <version>2.2.0.M1</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-				<groupId>org.springframework.cloud</groupId>
-				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>${spring-cloud.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-
-        </dependencies>
-    </dependencyManagement>
     <repositories>
         <repository>
             <id>spring-milestones</id>
@@ -107,7 +87,7 @@
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-active-directory-b2c-spring-boot-starter</artifactId>
-            <version>2.1.6.M1</version>
+            <version>2.2.0.M1</version>
         </dependency>
 
         <dependency>
@@ -173,13 +153,13 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream</artifactId>
-            <version>2.1.0.RELEASE</version>
+            <version>2.1.4.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-binder-kafka</artifactId>
-            <version>2.1.0.RELEASE</version>
+            <version>2.1.4.RELEASE</version>
         </dependency>
 
         <dependency>
@@ -195,7 +175,7 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-stream-test-support</artifactId>
-            <version>2.1.0.RELEASE</version>
+            <version>2.1.4.RELEASE</version>
             <scope>test</scope>
         </dependency>
         <!-- Micrometer to App Insights -->
@@ -220,9 +200,9 @@
                 <configuration>
 
                     <!-- Web App information -->
-                    <resourceGroup>${azure.app.resourceGroupName}</resourceGroup>
-                    <appName>${azure.app.name}</appName>
-                    <region>${azure.app.region}</region>
+                    <resourceGroup>hubtestappconfig</resourceGroup>
+                    <appName>HubTestApp</appName>
+                    <region>Central US</region>
 
                     <!-- Java Runtime Stack for Web App on Linux-->
                     <runtime>
@@ -264,6 +244,10 @@
                             <name>AZURE_TENANT_ID</name>
                             <value>${AZURE_TENANT_ID}</value>
                         </property>
+                        <poperty>
+                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
+                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
+                        </poperty>>
                         <property>
                             <name>JAVA_OPTS</name>
                             <value>-Xms2048m -Xmx2048m -DNOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=${DOLLAR}{COMPUTERNAME}</value>
