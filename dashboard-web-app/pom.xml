@@ -200,9 +200,9 @@
                 <configuration>
 
                     <!-- Web App information -->
-                    <resourceGroup>hubtestappconfig</resourceGroup>
-                    <appName>HubTestApp</appName>
-                    <region>Central US</region>
+                    <resourceGroup>${azure.app.resourceGroupName}</resourceGroup>
+                    <appName>${azure.app.name}</appName>
+                    <region>${azure.app.region}</region>
 
                     <!-- Java Runtime Stack for Web App on Linux-->
                     <runtime>
