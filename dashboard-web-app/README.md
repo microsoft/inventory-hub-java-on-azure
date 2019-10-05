@@ -3,15 +3,23 @@
 This Inventory Hub app is a Java application. It display product
 inventory using AngularJS code. 
 Behind the scene, the inventory data store 
-is [Azure CosmosDB DocumentDB](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-introduction). 
-This application uses [Azure CosmosDB DocumentDB Spring Boot Starter](https://github.com/Microsoft/azure-spring-boot/tree/master/azure-starters/azure-documentdb-spring-boot-starter) 
-and AngularJS to interact with Azure. This sample application 
-provides several deployment options to deploy to Azure, pls 
-see deployment section below. With Azure support in Spring 
-Starters, maven plugins and Eclipse / IntelliJ plugins, 
-Java application development and deployment on Azure
-are effortless now.
+is [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-introduction) and
+ [Azure Event Hubs](https://docs.microsoft.com/en-us/azure/event-hubs/) 
+as for data ingestion Data ingestion. Event Hubs - is a 
+"fully managed" cloud scale ingestion of events. 
 
+This application uses [Azure CosmosDB Spring Boot Starter](https://github.com/Microsoft/azure-spring-boot/tree/master/azure-starters/azure-documentdb-spring-boot-starter) 
+and AngularJS to interact with Azure.
+
+- [Spring Boot]()
+- [Spring Boot Starter with the Azure Cosmos DB SQL API](https://github.com/Microsoft/azure-spring-boot/)
+- [Spring Data for Cosmos DB]()
+- [Spring Cloud Functions]()
+- [Spring Cloud Stream Binder for Kafka]()
+- [Spring Security]()
+- [Azure Active Directory B2C Spring Boot Starter]()
+- [Spring Boot Starter for WebSocket]()
+- AngularJS
 
 ## TOC
 
