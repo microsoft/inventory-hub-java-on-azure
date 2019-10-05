@@ -1,16 +1,13 @@
 # Deploy Inventory Hub Java Web App =TO=> Azure App Service
 
-This Inventory Hub app is a Java application. It display product
+This Inventory Hub app is a Java application. It display real-time product
 inventory using AngularJS code. 
+
 Behind the scene, the inventory data store 
-is [Azure CosmosDB DocumentDB](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-introduction). 
-This application uses [Azure CosmosDB DocumentDB Spring Boot Starter](https://github.com/Microsoft/azure-spring-boot/tree/master/azure-starters/azure-documentdb-spring-boot-starter) 
-and AngularJS to interact with Azure. This sample application 
-provides several deployment options to deploy to Azure, pls 
-see deployment section below. With Azure support in Spring 
-Starters, maven plugins and Eclipse / IntelliJ plugins, 
-Java application development and deployment on Azure
-are effortless now.
+is [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-introduction). 
+
+This application uses [Azure CosmosDB Spring Boot Starter](https://github.com/Microsoft/azure-spring-boot/tree/master/azure-starters/azure-documentdb-spring-boot-starter) 
+and AngularJS to interact with Azure.
 
 
 ## TOC
@@ -27,7 +24,7 @@ are effortless now.
 
 ## Requirements
 
-* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8 and above
+* [JDK](https://azul.com/downloads/azure-only/zulu) 1.8 and above
 * [Maven](https://maven.apache.org/) 3.0 and above
 
 ## Create Azure Cosmos DB and Event Hub
@@ -36,11 +33,12 @@ You can follow steps described in the [deployment folder][../deployment/README.m
 
 ## Configuration
 
-Note down your DocumentDB uri and key from last step, 
-specify a database name but no need to create it. Pick an 
+Note down your Cosmos DB uri and key from the last step. 
+Be prepared to specify a database name but there is no need to create it. 
+Pick an 
 Azure Resource Group name and Web app name for App Service - 
 you can use an existing resource group and Web 
-app or let the Maven plugin create these for you. 
+app or let the Maven plugin create one for you. 
 Set these values in system environment variables:
 
 ``` txt
@@ -49,14 +47,19 @@ COSMOSDB_KEY=put-your-COSMOSDB-key-here
 COSMOSDB_DBNAME=put-your-COSMOSDB-databasename-here
 
 NOTIFICATIONS_EVENT_HUB_NAME=put-your-eventhub-for-notifications
+NOTIFICATIONS_EVENT_HUB_FQDN=put-your-eventhub-fqdn
 NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=$(uuidgen)
 NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING=put-your-event-hub-connection-string
+NOTIFICATION_ERRORS_EVENT_HUB_NAME=put-your-event-hub-name-for-errors
+
 NOTIFICATIONS_STORAGE_CONTAINER_NAME=put-your-storage-container-name
 NOTIFICATIONS_STORAGE_CONNECTION_STRING=put-your-storage-connection-string
 
 WEBAPP_RESOURCEGROUP_NAME=put-your-resourcegroup-name-here
 WEBAPP_NAME=put-your-webapp-name-here
 WEBAPP_REGION=put-your-region-here
+
+APPINSIGHTS_INSTRUMENTATIONKEY=put-your-app-insights-instrumentation-key
 
 DOLLAR=\$
 ```
@@ -141,7 +144,12 @@ mvn azure-webapp:deploy
 
 Open it in a browser
 
-![](./media/inventory-hub-app.jpg)
+![](../media/inventory-hub-dashboard.jpg)
+
+If you turned on the `aad` profile using `-Dspring.profiles.active-aad`, it 
+will look like this:
+
+![](../media/inventory-hub-dashboard-aad.jpg)
 
 ## Clean up
 
