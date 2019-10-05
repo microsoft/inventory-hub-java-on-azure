@@ -53,10 +53,10 @@ CS="$(echo $SP | jq -r '.password')"
 TI="$(echo $SP | jq -r '.tenant')"
 
 # A2) Granting SPN to Key Vault
-az keyvault set-policy --name "$KEY_VAULT_NAME" --spn "$CI" --secret-permissions get   
+az keyvault set-policy --name "$KEY_VAULT_NAME" --spn "$CI" --resource-group "$APP_CONFIG_RESOURCEGROUP_NAME" --secret-permissions get   
 
 # A3) Getting the Connection String from App Configuration
-CONNECTION="$(az appconfig credential list --name "$APP_CONFIGURATION_STORE_NAME" | jq -r '.[0].connectionString')"
+CONNECTION="$(az appconfig credential list --resource-group "$APP_CONFIG_RESOURCEGROUP_NAME" --name "$APP_CONFIGURATION_STORE_NAME" | jq -r '.[0].connectionString')"
 
 # A4) Exporting Connection String  and Identity
 export CONFIG_STORE_CONNECTION_STRING="$CONNECTION"
