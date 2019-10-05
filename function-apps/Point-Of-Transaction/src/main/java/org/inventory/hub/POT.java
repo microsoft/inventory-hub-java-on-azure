@@ -48,9 +48,6 @@ public class POT {
     }
 
     /**
-     * actual application-payload, ex: a telemetry event
-     */
-    /**
      * actual application-payload, ex: an inventory update
      */
     static final class TransactionEvent {

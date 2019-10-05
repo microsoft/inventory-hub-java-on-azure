@@ -41,7 +41,6 @@ public class TransactionsFIFO
         if (webSocket != null) {
             String message = "{ \"name\":\"" + transaction.toString() + "\"}";
             System.out.println("Sending to /topic/reply with message = " + message);
-            //webSocket.convertAndSend("/app/message", message);
             webSocket.convertAndSend("/topic/reply", message);
         }
 		else

@@ -41,9 +41,6 @@ public class ProductsInventoryController {
         return model;
     }
 
-    /**
-     * HTTP GET
-     */
     @RequestMapping(value = "/api/products/{productName}",
             method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getProduct(@PathVariable("productName") String productName) {
@@ -88,9 +85,6 @@ public class ProductsInventoryController {
         return list;
     }
 
-    /**
-     * HTTP GET ALL
-     */
     @RequestMapping(value = "/api/products", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getProducts() {
         try {
@@ -165,9 +159,6 @@ public class ProductsInventoryController {
         }
     }
 
-    /**
-     * HTTP GET ALL
-     */
     @RequestMapping(value = "/api/locations", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getLocations() {
         try {

@@ -73,20 +73,3 @@ public class NotifyInventoryUpdate {
     }
 
 }
-
-/*
-//        @EventHubTrigger(name = "dataInput", eventHubName = "TRANSACTIONS_EVENT_HUB_NAME",
-//            connection = "TRANSACTIONS_EVENT_HUB_CONNECTION_STRING",
-//            consumerGroup = "TRANSACTIONS_EVENT_HUB_CONSUMER_GROUP_NAME") String dataInput,
-//
-//        context.getLogger().info("Java Event Hub Notification trigger processed a request: " + dataInput);
-//
-//        JSONObject eventHubMessage = new JSONObject(dataInput);
-//        eventHubMessage.put("id", java.util.UUID.randomUUID().toString());
-//        context.getLogger().info("message: " + eventHubMessage.toString());
-//        dataOutput.setValue(eventHubMessage.toString());
-//
-//        JSONArray jsonArray = new JSONArray(document);
-//        JSONObject eventHubMessage = jsonArray.getJSONObject(0);
-
- */
