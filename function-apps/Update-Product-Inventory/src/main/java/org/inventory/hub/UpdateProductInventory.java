@@ -5,12 +5,17 @@
  */
 package org.inventory.hub;
 
+import com.azure.data.cosmos.CosmosClient;
+import com.azure.data.cosmos.CosmosStoredProcedure;
+import com.azure.data.cosmos.CosmosStoredProcedureRequestOptions;
+import com.azure.data.cosmos.CosmosStoredProcedureResponse;
+import com.azure.data.cosmos.PartitionKey;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.microsoft.azure.documentdb.DocumentClient;
-import com.microsoft.azure.documentdb.PartitionKey;
-import com.microsoft.azure.documentdb.RequestOptions;
+//import com.microsoft.azure.documentdb.DocumentClient;
+//import com.microsoft.azure.documentdb.PartitionKey;
+//import com.microsoft.azure.documentdb.RequestOptions;
 import com.microsoft.azure.functions.ExecutionContext;
 import com.microsoft.azure.functions.OutputBinding;
 import com.microsoft.azure.functions.annotation.Cardinality;
@@ -145,9 +150,9 @@ public class UpdateProductInventory {
             cosmosDBKey = m.group(2);
         }
 
-        DocumentClient client = new DocumentClient(cosmosDBUri, cosmosDBKey, null, null);
+//        DocumentClient client = new DocumentClient(cosmosDBUri, cosmosDBKey, null, null);
 
-//        CosmosClient client = CosmosClient.builder().endpoint(cosmosDBUri).key(cosmosDBKey).build();
+        CosmosClient client = CosmosClient.builder().endpoint(cosmosDBUri).key(cosmosDBKey).build();
 
         final String storedProcedureLink = String.format("/dbs/%s/colls/%s/sprocs/update-product-inventory",
             System.getenv("PRODUCT_INVENTORY_COSMOSDB_DBNAME"),
@@ -165,20 +170,20 @@ public class UpdateProductInventory {
         try {
             context.getLogger().info("\t Stored Procedure call: " + gson.toJson(procedureParams));
 
-//            CosmosStoredProcedure updateProductInventory = client
-//                .getDatabase(System.getenv("PRODUCT_INVENTORY_COSMOSDB_DBNAME"))
-//                .getContainer(System.getenv("PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME"))
-//                .getScripts()
-//                .getStoredProcedure("update-product-inventory");
-//
-//            CosmosStoredProcedureRequestOptions requestOptions = new CosmosStoredProcedureRequestOptions();
-//            requestOptions.partitionKey(new PartitionKey(pointOfTransaction.get("location")));
-//
-//            CosmosStoredProcedureResponse storedProcedureResponse = updateProductInventory.execute(procedureParams, requestOptions).block();
+            CosmosStoredProcedure updateProductInventory = client
+                .getDatabase(System.getenv("PRODUCT_INVENTORY_COSMOSDB_DBNAME"))
+                .getContainer(System.getenv("PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME"))
+                .getScripts()
+                .getStoredProcedure("update-product-inventory");
 
-             RequestOptions requestOptions = new RequestOptions();
-             requestOptions.setPartitionKey(new PartitionKey(pointOfTransaction.get("location")));
-             client.executeStoredProcedure(storedProcedureLink, requestOptions, procedureParams);
+            CosmosStoredProcedureRequestOptions requestOptions = new CosmosStoredProcedureRequestOptions();
+            requestOptions.partitionKey(new PartitionKey(pointOfTransaction.get("location")));
+
+            CosmosStoredProcedureResponse storedProcedureResponse = updateProductInventory.execute(procedureParams, requestOptions).block();
+
+//             RequestOptions requestOptions = new RequestOptions();
+//             requestOptions.setPartitionKey(new PartitionKey(pointOfTransaction.get("location")));
+//             client.executeStoredProcedure(storedProcedureLink, requestOptions, procedureParams);
         } catch (Exception e) {
             context.getLogger().info("ERROR Stored Procedure call failed: " + gson.toJson(e));
         }
