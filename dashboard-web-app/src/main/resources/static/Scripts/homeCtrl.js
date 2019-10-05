@@ -13,6 +13,8 @@ angular.module('inventoryHubApp')
             $scope.products = null;
             $scope.locations = null;
             $scope.transactions = null;
+            $scope.username = null;
+            $scope.loggedin = false;
 
             $scope.fetchProductsAndEvents = function () {
                 productsSvc.getProducts().success(function (results) {
@@ -36,5 +38,19 @@ angular.module('inventoryHubApp')
                     $scope.loadingMessage = '';
                 });
 
+            };
+
+            $scope.fetchUsername = function () {
+                productsSvc.getUsername().success(function (results) {
+                    $scope.username = results;
+                    $scope.loggedin = true;
+                }).error(function (err) {
+                    $scope.error = err;
+                    $scope.loadingMessage = '';
+                });
+            };
+
+            $scope.IsLoggedIn = function () {
+                return $scope.loggedin;
             };
         }]);

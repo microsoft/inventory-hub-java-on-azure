@@ -14,7 +14,7 @@
         #todolist button { margin-left: 5px; }
     </style>
 </head>
-<body ng-app="inventoryHubApp" ng-controller="homeCtrl" role="document">
+<body ng-app="inventoryHubApp" ng-controller="homeCtrl" ng-init="fetchUsername()" role="document">
 <nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-dark">
     <div class="container">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navBarToggler" aria-controls="navBarToggler" aria-expanded="false" aria-label="Azure Spring Boot Sample">
@@ -22,11 +22,26 @@
         </button>
         <div class="collapse navbar-collapse" id="navBarToggler">
             <a class="navbar-brand" href="#/Home">Inventory Hub - DASHBOARD</a>
-            <ul class="navbar-nav">
+            <ul class="navbar-nav ml-auto">
                 <li ng-class="{ active: isActive('/Home') }"><a class="nav-link" href="#/Home">Home</a></li>
                 <li ng-class="{ active: isActive('/About') }"><a class="nav-link" href="#/About" target="_blank">About</a></li>
             </ul>
         </div>
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <li class="nav-item dropdown" ng-show="IsLoggedIn()">
+                <a class="nav-link dropdown-toggle" href="#/Home" id="navbarUsernameMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Welcome {{username}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#/logout" target="_blank">Logout</a>
+                </div>
+            </li>
+            <li class="nav-item" ng-hide="IsLoggedIn()">
+                <a class="nav-link" href="#/Home" id="navbarAnonymousMenuLink" aria-expanded="false">
+                    Welcome {{username}}
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
 

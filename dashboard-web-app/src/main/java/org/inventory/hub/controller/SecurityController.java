@@ -25,8 +25,11 @@ public class SecurityController {
 
         System.out.println("======= /api/username ===== ");
         String username = new String();
-        if (principal != null)
-                username = principal.getName();
+        if (principal != null) {
+            username = principal.getName();
+        } else {
+            username = "Anonymous";
+        }
 
         System.out.println("username=" + username);
         System.out.println("====== success");
