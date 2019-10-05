@@ -12,15 +12,15 @@ az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "COSMOSDB-KEY" --va
 VALUE="org.apache.kafka.common.security.plain.PlainLoginModule required username=\"\$ConnectionString\" password=$NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING"
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "JASS-CONFIG" --value "$VALUE"
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "TENANT-NAME" --value "$TENANT_NAME"
-az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "APPINSIGHTS_INSTRUMENTATIONKEY" --value "$APPINSIGHTS_INSTRUMENTATIONKEY"
-az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "B2C_CLIENT_ID" --value "$B2C_CLIENT_ID"
-az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "B2C_CLIENT_SECRET" --value "$B2C_CLIENT_SECRET"
+az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "APPINSIGHTS-INSTRUMENTATIONKEY" --value "$APPINSIGHTS_INSTRUMENTATIONKEY"
+az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "B2C-CLIENT-ID" --value "$B2C_CLIENT_ID"
+az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "B2C-CLIENT-SECRET" --value "$B2C_CLIENT_SECRET"
 
 # 3) Creating App Configuration
 az appconfig create --name "$APP_CONFIGURATION_STORE_NAME" --resource-group "$APP_CONFIG_RESOURCEGROUP_NAME" --location "$LOCATION"
 
 # 4) Adding Configurations to App Configuration
-az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.kafka.binder.configuration.sasl.mechanism" --value "PLAIN" --content-type " " --yes
+az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_$LOCATION/spring.cloud.stream.kafka.binder.configuration.sasl.mechanism" --value "PLAIN" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.kafka.binder.configuration.security.protocol" --value "SASL_SSL" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.kafka.binder.brokers" --value "$NOTIFICATIONS_EVENT_HUB_FQDN:9093" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/azure.documentdb.database" --value "$COSMOSDB_DBNAME" --content-type " " --yes
@@ -32,14 +32,14 @@ az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.bindings.input.group" --value "$NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.kafka.binder.brokers" --value "$NOTIFICATIONS_EVENT_HUB_FQDN:9093" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.kafka.binder.configuration.sasl.jaas.config" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/JASS-CONFIG\"}" --content-type " " --yes
-az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/azure.application-insights.instrumentation-key" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/APPINSIGHTS_INSTRUMENTATIONKEY-KEY\"}" --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" --yes
+az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/azure.application-insights.instrumentation-key" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/APPINSIGHTS-INSTRUMENTATIONKEY-KEY\"}" --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" --yes
 
 
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.enabled" --value "true" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.tenant" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/TENANT-NAME\"}" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.oidc-enabled" --value "true" --content-type " " --yes
-az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.client-id" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/B2C_CLIENT_ID\"}" --content-type " " --yes
-az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.client-secret" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/B2C_CLIENT_SECRET\"}" --content-type " " --yes
+az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.client-id" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/B2C-CLIENT-ID\"}" --content-type " " --yes
+az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.client-secret" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/B2C-CLIENT-SECRET\"}" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.reply-url" --value "$B2C_REPLY_URL" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.logout-success-url" --value "$B2C_LOGOUT_SUCCESS_URL" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.user-flows.sign-up-or-sign-in" --value "$USER_FLOW_SIGNUP_SIGNIN" --content-type " " --yes
