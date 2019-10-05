@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.inventory.hub</groupId>
@@ -16,9 +16,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.7.RELEASE</version>
-        <!--
-        <version>1.5.8.RELEASE</version>
-        -->
+        <!-- <version>1.5.8.RELEASE</version> -->
     </parent>
 
     <properties>
@@ -65,26 +63,31 @@
 
         </dependencies>
     </dependencyManagement>
-
     <repositories>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
         <repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>https://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>spring-snapshots</id>
+            <name>Spring Snapshots</name>
+            <url>https://repo.spring.io/snapshot</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -93,6 +96,7 @@
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-cosmosdb-spring-boot-starter</artifactId>
+            <version>2.2.0.M1</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -101,24 +105,31 @@
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-active-directory-b2c-spring-boot-starter</artifactId>
+            <version>2.1.6.M1</version>
         </dependency>
 
         <dependency>
-	  		<groupId>com.microsoft.azure</groupId>
-	  		<artifactId>azure-eventhubs</artifactId>
-	  		<version>1.0.0</version>
-	 	</dependency>
-	 	<dependency>
-	  		<groupId>com.microsoft.azure</groupId>
-	  		<artifactId>azure-eventhubs-eph</artifactId>
-	  		<version>1.0.0</version>
-	 	</dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-eventhubs</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-eventhubs-eph</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>spring-cloud-azure-appconfiguration-config</artifactId>
+            <version>1.1.0-SNAPSHOT</version>
+        </dependency>
 
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
-	    </dependency>
+        </dependency>
 
         <!-- use web socket -->
         <dependency>
@@ -158,35 +169,38 @@
         <!-- Spring Cloud Stream -->
 
         <dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream</artifactId>
-		</dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream</artifactId>
+            <version>2.1.0.RELEASE</version>
+        </dependency>
 
         <dependency>
-		  <groupId>org.springframework.cloud</groupId>
-		  <artifactId>spring-cloud-stream-binder-kafka</artifactId>
-		</dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-binder-kafka</artifactId>
+            <version>2.1.0.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
         </dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-stream-test-support</artifactId>
-			<scope>test</scope>
-		</dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-stream-test-support</artifactId>
+            <version>2.1.0.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Micrometer to App Insights -->
         <dependency>
             <groupId>com.microsoft.azure</groupId>
             <artifactId>azure-spring-boot-metrics-starter</artifactId>
+            <version>2.2.0.M1</version>
         </dependency>
 
     </dependencies>
@@ -194,9 +208,9 @@
     <build>
         <plugins>
 
-            <!--*************************************************-->
-            <!-- Deploy to Azure App Service                     -->
-            <!--*************************************************-->
+            <!--************************************************* -->
+            <!-- Deploy to Azure App Service -->
+            <!--************************************************* -->
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-webapp-maven-plugin</artifactId>
@@ -204,11 +218,11 @@
                 <configuration>
 
                     <!-- Web App information -->
-                    <resourceGroup>${azure.app.resourceGroupName}</resourceGroup>
-                    <appName>${azure.app.name}</appName>
-                    <region>${azure.app.region}</region>
+                    <resourceGroup>HubTestAppConfig</resourceGroup>
+                    <appName>HubTestApp</appName>
+                    <region>Central US</region>
 
-                    <!-- Java Runtime Stack for Web App on Linux-->
+                    <!-- Java Runtime Stack for Web App on Linux -->
                     <runtime>
                         <os>linux</os>
                         <javaVersion>jre8</javaVersion>
@@ -228,96 +242,31 @@
                         </resources>
                     </deployment>
 
-                    <!-- This is to make sure the jar file can be released at the server side -->
+                    <!-- This is to make sure the jar file can be released 
+                        at the server side -->
                     <stopAppDuringDeployment>true</stopAppDuringDeployment>
 
                     <appSettings>
-                        <!-- Inventory Cosmos DB -->
-
                         <property>
-                            <name>COSMOSDB_URI</name>
-                            <value>${COSMOSDB_URI}</value>
+                            <name>CONFIG_SOTRE_CONNECTION_STRING</name>
+                            <value>${CONFIG_SOTRE_CONNECTION_STRING}</value>
                         </property>
                         <property>
-                            <name>COSMOSDB_KEY</name>
-                            <value>${COSMOSDB_KEY}</value>
+                            <name>AZURE_CLIENT_ID</name>
+                            <value>${AZURE_CLIENT_ID}</value>
                         </property>
                         <property>
-                            <name>COSMOSDB_DBNAME</name>
-                            <value>${COSMOSDB_DBNAME}</value>
-                        </property>
-
-                        <!-- Notifications Event Hub -->
-
-                        <property>
-                            <name>NOTIFICATIONS_EVENT_HUB_NAME</name>
-                            <value>${NOTIFICATIONS_EVENT_HUB_NAME}</value>
+                            <name>AZURE_CLIENT_SECRET</name>
+                            <value>${AZURE_CLIENT_SECRET}</value>
                         </property>
                         <property>
-                            <name>NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME</name>
-                            <value>${NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME}</value>
+                            <name>AZURE_TENANT_ID</name>
+                            <value>${AZURE_TENANT_ID}</value>
                         </property>
-                        <property>
-                            <name>NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING</name>
-                            <value>${NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING}</value>
-                        </property>
-                        <property>
-                            <name>NOTIFICATIONS_EVENT_HUB_NAMESPACE_CONNECTION_STRING</name>
-                            <value>${NOTIFICATIONS_EVENT_HUB_NAMESPACE_CONNECTION_STRING}</value>
-                        </property>
-                        <property>
-                            <name>NOTIFICATIONS_STORAGE_CONTAINER_NAME</name>
-                            <value>${NOTIFICATIONS_STORAGE_CONTAINER_NAME}</value>
-                        </property>
-                        <property>
-                            <name>NOTIFICATIONS_STORAGE_CONNECTION_STRING</name>
-                            <value>${NOTIFICATIONS_STORAGE_CONNECTION_STRING}</value>
-                        </property>
-                        <property>
-                            <name>NOTIFICATIONS_EVENT_HUB_FQDN</name>
-                            <value>${NOTIFICATIONS_EVENT_HUB_FQDN}</value>
-                        </property>
-                        <property>
-                            <name>NOTIFICATION_ERRORS_EVENT_HUB_NAME</name>
-                            <value>${NOTIFICATION_ERRORS_EVENT_HUB_NAME}</value>
-                        </property>
-
-
-                        <!--  AAD B2C related  -->
-                        <property>
-                            <name>TENANT_NAME</name>
-                            <value>${TENANT_NAME}</value>
-                        </property>
-                        <property>
-                            <name>B2C_CLIENT_ID</name>
-                            <value>${B2C_CLIENT_ID}</value>
-                        </property>
-                        <property>
-                            <name>B2C_CLIENT_SECRET</name>
-                            <value>${B2C_CLIENT_SECRET}</value>
-                        </property>
-                        <property>
-                            <name>B2C_REPLY_URL</name>
-                            <value>${B2C_REPLY_URL}</value>
-                        </property>
-                        <property>
-                            <name>B2C_LOGOUT_SUCCESS_URL</name>
-                            <value>${B2C_LOGOUT_SUCCESS_URL}</value>
-                        </property>
-                        <property>
-                            <name>USER_FLOW_SIGNUP_SIGNIN</name>
-                            <value>${USER_FLOW_SIGNUP_SIGNIN}</value>
-                        </property>
-
-                        <!-- App Insights -->
-                        <property>
-                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
-                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
-                        </property>
-
                         <property>
                             <name>JAVA_OPTS</name>
-                            <value>-Xms2048m -Xmx2048m -DNOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=${DOLLAR}{COMPUTERNAME}</value>
+                            <value>-Xms2048m -Xmx2048m
+                                -DNOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=${DOLLAR}{COMPUTERNAME}</value>
                         </property>
 
                     </appSettings>
@@ -326,36 +275,14 @@
             </plugin>
 
 
-            <!--
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.17</version>
-                <executions>
-                    <execution>
-                        <id>validate</id>
-                        <phase>validate</phase>
-                        <configuration>
-                            <configLocation>${project.basedir}/checkstyle.xml</configLocation>
-                            <encoding>UTF-8</encoding>
-                            <consoleOutput>true</consoleOutput>
-                            <failsOnError>true</failsOnError>
-                            <failOnViolation>true</failOnViolation>
-                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
-                            <resourceIncludes>**/*</resourceIncludes>
-                        </configuration>
-                        <goals>
-                            <goal>check</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <linkXRef>false</linkXRef>
-                </configuration>
-                <inherited>true</inherited>
-            </plugin>
-
-            -->
+            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 
+                <version>2.17</version> <executions> <execution> <id>validate</id> <phase>validate</phase> 
+                <configuration> <configLocation>${project.basedir}/checkstyle.xml</configLocation> 
+                <encoding>UTF-8</encoding> <consoleOutput>true</consoleOutput> <failsOnError>true</failsOnError> 
+                <failOnViolation>true</failOnViolation> <includeTestSourceDirectory>true</includeTestSourceDirectory> 
+                <resourceIncludes>**/*</resourceIncludes> </configuration> <goals> <goal>check</goal> 
+                </goals> </execution> </executions> <configuration> <linkXRef>false</linkXRef> 
+                </configuration> <inherited>true</inherited> </plugin> -->
 
 
             <plugin>
