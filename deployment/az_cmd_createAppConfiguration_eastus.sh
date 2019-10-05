@@ -2,24 +2,24 @@ if [ "$APP_CONFIGURATION_STORE_NAME" == "" ]; then echo "Unexpected error: envir
 fi
 
 echo "Using ""$APP_CONFIGURATION_STORE_NAME"" as a prefix for the names of the resources to be created"
-
-ID="$(az webapp identity assign --name $WEBAPP_NAME --resource-group $WEBAPP_RESOURCEGROUP_NAME | jq -r '.principalId')"    
-
-# Create resource group 
-az group create --name "$APP_CONFIGURATION_STORE_NAME""eastus-dev" --location eastus
+IDENTITY="$(az identity create -g "hubtestappconfig" -n 'AppConfigHubDemo')  | jq -r '.clientId'"
 
 # Creating App Configuration & Key Vault
-az appconfig create --name "$APP_CONFIGURATION_STORE_NAME" --resource-group "$APP_CONFIGURATION_STORE_NAME""eastus-dev" --location "$LOCATION"
-az keyvault create --name "$KEY_VAULT_NAME" --resource-group "$APP_CONFIGURATION_STORE_NAME""eastus-dev" --location "$LOCATION"
+az appconfig create --name "$APP_CONFIGURATION_STORE_NAME" --resource-group "$WEBAPP_RESOURCEGROUP_NAME" --location "$LOCATION"
+az keyvault create --name "$KEY_VAULT_NAME" --resource-group "$WEBAPP_RESOURCEGROUP_NAME" --location "$LOCATION"
+                             
+az keyvault set-policy --name "$KEY_VAULT_NAME" --object-id "$IDENTITY" --secret-permissions get       
 
-APP_CONFIGURATION_RESOURCE_ID="$(az appconfig show --name $APP_CONFIGURATION_STORE_NAME | jq -r '.id')"
+CONNECTION="$(az appconfig credential list --name AppConfigHubTest | jq -r '.[0].connectionString')"
 
-az role assignment create --role "Contributor" --assignee "$ID" --scope "$APP_CONFIGURATION_RESOURCE_ID"
-az keyvault set-policy --name "$KEY_VAULT_NAME" --object-id "$ID" --secret-permissions get
+export CONFIG_SOTRE_CONNECTION_STRING="$CONNECTION"
+export AZURE_CLIENT_ID="$IDENTITY"
+
+#az role assignment create --role "Contributor" --assignee "$ID" --scope "$APP_CONFIGURATION_RESOURCE_ID"
+az keyvault set-policy --name "$KEY_VAULT_NAME" --object-id "$IDENTITY" --secret-permissions get
 
 # Adding Secrets to Key Vault
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "COSMOSDB-KEY" --value "$COSMOSDB_KEY"
-az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "NOTIFICATIONS-EVENT-HUB-CONNECTION-STRING" --value "$NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING"
 VALUE="org.apache.kafka.common.security.plain.PlainLoginModule required username=\"\$ConnectionString\" password=$NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING"
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "JASS-CONFIG" --value "$VALUE"
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "TENANT-NAME" --value "$TENANT_NAME"
@@ -48,16 +48,3 @@ az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.logout-success-url" --value "$B2C_LOGOUT_SUCCESS_URL" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.user-flows.sign-up-or-sign-in" --value "$USER_FLOW_SIGNUP_SIGNIN" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/server.use-forward-headers" --value "true" --content-type " " --yes
-
-
-
-
-
-
-
-
-
-
-
-
-
