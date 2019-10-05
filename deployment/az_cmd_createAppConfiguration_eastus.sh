@@ -32,7 +32,7 @@ az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.bindings.input.group" --value "$NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.kafka.binder.brokers" --value "$NOTIFICATIONS_EVENT_HUB_FQDN:9093" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.kafka.binder.configuration.sasl.jaas.config" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/JASS-CONFIG\"}" --content-type " " --yes
-az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/azure.application-insights.instrumentation-key" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/APPINSIGHTS-INSTRUMENTATIONKEY-KEY\"}" --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" --yes
+az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/azure.application-insights.instrumentation-key" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/APPINSIGHTS-INSTRUMENTATIONKEY\"}" --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" --yes
 
 
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub_aad/azure.activedirectory.b2c.enabled" --value "true" --content-type " " --yes
