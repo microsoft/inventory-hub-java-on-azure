@@ -25,6 +25,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,6 +52,8 @@ public class UpdateProductInventory {
             String inputDoc,
         final ExecutionContext context) {
 
+        Logger.getGlobal().setLevel(Level.ALL);
+
         context.getLogger().info("Java Event Hub transaction trigger from "
             + System.getenv("UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME")
             + "(" + System.getenv("UPDATE_PRODUCT_INVENTORY_FUNCTION_APP_NAME")
@@ -58,7 +62,8 @@ public class UpdateProductInventory {
         JSONObject eventHubMessage = new JSONObject(data);
         eventHubMessage.put("id", UUID.randomUUID().toString());
         context.getLogger().info("\tFound eventGridMessage: " + eventHubMessage.toString());
-        // context.getLogger().info("\tFound CosmosDB: " + inputDoc);
+
+        // Get current product inventory
         Map<String, Map<String, ProductInventory>> currentProductInventoryByLocation = new HashMap<>();
         if (inputDoc != null) {
             JSONArray currentProductInventory = new JSONArray(inputDoc);
@@ -77,9 +82,6 @@ public class UpdateProductInventory {
                     }
                 }
             }
-            // context.getLogger().info("\tBuilt Map of product inventory: " + gson.toJson(currentProductInventoryByLocation));
-
-            eventHubMessage.put("id", "1");
         }
 
         String pointOfTransactionData = (String) eventHubMessage.get("pointOfTransaction").toString();
@@ -145,6 +147,8 @@ public class UpdateProductInventory {
 
         DocumentClient client = new DocumentClient(cosmosDBUri, cosmosDBKey, null, null);
 
+//        CosmosClient client = CosmosClient.builder().endpoint(cosmosDBUri).key(cosmosDBKey).build();
+
         final String storedProcedureLink = String.format("/dbs/%s/colls/%s/sprocs/update-product-inventory",
             System.getenv("PRODUCT_INVENTORY_COSMOSDB_DBNAME"),
             System.getenv("PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME"));
@@ -156,11 +160,25 @@ public class UpdateProductInventory {
             productInformation.get("description"),
             pointOfTransaction.get("location")
         };
+
+        // Call Cosmos store procedure which will update the global product inventory
         try {
             context.getLogger().info("\t Stored Procedure call: " + gson.toJson(procedureParams));
-            RequestOptions requestOptions = new RequestOptions();
-            requestOptions.setPartitionKey(new PartitionKey(pointOfTransaction.get("location")));
-            client.executeStoredProcedure(storedProcedureLink, requestOptions, procedureParams);
+
+//            CosmosStoredProcedure updateProductInventory = client
+//                .getDatabase(System.getenv("PRODUCT_INVENTORY_COSMOSDB_DBNAME"))
+//                .getContainer(System.getenv("PRODUCT_INVENTORY_COSMOSDB_COLLECTION_NAME"))
+//                .getScripts()
+//                .getStoredProcedure("update-product-inventory");
+//
+//            CosmosStoredProcedureRequestOptions requestOptions = new CosmosStoredProcedureRequestOptions();
+//            requestOptions.partitionKey(new PartitionKey(pointOfTransaction.get("location")));
+//
+//            CosmosStoredProcedureResponse storedProcedureResponse = updateProductInventory.execute(procedureParams, requestOptions).block();
+
+             RequestOptions requestOptions = new RequestOptions();
+             requestOptions.setPartitionKey(new PartitionKey(pointOfTransaction.get("location")));
+             client.executeStoredProcedure(storedProcedureLink, requestOptions, procedureParams);
         } catch (Exception e) {
             context.getLogger().info("ERROR Stored Procedure call failed: " + gson.toJson(e));
         }
