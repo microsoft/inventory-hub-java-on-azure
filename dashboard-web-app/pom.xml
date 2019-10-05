@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.inventory.hub</groupId>
@@ -16,7 +16,9 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.7.RELEASE</version>
-        <!-- <version>1.5.8.RELEASE</version> -->
+        <!--
+        <version>1.5.8.RELEASE</version>
+        -->
     </parent>
 
     <properties>
@@ -129,7 +131,7 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
-        </dependency>
+	    </dependency>
 
         <!-- use web socket -->
         <dependency>
@@ -208,9 +210,9 @@
     <build>
         <plugins>
 
-            <!--************************************************* -->
-            <!-- Deploy to Azure App Service -->
-            <!--************************************************* -->
+            <!--*************************************************-->
+            <!-- Deploy to Azure App Service                     -->
+            <!--*************************************************-->
             <plugin>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-webapp-maven-plugin</artifactId>
@@ -218,11 +220,11 @@
                 <configuration>
 
                     <!-- Web App information -->
-                    <resourceGroup>HubTestAppConfig</resourceGroup>
-                    <appName>HubTestApp</appName>
-                    <region>Central US</region>
+                    <resourceGroup>${azure.app.resourceGroupName}</resourceGroup>
+                    <appName>${azure.app.name}</appName>
+                    <region>${azure.app.region}</region>
 
-                    <!-- Java Runtime Stack for Web App on Linux -->
+                    <!-- Java Runtime Stack for Web App on Linux-->
                     <runtime>
                         <os>linux</os>
                         <javaVersion>jre8</javaVersion>
@@ -242,8 +244,7 @@
                         </resources>
                     </deployment>
 
-                    <!-- This is to make sure the jar file can be released 
-                        at the server side -->
+                    <!-- This is to make sure the jar file can be released at the server side -->
                     <stopAppDuringDeployment>true</stopAppDuringDeployment>
 
                     <appSettings>
@@ -265,8 +266,7 @@
                         </property>
                         <property>
                             <name>JAVA_OPTS</name>
-                            <value>-Xms2048m -Xmx2048m
-                                -DNOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=${DOLLAR}{COMPUTERNAME}</value>
+                            <value>-Xms2048m -Xmx2048m -DNOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=${DOLLAR}{COMPUTERNAME}</value>
                         </property>
 
                     </appSettings>
@@ -275,14 +275,36 @@
             </plugin>
 
 
-            <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-checkstyle-plugin</artifactId> 
-                <version>2.17</version> <executions> <execution> <id>validate</id> <phase>validate</phase> 
-                <configuration> <configLocation>${project.basedir}/checkstyle.xml</configLocation> 
-                <encoding>UTF-8</encoding> <consoleOutput>true</consoleOutput> <failsOnError>true</failsOnError> 
-                <failOnViolation>true</failOnViolation> <includeTestSourceDirectory>true</includeTestSourceDirectory> 
-                <resourceIncludes>**/*</resourceIncludes> </configuration> <goals> <goal>check</goal> 
-                </goals> </execution> </executions> <configuration> <linkXRef>false</linkXRef> 
-                </configuration> <inherited>true</inherited> </plugin> -->
+            <!--
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>2.17</version>
+                <executions>
+                    <execution>
+                        <id>validate</id>
+                        <phase>validate</phase>
+                        <configuration>
+                            <configLocation>${project.basedir}/checkstyle.xml</configLocation>
+                            <encoding>UTF-8</encoding>
+                            <consoleOutput>true</consoleOutput>
+                            <failsOnError>true</failsOnError>
+                            <failOnViolation>true</failOnViolation>
+                            <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                            <resourceIncludes>**/*</resourceIncludes>
+                        </configuration>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <linkXRef>false</linkXRef>
+                </configuration>
+                <inherited>true</inherited>
+            </plugin>
+
+            -->
 
 
             <plugin>
