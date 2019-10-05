@@ -183,6 +183,12 @@
 			<scope>test</scope>
 		</dependency>
 
+        <!-- Micrometer to App Insights -->
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-spring-boot-metrics-starter</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -301,6 +307,12 @@
                         <property>
                             <name>USER_FLOW_SIGNUP_SIGNIN</name>
                             <value>${USER_FLOW_SIGNUP_SIGNIN}</value>
+                        </property>
+
+                        <!-- App Insights -->
+                        <property>
+                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
+                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
                         </property>
 
                         <property>
