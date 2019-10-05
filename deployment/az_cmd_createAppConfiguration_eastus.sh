@@ -48,15 +48,15 @@ az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub
 
 # A1) Create SPN
 SP="$(az ad sp create-for-rbac -n "$USER_IDENTITY")"
-CI=SP | jq -r '.appId'
-CS=SP | jq -r '.password'
-TI=SP | jq -r '.tenant'
+CI="$(echo $SP | jq -r '.appId')"
+CS="$(echo $SP | jq -r '.password')"
+TI="$(echo $SP | jq -r '.tenant')"
 
 # A2) Granting SPN to Key Vault
 az keyvault set-policy --name "$KEY_VAULT_NAME" --spn "$CI" --secret-permissions get   
 
 # A3) Getting the Connection String from App Configuration
-CONNECTION="$(az appconfig credential list --name '$APP_CONFIGURATION_STORE_NAME' | jq -r '.[0].connectionString')"
+CONNECTION="$(az appconfig credential list --name "$APP_CONFIGURATION_STORE_NAME" | jq -r '.[0].connectionString')"
 
 # A4) Exporting Connection String  and Identity
 export CONFIG_STORE_CONNECTION_STRING="$CONNECTION"
