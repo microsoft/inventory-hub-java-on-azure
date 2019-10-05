@@ -72,18 +72,19 @@ DOLLAR=\$
 - [Create a sign-up and sign-in user flow](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-user-flows).
 - You can also use external identity providers, such as [Google](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-goog-app), [LinkedIn](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-li-app), [Microsoft Account](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-msa-app), and [Facebook](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-fb-app).
 
-### Configure AAD B2C related properties in `application-aad.properties`
-   ```properties
-azure.activedirectory.b2c.enabled=true
-azure.activedirectory.b2c.tenant=put-your-b2c-tenant-name-here
-azure.activedirectory.b2c.oidc-enabled=true
-azure.activedirectory.b2c.client-id=put-your-registered-application-client-id-here
-azure.activedirectory.b2c.client-secret=put-your-registered-application-client-secret-here
-azure.activedirectory.b2c.reply-url=<your-app-url-copied-from-App-Service-Portal>/home
-azure.activedirectory.b2c.logout-success-url=<your-app-url-copied-from-App-Service-Portal>/login
-azure.activedirectory.b2c.user-flows.sign-up-or-sign-in=put-your-b2c-sign-up-sign-in-user-flow-name-here
-server.use-forward-headers=true
-   ```
+### Configuration
+
+Note down your AAD B2C configuration settings and set the following values in
+your environment:
+
+```text
+TENANT_NAME=put-your-aad-b2c-tenant-name-here
+B2C_CLIENT_ID=put-your-registered-aad-application-b2c-client-id-here
+B2C_CLIENT_SECRET=put-your-registered-aad-application-b2c-client-secret
+B2C_REPLY_URL=<put-your-application-url>/home
+B2C_LOGOUT_SUCCESS_URL=<put-your-application-url>/login
+USER_FLOW_SIGNUP_SIGNIN=<put-your-aad-b2c-sign-up-sign-in-user-flow-name-here>
+```
 
 ## Build Inventory Hub Web App - JAR
 
