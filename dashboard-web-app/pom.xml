@@ -229,8 +229,8 @@
 
                     <appSettings>
                         <property>
-                            <name>CONFIG_SOTRE_CONNECTION_STRING</name>
-                            <value>${CONFIG_SOTRE_CONNECTION_STRING}</value>
+                            <name>CONFIG_STORE_CONNECTION_STRING</name>
+                            <value>${CONFIG_STORE_CONNECTION_STRING}</value>
                         </property>
                         <property>
                             <name>AZURE_CLIENT_ID</name>
