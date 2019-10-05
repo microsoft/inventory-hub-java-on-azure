@@ -43,7 +43,11 @@ angular.module('inventoryHubApp')
             $scope.fetchUsername = function () {
                 productsSvc.getUsername().success(function (results) {
                     $scope.username = results;
-                    $scope.loggedin = true;
+                    if ($scope.username != 'Anonymous') {
+                        $scope.loggedin = true;
+                    } else {
+                        $scope.loggedin = false;
+                    }
                 }).error(function (err) {
                     $scope.error = err;
                     $scope.loadingMessage = '';
