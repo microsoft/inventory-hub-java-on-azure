@@ -27,16 +27,21 @@
                 <li ng-class="{ active: isActive('/About') }"><a class="nav-link" href="#/About" target="_blank">About</a></li>
             </ul>
         </div>
-            <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-                <li class="nav-item dropdown" >
-                    <a class="nav-link dropdown-toggle" href="#/Home" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Welcome {{username}}
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="#/Logout" target="_blank">Logout</a>
-                    </div>
-                </li>
-            </ul>
+        <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+            <li class="nav-item dropdown" ng-show="IsLoggedIn()">
+                <a class="nav-link dropdown-toggle" href="#/Home" id="navbarUsernameMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Welcome {{username}}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#/logout" target="_blank">Logout</a>
+                </div>
+            </li>
+            <li class="nav-item" ng-hide="IsLoggedIn()">
+                <a class="nav-link" href="#/Home" id="navbarAnonymousMenuLink" aria-expanded="false">
+                    Welcome {{username}}
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
 
