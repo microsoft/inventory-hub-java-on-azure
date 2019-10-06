@@ -58,11 +58,11 @@ az keyvault set-policy --name "$KEY_VAULT_NAME" --spn "$CI" --resource-group "$A
 CONNECTION="$(az appconfig credential list --resource-group "$APP_CONFIG_RESOURCEGROUP_NAME" --name "$APP_CONFIGURATION_STORE_NAME" | jq -r '.[0].connectionString')"
 
 # A4) Exporting Connection String  and Identity
-export CONFIG_STORE_CONNECTION_STRING="$CONNECTION"
+export CONFIG_STORE_CONNECTION_STRING=\""$CONNECTION"\"
 export AZURE_CLIENT_ID="$CI"
 export AZURE_CLIENT_SECRET="$CS"
 export AZURE_TENANT_ID="$TI"
-echo CONFIG_STORE_CONNECTION_STRING="$CONNECTION"
+echo CONFIG_STORE_CONNECTION_STRING=\""$CONNECTION"\"
 echo AZURE_CLIENT_ID="$CI"
 echo AZURE_CLIENT_SECRET="$CS"
 echo AZURE_TENANT_ID="$TI"
