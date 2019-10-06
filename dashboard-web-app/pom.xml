@@ -261,6 +261,10 @@
                             <value>${AZURE_TENANT_ID}</value>
                         </property>
                         <property>
+                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
+                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
+                        </property>
+                        <property>
                             <name>JAVA_OPTS</name>
                             <value>-Xms2048m -Xmx2048m -DNOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=${DOLLAR}{COMPUTERNAME}</value>
                         </property>
