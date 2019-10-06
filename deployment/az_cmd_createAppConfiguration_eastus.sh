@@ -9,7 +9,7 @@ az keyvault create --name "$KEY_VAULT_NAME" --resource-group "$APP_CONFIG_RESOUR
 
 # 2) Adding Secrets to Key Vault
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "COSMOSDB-KEY" --value "$COSMOSDB_KEY"
-VALUE="org.apache.kafka.common.security.plain.PlainLoginModule required username=\"\$ConnectionString\" password=$NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING"
+VALUE="org.apache.kafka.common.security.plain.PlainLoginModule required username=\"\$ConnectionString\" password=\"$NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING\""
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "JASS-CONFIG" --value "$VALUE"
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "TENANT-NAME" --value "$TENANT_NAME"
 az keyvault secret set --vault-name "$KEY_VAULT_NAME" --name "APPINSIGHTS-INSTRUMENTATIONKEY" --value "$APPINSIGHTS_INSTRUMENTATIONKEY"
@@ -26,7 +26,6 @@ az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/azure.documentdb.database" --value "$COSMOSDB_DBNAME" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/azure.documentdb.key" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/COSMOSDB-KEY\"}" --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/azure.documentdb.uri" --value "$COSMOSDB_URI" --content-type " " --yes
-az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.azure.eventhub.connection-string" --value "{\"uri\":\"https://$KEY_VAULT_NAME.vault.azure.net/secrets/NOTIFICATIONS-EVENT-HUB-CONNECTION-STRING\"}" --content-type "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8" --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.bindings.error.destination" --value "$NOTIFICATION_ERRORS_EVENT_HUB_NAME" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.bindings.input.destination" --value "$NOTIFICATIONS_EVENT_HUB_NAME" --content-type " " --yes
 az appconfig kv set --name "$APP_CONFIGURATION_STORE_NAME" --key "/inventory-hub/spring.cloud.stream.bindings.input.group" --value "$NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME" --content-type " " --yes
