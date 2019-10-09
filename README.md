@@ -10,7 +10,7 @@ An Azure subscription; if you don't already have an Azure subscription, you can 
 
 In addition, you will need all of the following components before you go through the steps in this README:
 
-| [Azure CLI](http://docs.microsoft.com/cli/azure/overview) | [Java 8](http://java.oracle.com/) | [Maven 3](http://maven.apache.org/) | [Git](https://github.com/) |
+| [Azure CLI](http://docs.microsoft.com/cli/azure/overview) | [Java 8](https://azul.com/downloads/azure-only/zulu) | [Maven 3](http://maven.apache.org/) | [Git](https://github.com/) |
 
 **NOTE**: There are additional requirements in the *[~/deployment/README.md](deployment/README.md)* file which are required in order to setup your development environment; other required components will be installed automatically by the provisioning scripts.
 
@@ -36,6 +36,7 @@ The following diagram illustrates the full topology for this sample application 
 ## Create and Deploy the Inventory Hub ##
 
 <a name="create-the-initial-build"></a>
+
 ### Create the initial build ###
 
 1. Open a command prompt and navigate to the *~/deployment/* folder of your local repo.
@@ -80,8 +81,7 @@ The following diagram illustrates the full topology for this sample application 
 
 Open the Inventory Hub Web app ...
 
-![](./media/product-dashboard.jpg)
-![](./media/transactions-arriving.jpg)
+![](./media/inventory-hub-dashboard.jpg)
 
 # Contributing
 
