@@ -10,9 +10,6 @@ import org.codehaus.jackson.annotate.JsonProperty;
 
 public class PointOfTransaction {
 
-//    @JsonProperty(value = "id")
-//    private String id;
-
     @JsonProperty(value = "location")
     private String location;
 
@@ -28,14 +25,6 @@ public class PointOfTransaction {
     public PointOfTransaction(){
 
     }
-
-//    public String getId(){
-//        return id;
-//    }
-//
-//    public void setId(String id){
-//        this.id = id;
-//    }
 
     public String getLocation(){
         return location;
