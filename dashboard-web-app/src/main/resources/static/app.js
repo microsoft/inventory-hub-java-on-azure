@@ -43,7 +43,6 @@ function disconnect() {
 
 function showGreeting(message) {
     console.log("Received = " + message);
-    // $("#greetings").append("<tr><td>" + message + "</td></tr>");
     $("#greetings").prepend("<tr><td>" + message + "</td></tr>");
 
 }

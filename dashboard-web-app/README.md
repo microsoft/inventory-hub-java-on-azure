@@ -1,24 +1,24 @@
 # Deploy Inventory Hub Java Web App =TO=> Azure App Service
 
-This Inventory Hub app is a Java application. It display product
-inventory using AngularJS code. 
+This Inventory Hub app is a Java application. It displays product
+inventory using AngularJS code in client browsers. 
+
 Behind the scene, the inventory data store 
 is [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-introduction) and
  [Azure Event Hubs](https://docs.microsoft.com/en-us/azure/event-hubs/) 
 as for data ingestion Data ingestion. Event Hubs - is a 
 "fully managed" cloud scale ingestion of events. 
 
-This application uses [Azure CosmosDB Spring Boot Starter](https://github.com/Microsoft/azure-spring-boot/tree/master/azure-starters/azure-documentdb-spring-boot-starter) 
-and AngularJS to interact with Azure.
+This application uses:
 
-- [Spring Boot]()
+- [Spring Boot](https://github.com/spring-projects/spring-boot)
 - [Spring Boot Starter with the Azure Cosmos DB SQL API](https://github.com/Microsoft/azure-spring-boot/)
-- [Spring Data for Cosmos DB]()
-- [Spring Cloud Functions]()
-- [Spring Cloud Stream Binder for Kafka]()
-- [Spring Security]()
-- [Azure Active Directory B2C Spring Boot Starter]()
-- [Spring Boot Starter for WebSocket]()
+- [Spring Data for Cosmos DB](https://github.com/microsoft/spring-data-cosmosdb)
+- [Spring Cloud Functions](https://github.com/spring-cloud/spring-cloud-function)
+- [Spring Cloud Stream Binder for Kafka](https://cloud.spring.io/spring-cloud-stream-binder-kafka/)
+- [Spring Security](https://github.com/spring-projects/spring-security)
+- [Azure Active Directory B2C Spring Boot Starter](https://github.com/microsoft/azure-spring-boot/tree/master/azure-spring-boot-starters/azure-active-directory-b2c-spring-boot-starter)
+- [Spring Boot Starter for WebSocket](https://spring.io/guides/gs/messaging-stomp-websocket/)
 - AngularJS
 
 ## TOC
@@ -35,7 +35,7 @@ and AngularJS to interact with Azure.
 
 ## Requirements
 
-* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) 1.8 and above
+* [JDK](https://azul.com/downloads/azure-only/zulu) 1.8 and above
 * [Maven](https://maven.apache.org/) 3.0 and above
 
 ## Create Azure Cosmos DB and Event Hub
@@ -44,11 +44,12 @@ You can follow steps described in the [deployment folder][../deployment/README.m
 
 ## Configuration
 
-Note down your DocumentDB uri and key from last step, 
-specify a database name but no need to create it. Pick an 
+Note down your Cosmos DB uri and key from the last step. 
+Be prepared to specify a database name but there is no need to create it. 
+Pick an 
 Azure Resource Group name and Web app name for App Service - 
 you can use an existing resource group and Web 
-app or let the Maven plugin create these for you. 
+app or let the Maven plugin create one for you. 
 Set these values in system environment variables:
 
 ``` txt
@@ -57,14 +58,19 @@ COSMOSDB_KEY=put-your-COSMOSDB-key-here
 COSMOSDB_DBNAME=put-your-COSMOSDB-databasename-here
 
 NOTIFICATIONS_EVENT_HUB_NAME=put-your-eventhub-for-notifications
+NOTIFICATIONS_EVENT_HUB_FQDN=put-your-eventhub-fqdn
 NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME=$(uuidgen)
 NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING=put-your-event-hub-connection-string
+NOTIFICATION_ERRORS_EVENT_HUB_NAME=put-your-event-hub-name-for-errors
+
 NOTIFICATIONS_STORAGE_CONTAINER_NAME=put-your-storage-container-name
 NOTIFICATIONS_STORAGE_CONNECTION_STRING=put-your-storage-connection-string
 
 WEBAPP_RESOURCEGROUP_NAME=put-your-resourcegroup-name-here
 WEBAPP_NAME=put-your-webapp-name-here
 WEBAPP_REGION=put-your-region-here
+
+APPINSIGHTS_INSTRUMENTATIONKEY=put-your-app-insights-instrumentation-key
 
 DOLLAR=\$
 ```
@@ -77,18 +83,19 @@ DOLLAR=\$
 - [Create a sign-up and sign-in user flow](https://docs.microsoft.com/en-us/azure/active-directory-b2c/tutorial-create-user-flows).
 - You can also use external identity providers, such as [Google](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-goog-app), [LinkedIn](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-li-app), [Microsoft Account](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-msa-app), and [Facebook](https://docs.microsoft.com/en-us/azure/active-directory-b2c/active-directory-b2c-setup-fb-app).
 
-### Configure AAD B2C related properties in `application-aad.properties`
-   ```properties
-azure.activedirectory.b2c.enabled=true
-azure.activedirectory.b2c.tenant=put-your-b2c-tenant-name-here
-azure.activedirectory.b2c.oidc-enabled=true
-azure.activedirectory.b2c.client-id=put-your-registered-application-client-id-here
-azure.activedirectory.b2c.client-secret=put-your-registered-application-client-secret-here
-azure.activedirectory.b2c.reply-url=<your-app-url-copied-from-App-Service-Portal>/home
-azure.activedirectory.b2c.logout-success-url=<your-app-url-copied-from-App-Service-Portal>/login
-azure.activedirectory.b2c.user-flows.sign-up-or-sign-in=put-your-b2c-sign-up-sign-in-user-flow-name-here
-server.use-forward-headers=true
-   ```
+### Configuration
+
+Note down your AAD B2C configuration settings and set the following values in
+your environment:
+
+```text
+TENANT_NAME=put-your-aad-b2c-tenant-name-here
+B2C_CLIENT_ID=put-your-registered-aad-application-b2c-client-id-here
+B2C_CLIENT_SECRET=put-your-registered-aad-application-b2c-client-secret
+B2C_REPLY_URL=<put-your-application-url>/home
+B2C_LOGOUT_SUCCESS_URL=<put-your-application-url>/login
+USER_FLOW_SIGNUP_SIGNIN=<put-your-aad-b2c-sign-up-sign-in-user-flow-name-here>
+```
 
 ## Build Inventory Hub Web App - JAR
 
@@ -149,7 +156,12 @@ mvn azure-webapp:deploy
 
 Open it in a browser
 
-![](./media/inventory-hub-app.jpg)
+![](../media/inventory-hub-dashboard.jpg)
+
+If you turned on the `aad` profile using `-Dspring.profiles.active-aad`, it 
+will look like this:
+
+![](../media/inventory-hub-dashboard-aad.jpg)
 
 ## Clean up
 

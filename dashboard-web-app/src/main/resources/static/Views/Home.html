@@ -47,9 +47,6 @@
                     </div>
                 </div>
                 <table id="product-table" cellpadding="10" cellspacing="5" border="2" valign="top" style="text-align:right; padding-right: 5px; padding-left: 5px">
-                    <!--
-                    <tr><td>There are no items...</td></tr>
-                    -->
                     <tr>
                         <th ng-hide="locations === null"></th>
                         <th ng-repeat="(key, value) in locations | orderBy:key:true">  {{key}}  </th>

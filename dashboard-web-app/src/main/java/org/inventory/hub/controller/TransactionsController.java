@@ -21,9 +21,6 @@ public class TransactionsController {
     public TransactionsController() {
     }
 
-    /**
-     * HTTP GET ALL
-     */
     @RequestMapping(value = "/api/transactions", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getTransactions() {
 
