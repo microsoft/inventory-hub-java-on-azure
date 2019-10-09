@@ -1,14 +1,25 @@
 # Deploy Inventory Hub Java Web App =TO=> Azure App Service
 
-This Inventory Hub app is a Java application. It display real-time product
-inventory using AngularJS code. 
+This Inventory Hub app is a Java application. It displays product
+inventory using AngularJS code in client browsers. 
 
 Behind the scene, the inventory data store 
-is [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-introduction). 
+is [Azure CosmosDB](https://docs.microsoft.com/en-us/azure/cosmos-db/documentdb-introduction) and
+ [Azure Event Hubs](https://docs.microsoft.com/en-us/azure/event-hubs/) 
+as for data ingestion Data ingestion. Event Hubs - is a 
+"fully managed" cloud scale ingestion of events. 
 
-This application uses [Azure CosmosDB Spring Boot Starter](https://github.com/Microsoft/azure-spring-boot/tree/master/azure-starters/azure-documentdb-spring-boot-starter) 
-and AngularJS to interact with Azure.
+This application uses:
 
+- [Spring Boot](https://github.com/spring-projects/spring-boot)
+- [Spring Boot Starter with the Azure Cosmos DB SQL API](https://github.com/Microsoft/azure-spring-boot/)
+- [Spring Data for Cosmos DB](https://github.com/microsoft/spring-data-cosmosdb)
+- [Spring Cloud Functions](https://github.com/spring-cloud/spring-cloud-function)
+- [Spring Cloud Stream Binder for Kafka](https://cloud.spring.io/spring-cloud-stream-binder-kafka/)
+- [Spring Security](https://github.com/spring-projects/spring-security)
+- [Azure Active Directory B2C Spring Boot Starter](https://github.com/microsoft/azure-spring-boot/tree/master/azure-spring-boot-starters/azure-active-directory-b2c-spring-boot-starter)
+- [Spring Boot Starter for WebSocket](https://spring.io/guides/gs/messaging-stomp-websocket/)
+- AngularJS
 
 ## TOC
 
