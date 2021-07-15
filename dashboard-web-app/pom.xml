@@ -251,10 +251,6 @@
                             <value>${NOTIFICATIONS_EVENT_HUB_NAME}</value>
                         </property>
                         <property>
-                            <name>NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME</name>
-                            <value>${NOTIFICATIONS_EVENT_HUB_CONSUMER_GROUP_NAME}</value>
-                        </property>
-                        <property>
                             <name>NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING</name>
                             <value>${NOTIFICATIONS_EVENT_HUB_CONNECTION_STRING}</value>
                         </property>
